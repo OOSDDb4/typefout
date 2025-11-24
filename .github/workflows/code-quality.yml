@@ -1,0 +1,29 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [develop, 'feature/**', 'hotfix/**']
+  pull_request:
+    branches: [develop, staging, main]
+
+jobs:
+  code-quality:
+    runs-on: windows-latest
+
+    env:
+      CI: true   # MSBuild will now read this during restore
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore Typefout.sln
+
+      - name: Run code format checks
+        run: dotnet format --verify-no-changes --severity error

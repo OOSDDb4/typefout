@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup Condition="'$(CI)' == 'true'">
+    <!-- Disable MAUI so workloads (iOS/MacCatalyst) are not required -->
+    <UseMaui>false</UseMaui>
+
+    <!-- Override ALL TargetFrameworks -->
+    <TargetFrameworks>net8.0</TargetFrameworks>
+
+    <!-- Prevent MAUI from re-adding Windows, Android, etc. -->
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+  </PropertyGroup>
+</Project>
