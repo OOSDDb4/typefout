@@ -4,10 +4,10 @@ namespace Typefout.App.Views;
 
 public partial class TypeView : ContentPage
 {
-	public TypeView(TypeViewModel vm)
-	{
+    public TypeView(TypeViewModel vm)
+    {
         InitializeComponent();
 
         BindingContext = vm;
-	}
+    }
 }

@@ -5,7 +5,7 @@ namespace Typefout.Core.Data.Services
 {
     public class WordService : IWordService
     {
-        private readonly List<string> _words = new() 
+        private readonly List<string> _words = new()
         {"Windesheim","Testen","Project"};
 
         private readonly Random _random = new();
@@ -15,6 +15,6 @@ namespace Typefout.Core.Data.Services
             string wordText = _words[_random.Next(_words.Count)];
             return new OefenWoord { Text = wordText };
         }
-                
+
     }
 }

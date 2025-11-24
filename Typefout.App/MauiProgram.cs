@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Typefout.Core.Interfaces;
-using Typefout.Core.Data.Services;
-
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
+using Typefout.Core.Data.Services;
+using Typefout.Core.Interfaces;
 
 namespace Typefout.App;
 
