@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Typefout.App.ViewModels;
+using Typefout.App.Views;
+using Typefout.Core.Data.Services;
+using Typefout.Core.Interfaces;
 
 namespace Typefout.App;
 
@@ -6,7 +10,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        var builder = MauiApp.CreateBuilder();
+        MauiAppBuilder builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
@@ -18,6 +22,12 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+
+        builder.Services.AddSingleton<IWordService, WordService>();
+
+        builder.Services.AddTransient<TypeViewModel>();
+
+        builder.Services.AddTransient<TypeView>();
 
         return builder.Build();
     }
