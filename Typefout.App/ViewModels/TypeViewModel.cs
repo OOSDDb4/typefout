@@ -43,7 +43,7 @@ namespace Typefout.App.ViewModels
             IsCompleted = false;
 
             OefenWoord newWord = _wordService.GetRandomized();
-            _targetWord = newWord.Text;
+            TargetWord = newWord.Text;
         }
     }
 }
