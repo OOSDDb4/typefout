@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
+using Microsoft.Maui.Controls; 
 
 namespace Typefout.App.ViewModels
 {
@@ -18,6 +19,9 @@ namespace Typefout.App.ViewModels
         [ObservableProperty]
         private bool _isCompleted;
 
+        [ObservableProperty]
+        private FormattedString _highlightedText;
+
         public TypeViewModel(IWordService wordService)
         {
             _wordService = wordService;
@@ -26,14 +30,40 @@ namespace Typefout.App.ViewModels
 
         partial void OnInputTextChanged(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                return;
+            WrongInputHighlight();
 
-            if (value == TargetWord)
+            if (!string.IsNullOrEmpty(value) && value == TargetWord)
             {
                 IsCompleted = true;
                 NextWord();
             }
+        }
+
+        private void WrongInputHighlight()
+        {
+            FormattedString formattedString = new FormattedString();
+
+            if (string.IsNullOrEmpty(InputText))
+            {
+                HighlightedText = formattedString;
+                return;
+            }
+
+            for (int i = 0; i < InputText.Length; i++)
+            {
+                char typedChar = InputText[i];
+                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+
+                Span span = new Span
+                {
+                    Text = typedChar.ToString(),
+                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
+                };
+
+                formattedString.Spans.Add(span);
+            }
+
+            HighlightedText = formattedString;
         }
 
         [RelayCommand]
@@ -44,6 +74,8 @@ namespace Typefout.App.ViewModels
 
             OefenWoord newWord = _wordService.GetRandomized();
             TargetWord = newWord.Text;
+
+            HighlightedText = new FormattedString(); // Reset
         }
     }
 }

@@ -4,23 +4,38 @@
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
              x:Class="Typefout.App.Views.TypeView"
              BackgroundColor="White">
-    
 
     <VerticalStackLayout Spacing="20" VerticalOptions="Center" HorizontalOptions="Center">
 
-        <Label Text="Typ het woord over:" FontSize="40" HorizontalOptions="Center" TextColor="Black" />
+     
+        <Label Text="Typ het woord over:" 
+               FontSize="40" 
+               HorizontalOptions="Center" 
+               TextColor="Black" />
 
+       
         <Label Text="{Binding TargetWord}"
                FontSize="60"
                FontAttributes="Bold"
                TextColor="Black"
                HorizontalOptions="Center" />
 
+    
+        <Label FontSize="50"
+               HorizontalOptions="Center">
+            <Label.FormattedText>
+                <Binding Path="HighlightedText" />
+            </Label.FormattedText>
+        </Label>
+
+      
         <Entry Text="{Binding InputText}"
                TextColor="Black"
                Placeholder="Typ hier..."
                WidthRequest="300"
                HorizontalTextAlignment="Center"
                FontSize="50" />
+
     </VerticalStackLayout>
+
 </ContentPage>
