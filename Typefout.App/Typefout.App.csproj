@@ -1,20 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- MAIN PROPERTY GROUP -->
     <PropertyGroup>
-        <TargetFrameworks>net8.0-android</TargetFrameworks>
-<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
-    $(TargetFrameworks);net8.0-windows10.0.19041.0
-</TargetFrameworks>
-        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-        <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
-
-        <!-- Note for MacCatalyst:
-        The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-        When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-        The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-        either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-        <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
-
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
+            $(TargetFrameworks);net8.0-windows10.0.19041.0
+        </TargetFrameworks>
+        
         <OutputType>Exe</OutputType>
         <RootNamespace>Typefout.App</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -24,10 +15,8 @@
 
         <!-- Display name -->
         <ApplicationTitle>Typefout.App</ApplicationTitle>
-
         <!-- App Identifier -->
         <ApplicationId>com.companyname.typefout.app</ApplicationId>
-
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
@@ -38,47 +27,55 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <Platforms>AnyCPU;x64</Platforms>
+        <Configurations>Debug;Release;release2</Configurations>
     </PropertyGroup>
 
+    <!-- WINDOWS-SPECIFIC SETTINGS -->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+        <WindowsPackageType>None</WindowsPackageType>
+        <OutputType>WinExe</OutputType>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PublishReadyToRun>false</PublishReadyToRun>
+    </PropertyGroup>
+    
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
         <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
-
-        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <!-- Raw Assets -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
+        <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\TypeView.xaml.cs">
-        <DependentUpon>TypeView.xaml</DependentUpon>
-      </Compile>
+        <Compile Update="Views\TypeView.xaml.cs">
+            <DependentUpon>TypeView.xaml</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Views\TypeView.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </MauiXaml>
+        <MauiXaml Update="Views\TypeView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
     </ItemGroup>
 
 </Project>
