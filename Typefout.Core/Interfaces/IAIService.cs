@@ -9,6 +9,6 @@ namespace Typefout.Core.Interfaces
 {
     public interface IAIService
     {
-        TypingExerciseText GetExerciseText();
+        Task<TypingExerciseText> GetExerciseTextAsync();
     }
 }
