@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Microsoft.Maui.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
