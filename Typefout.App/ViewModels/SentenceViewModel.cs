@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
@@ -6,15 +6,15 @@ using System.Collections.Generic;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class TypeViewModel : ObservableObject
+    public partial class SentenceViewModel : ObservableObject
     {
-        private readonly IWordService _wordService;
+        private readonly ISentenceService _sentenceService;
 
-        private List<OefenWoord> _words;
+        private List<OefeningZin> _sentences;
         private int _index = 0;
 
         [ObservableProperty]
-        private string _targetWord;
+        private string _targetText;
 
         [ObservableProperty]
         private string _inputText;
@@ -22,27 +22,27 @@ namespace Typefout.App.ViewModels
         [ObservableProperty]
         private FormattedString _highlightedText;
 
-        public TypeViewModel(IWordService wordService)
+        public SentenceViewModel(ISentenceService sentenceService)
         {
-            _wordService = wordService;
-            _words = _wordService.GetAllWords();
-            LoadWord();
+            _sentenceService = sentenceService;
+            _sentences = _sentenceService.GetAllSentences();
+            LoadSentence();
         }
 
-        private async void LoadWord()
+        private async void LoadSentence()
         {
-            if (_index >= _words.Count)
+            if (_index >= _sentences.Count)
             {
                 await Shell.Current.DisplayAlert(
                     "Klaar!",
-                    "Je hebt alle woorden getypt!",
+                    "Je hebt alle zinnen overgetypt!",
                     "OK");
 
                 await Shell.Current.Navigation.PopToRootAsync();
                 return;
             }
 
-            TargetWord = _words[_index].Text;
+            TargetText = _sentences[_index].Text;
             InputText = string.Empty;
             HighlightedText = new FormattedString();
         }
@@ -51,10 +51,10 @@ namespace Typefout.App.ViewModels
         {
             HighlightErrors();
 
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
+            if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
                 _index++;
-                LoadWord();
+                LoadSentence();
             }
         }
 
@@ -71,7 +71,7 @@ namespace Typefout.App.ViewModels
             for (int i = 0; i < InputText.Length; i++)
             {
                 char typed = InputText[i];
-                char correct = i < TargetWord.Length ? TargetWord[i] : '?';
+                char correct = i < TargetText.Length ? TargetText[i] : '?';
 
                 formatted.Spans.Add(new Span
                 {

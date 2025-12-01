@@ -10,5 +10,6 @@ namespace Typefout.Core.Interfaces
     public interface IWordService
     {
         OefenWoord GetRandomized();
+        List<OefenWoord> GetAllWords();
     }
 }
