@@ -22,15 +22,15 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-        
+
         builder.Services.AddSingleton<IAiService, AiService>();
 
         builder.Services.AddTransient<TypeViewModel>();
-
         builder.Services.AddTransient<TypeView>();
-        
+
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<SentenceView>();
+
         return builder.Build();
     }
 }
