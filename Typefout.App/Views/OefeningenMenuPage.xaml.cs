@@ -1,6 +1,7 @@
-using Typefout.App.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Typefout.App.ViewModels;
+using Typefout.App.Views;
+
 
 namespace Typefout.App.Views;
 
