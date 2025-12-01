@@ -1,8 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 using Microsoft.Maui.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
-using System.Collections.Generic;
 
 namespace Typefout.App.ViewModels
 {
