@@ -1,13 +1,13 @@
-using Typefout.App.ViewModels;
+    using Typefout.App.ViewModels;
 
-namespace Typefout.App.Views;
+    namespace Typefout.App.Views;
 
-public partial class TypeView : ContentPage
-{
-    public TypeView(TypeViewModel vm)
+    public partial class TypeView : ContentPage
     {
-        InitializeComponent();
+        public TypeView(TypeViewModel vm)
+        {
+            InitializeComponent();
 
-        BindingContext = vm;
+            BindingContext = vm;
+        }
     }
-}

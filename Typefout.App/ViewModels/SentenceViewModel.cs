@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 using Typefout.Core.Interfaces;
@@ -8,43 +7,19 @@ namespace Typefout.App.ViewModels
 {
     public partial class SentenceViewModel : ObservableObject
     {
-        private readonly ISentenceService _sentenceService;
+        private readonly IAiService _aiService;
 
-        private List<OefeningZin> _sentences;
         private int _index = 0;
+        private const int _exerciseLength = 5;
 
-        [ObservableProperty]
-        private string _targetText;
+        [ObservableProperty] private string _targetText;
+        [ObservableProperty] private string _inputText;
+        [ObservableProperty] private FormattedString _highlightedText;
 
-        [ObservableProperty]
-        private string _inputText;
-
-        [ObservableProperty]
-        private FormattedString _highlightedText;
-
-        public SentenceViewModel(ISentenceService sentenceService)
+        public SentenceViewModel(IAiService aiService)
         {
-            _sentenceService = sentenceService;
-            _sentences = _sentenceService.GetAllSentences();
-            LoadSentence();
-        }
-
-        private async void LoadSentence()
-        {
-            if (_index >= _sentences.Count)
-            {
-                await Shell.Current.DisplayAlert(
-                    "Klaar!",
-                    "Je hebt alle zinnen overgetypt!",
-                    "OK");
-
-                await Shell.Current.Navigation.PopToRootAsync();
-                return;
-            }
-
-            TargetText = _sentences[_index].Text;
-            InputText = string.Empty;
-            HighlightedText = new FormattedString();
+            _aiService = aiService;
+            NextSentence();
         }
 
         partial void OnInputTextChanged(string value)
@@ -54,8 +29,21 @@ namespace Typefout.App.ViewModels
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
                 _index++;
-                LoadSentence();
+
+                if (_index >= _exerciseLength)
+                {
+                    ShowCompletionPopup();
+                    return;
+                }
+
+                NextSentence();
             }
+        }
+
+        private async void ShowCompletionPopup()
+        {
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
+            await Shell.Current.Navigation.PopToRootAsync();
         }
 
         private void HighlightErrors()
@@ -70,17 +58,27 @@ namespace Typefout.App.ViewModels
 
             for (int i = 0; i < InputText.Length; i++)
             {
-                char typed = InputText[i];
-                char correct = i < TargetText.Length ? TargetText[i] : '?';
+                char typedChar = InputText[i];
+                char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 formatted.Spans.Add(new Span
                 {
-                    Text = typed.ToString(),
-                    TextColor = typed == correct ? Colors.Black : Colors.Red
+                    Text = typedChar.ToString(),
+                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
                 });
             }
 
             HighlightedText = formatted;
+        }
+
+        private async void NextSentence()
+        {
+            InputText = string.Empty;
+
+            TypingExerciseText newSentence = await _aiService.GetExerciseTextAsync("sentence");
+            TargetText = newSentence.Text;
+
+            HighlightedText = new FormattedString();
         }
     }
 }

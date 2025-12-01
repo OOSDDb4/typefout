@@ -11,16 +11,15 @@ public partial class OefeningenMenuPage : ContentPage
     {
         InitializeComponent();
     }
-
     private async void Oefening1_Clicked(object sender, EventArgs e)
-    {
-        SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
-        await Navigation.PushAsync(new SentenceView(vm));
-    }
-
-    private async void Oefening2_Clicked(object sender, EventArgs e)
     {
         TypeViewModel vm = App.Services.GetRequiredService<TypeViewModel>();
         await Navigation.PushAsync(new TypeView(vm));
     }
+    private async void Oefening2_Clicked(object sender, EventArgs e)
+    {
+        SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
+        await Navigation.PushAsync(new SentenceView(vm));
+    }
+   
 }

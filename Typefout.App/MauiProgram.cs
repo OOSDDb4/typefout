@@ -15,18 +15,20 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegul    ar");
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddSingleton<IWordService, WordService>();
-        builder.Services.AddTransient<TypeViewModel>();
-        builder.Services.AddTransient<TypeView>();
+        
+        builder.Services.AddSingleton<IAiService, AiService>();
 
-        builder.Services.AddSingleton<ISentenceService, SentenceService>();
+        builder.Services.AddTransient<TypeViewModel>();
+
+        builder.Services.AddTransient<TypeView>();
+        
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<SentenceView>();
         return builder.Build();
