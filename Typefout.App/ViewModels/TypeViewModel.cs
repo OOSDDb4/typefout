@@ -1,82 +1,87 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
+namespace Typefout.App.ViewModels;
 
-namespace Typefout.App.ViewModels
+public partial class TypeViewModel : ObservableObject
 {
-    public partial class TypeViewModel : ObservableObject
+    private readonly IAiService _aiService;
+
+    private int _index = 0;
+    private const int _exerciseLength = 10;
+
+    [ObservableProperty] private string _targetWord;
+    [ObservableProperty] private string _inputText;
+    [ObservableProperty] private bool _isCompleted;
+    [ObservableProperty] private FormattedString _highlightedText;
+
+    public TypeViewModel(IAiService aiService)
     {
-        private readonly IAIService _aIService;
+        _aiService = aiService;
+        NextWord();
+    }
 
-        [ObservableProperty]
-        private string _targetWord;
+    partial void OnInputTextChanged(string value)
+    {
+        HighlightErrors();
 
-        [ObservableProperty]
-        private string _inputText;
-
-        [ObservableProperty]
-        private bool _isCompleted;
-
-        [ObservableProperty]
-        private FormattedString _highlightedText;
-
-        public TypeViewModel(IAIService AIService)
+        if (!string.IsNullOrWhiteSpace(value) && value == TargetWord)
         {
-            _aIService = AIService;
-            NextWord();
-        }
+            _index++;
 
-        partial void OnInputTextChanged(string value)
-        {
-            WrongInputHighlight();
-
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
+            if (_index >= _exerciseLength)
             {
-                IsCompleted = true;
-                NextWord();
-            }
-        }
-
-        private void WrongInputHighlight()
-        {
-            FormattedString formattedString = new FormattedString();
-
-            if (string.IsNullOrEmpty(InputText))
-            {
-                HighlightedText = formattedString;
+                ShowCompletionPopup();
                 return;
             }
 
-            for (int i = 0; i < InputText.Length; i++)
-            {
-                char typedChar = InputText[i];
-                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
-
-                Span span = new Span
-                {
-                    Text = typedChar.ToString(),
-                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
-                };
-
-                formattedString.Spans.Add(span);
-            }
-
-            HighlightedText = formattedString;
+            NextWord();
         }
+    }
 
-        [RelayCommand]
-        private async void NextWord()
+    private async void ShowCompletionPopup()
+    {
+        await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+        await Shell.Current.Navigation.PopToRootAsync();
+    }
+
+    private void HighlightErrors()
+    {
+        FormattedString formatted = new();
+
+        if (string.IsNullOrEmpty(InputText))
         {
-            InputText = string.Empty;
-            IsCompleted = false;
-
-            TypingExerciseText newWord = await _aIService.GetExerciseTextAsync();
-            TargetWord = newWord.Text;
-
-            HighlightedText = new FormattedString(); // Reset
+            HighlightedText = formatted;
+            return;
         }
+
+        for (int i = 0; i < InputText.Length; i++)
+        {
+            char typed = InputText[i];
+            char correct = i < TargetWord.Length ? TargetWord[i] : '?';
+
+            formatted.Spans.Add(new Span
+            {
+                Text = typed.ToString(),
+                TextColor = typed == correct ? Colors.Black : Colors.Red
+            });
+        }
+
+        HighlightedText = formatted;
+    }
+
+    [RelayCommand]
+    private async void NextWord()
+    {
+        InputText = string.Empty;
+        IsCompleted = false;
+
+        TypingExerciseText newWord = await _aiService.GetExerciseTextAsync("word");
+        TargetWord = newWord.Text;
+
+        HighlightedText = new FormattedString();
     }
 }

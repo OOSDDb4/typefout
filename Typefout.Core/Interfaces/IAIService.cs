@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Typefout.Core.Models;
 
 namespace Typefout.Core.Interfaces
 {
-    public interface IAIService
+    public interface IAiService
     {
-        Task<TypingExerciseText> GetExerciseTextAsync();
+        Task<TypingExerciseText> GetExerciseTextAsync(string mode);
     }
 }

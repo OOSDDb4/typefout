@@ -1,0 +1,21 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.OefeningenMenuPage">
+
+    <VerticalStackLayout Padding="20" Spacing="25">
+
+        <Label Text="Kies een oefening"
+               FontSize="32"
+               HorizontalOptions="Center" />
+
+        <Button Text="Oefening Woorden"
+                FontSize="22"
+                Clicked="Oefening1_Clicked" />
+
+        <Button Text="Oefening Zinnen"
+                FontSize="22"
+                Clicked="Oefening2_Clicked" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

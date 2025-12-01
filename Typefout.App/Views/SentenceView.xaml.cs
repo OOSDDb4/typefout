@@ -2,9 +2,9 @@ using Typefout.App.ViewModels;
 
 namespace Typefout.App.Views;
 
-public partial class TypeView : ContentPage
+public partial class SentenceView : ContentPage
 {
-    public TypeView(TypeViewModel vm)
+    public SentenceView(SentenceViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

@@ -23,12 +23,13 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddSingleton<IWordService, WordService>();
-        builder.Services.AddSingleton<IAIService, AIService>();
+        builder.Services.AddSingleton<IAiService, AiService>();
 
         builder.Services.AddTransient<TypeViewModel>();
-
         builder.Services.AddTransient<TypeView>();
+
+        builder.Services.AddTransient<SentenceViewModel>();
+        builder.Services.AddTransient<SentenceView>();
 
         return builder.Build();
     }

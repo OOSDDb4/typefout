@@ -13,8 +13,4 @@
       <PackageReference Include="Google.GenAI" Version="0.6.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>

@@ -8,22 +8,22 @@ namespace Typefout.Core.Data.Services
     {
         public static void Load()
         {
-            Assembly _assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetExecutingAssembly();
 
-            string? resourceName = _assembly.GetManifestResourceNames()
+            string? resourceName = assembly.GetManifestResourceNames()
                  .FirstOrDefault(n => n.EndsWith(".env", StringComparison.OrdinalIgnoreCase));
 
             if (resourceName == null)
             {
                 System.Diagnostics.Debug.WriteLine("Fout: .env resource niet gevonden. Beschikbare resources:");
-                foreach (string name in _assembly.GetManifestResourceNames())
+                foreach (string name in assembly.GetManifestResourceNames())
                 {
                     System.Diagnostics.Debug.WriteLine($"Beschikbaar: {name}");
                 }
                 return;
             }
 
-            using (Stream? stream = _assembly.GetManifestResourceStream(resourceName))
+            using (Stream? stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream == null)
                 {
