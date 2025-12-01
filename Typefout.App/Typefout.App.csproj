@@ -29,6 +29,7 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <Platforms>AnyCPU;x64</Platforms>
         <Configurations>Debug;Release;release2</Configurations>
+        <UserSecretsId>467898dc-c6af-4c61-bc20-4f7facc1592c</UserSecretsId>
     </PropertyGroup>
 
     <!-- WINDOWS-SPECIFIC SETTINGS -->
@@ -57,12 +58,14 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Typefout.Core.Data\Typefout.Core.Data.csproj" />
         <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
     </ItemGroup>
 

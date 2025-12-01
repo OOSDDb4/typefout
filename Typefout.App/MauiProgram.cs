@@ -24,6 +24,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<IWordService, WordService>();
+        builder.Services.AddSingleton<IAIService, AIService>();
 
         builder.Services.AddTransient<TypeViewModel>();
 

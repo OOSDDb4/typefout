@@ -9,7 +9,7 @@ namespace Typefout.App.ViewModels
 {
     public partial class TypeViewModel : ObservableObject
     {
-        private readonly IWordService _wordService;
+        private readonly IAIService _aIService;
 
         [ObservableProperty]
         private string _targetWord;
@@ -23,9 +23,9 @@ namespace Typefout.App.ViewModels
         [ObservableProperty]
         private FormattedString _highlightedText;
 
-        public TypeViewModel(IWordService wordService)
+        public TypeViewModel(IAIService AIService)
         {
-            _wordService = wordService;
+            _aIService = AIService;
             NextWord();
         }
 
@@ -68,12 +68,12 @@ namespace Typefout.App.ViewModels
         }
 
         [RelayCommand]
-        private void NextWord()
+        private async void NextWord()
         {
             InputText = string.Empty;
             IsCompleted = false;
 
-            OefenWoord newWord = _wordService.GetRandomized();
+            TypingExerciseText newWord = await _aIService.GetExerciseTextAsync();
             TargetWord = newWord.Text;
 
             HighlightedText = new FormattedString(); // Reset
