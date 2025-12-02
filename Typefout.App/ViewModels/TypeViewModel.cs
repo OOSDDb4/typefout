@@ -18,6 +18,7 @@ public partial class TypeViewModel : ObservableObject
     [ObservableProperty] private bool _isCompleted;
     [ObservableProperty] private FormattedString _highlightedText;
 
+
     public TypeViewModel(IAiService aiService)
     {
         _aiService = aiService;
@@ -27,6 +28,7 @@ public partial class TypeViewModel : ObservableObject
     partial void OnInputTextChanged(string value)
     {
         HighlightErrors();
+
 
         if (!string.IsNullOrWhiteSpace(value) && value == TargetWord)
         {
@@ -89,5 +91,15 @@ public partial class TypeViewModel : ObservableObject
         TargetWord = newWord.Text;
 
         HighlightedText = new FormattedString();
+
+        HighlightedText.Spans.Add(new Span
+        {
+            Text = "|",
+            TextColor = Colors.Black,
+            FontSize = 18
+        });
     }
+
+
+  
 }
