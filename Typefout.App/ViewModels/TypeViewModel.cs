@@ -50,25 +50,31 @@ public partial class TypeViewModel : ObservableObject
 
     private void HighlightErrors()
     {
-        FormattedString formatted = new();
 
-        if (string.IsNullOrEmpty(InputText))
-        {
-            HighlightedText = formatted;
-            return;
-        }
+        FormattedString formatted = new FormattedString();
 
-        for (int i = 0; i < InputText.Length; i++)
+        for (int i = 0; i < _inputText.Length; i++)
         {
-            char typed = InputText[i];
-            char correct = i < TargetWord.Length ? TargetWord[i] : '?';
+            char typedChar = _inputText[i];
+
+            char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+
+            bool isCorrect = typedChar == correctChar;
 
             formatted.Spans.Add(new Span
             {
-                Text = typed.ToString(),
-                TextColor = typed == correct ? Colors.Black : Colors.Red
+                Text = typedChar.ToString(),
+                TextColor = isCorrect ? Colors.Black : Colors.Red,
+                FontSize = 18
             });
         }
+
+        formatted.Spans.Add(new Span
+        {
+            Text = "|",
+            TextColor = Colors.Black,
+            FontSize = 18
+        });
 
         HighlightedText = formatted;
     }
