@@ -8,7 +8,7 @@ public partial class TypeView : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
-        UpdateKleuren("");
+        UpdateColors("");
     }
 
     protected override void OnAppearing()
@@ -17,13 +17,13 @@ public partial class TypeView : ContentPage
 
         if (BindingContext is TypeViewModel vm)
         {
-            UpdateKleuren("");
+            UpdateColors("");
 
             vm.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == "TargetWord" || args.PropertyName == "InputText")
                 {
-                    UpdateKleuren(vm.InputText ?? "");
+                    UpdateColors(vm.InputText ?? "");
                 }
             };
         }
@@ -31,16 +31,16 @@ public partial class TypeView : ContentPage
 
     private void OnInputChanged(object sender, TextChangedEventArgs e)
     {
-        UpdateKleuren(e.NewTextValue ?? "");
+        UpdateColors(e.NewTextValue ?? "");
     }
 
-    private void UpdateKleuren(string getypteTekst)
+    private void UpdateColors(string typedText)
     {
-        string alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        foreach (char c in alfabet)
+        string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        foreach (char c in alphabet)
         {
-            Border knop = this.FindByName<Border>($"Key_{c}");
-            if (knop != null) knop.BackgroundColor = Colors.White;
+            Border button = this.FindByName<Border>($"Key_{c}");
+            if (button != null) button.BackgroundColor = Colors.White;
         }
 
         string targetWord = "";
@@ -53,14 +53,14 @@ public partial class TypeView : ContentPage
             return;
         }
 
-        if (getypteTekst.Length < targetWord.Length)
+        if (typedText.Length < targetWord.Length)
         {
-            char volgendeLetter = char.ToUpper(targetWord[getypteTekst.Length]);
+            char nextLetter = char.ToUpper(targetWord[typedText.Length]);
 
-            Border volgendeKnop = this.FindByName<Border>($"Key_{volgendeLetter}");
-            if (volgendeKnop != null)
+            Border nextButton = this.FindByName<Border>($"Key_{nextLetter}");
+            if (nextButton != null)
             {
-                volgendeKnop.BackgroundColor = Colors.LightGreen;
+                nextButton.BackgroundColor = Colors.LightGreen;
             }
         }
     }

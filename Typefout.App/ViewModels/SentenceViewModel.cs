@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
@@ -48,29 +49,35 @@ namespace Typefout.App.ViewModels
 
         private void HighlightErrors()
         {
-            FormattedString formatted = new();
+            FormattedString formatted = new FormattedString();
 
-            if (string.IsNullOrEmpty(InputText))
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                HighlightedText = formatted;
-                return;
-            }
+                char typedChar = _inputText[i];
 
-            for (int i = 0; i < InputText.Length; i++)
-            {
-                char typedChar = InputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
+
+                bool isCorrect = typedChar == correctChar;
 
                 formatted.Spans.Add(new Span
                 {
                     Text = typedChar.ToString(),
-                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
+                    TextColor = isCorrect ? Colors.Black : Colors.Red,
+                    FontSize = 18
                 });
             }
+
+            formatted.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
 
             HighlightedText = formatted;
         }
 
+        [RelayCommand]
         private async void NextSentence()
         {
             InputText = string.Empty;
@@ -79,6 +86,13 @@ namespace Typefout.App.ViewModels
             TargetText = newSentence.Text;
 
             HighlightedText = new FormattedString();
+
+            HighlightedText.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
         }
     }
 }
