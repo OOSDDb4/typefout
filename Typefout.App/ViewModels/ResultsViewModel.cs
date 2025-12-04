@@ -1,0 +1,45 @@
+using System.Collections.Generic;
+using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Typefout.Core.Interfaces;
+using Typefout.Core.Models;
+
+namespace Typefout.App.ViewModels
+{
+    public partial class ResultsViewModel : ObservableObject
+    {
+        private readonly IKeyTrackingService _trackingService;
+
+        [ObservableProperty]
+        private List<KeyStat> _worstKeys;
+
+        [ObservableProperty]
+        private List<KeyStat> _bestKeys;
+
+        private const double _errorThreshold = 0.15;
+
+        public ResultsViewModel(IKeyTrackingService trackingService)
+        {
+            _trackingService = trackingService;
+            LoadStats();
+        }
+
+        private void LoadStats()
+        {
+            List<KeyStat> stats = _trackingService.GetStats()
+                .Where(s => s.Attempts >= 2)
+                .ToList();
+
+            _worstKeys = stats
+                .Where(s => s.ErrorRate >= _errorThreshold)
+                .OrderByDescending(s => s.Attempts)
+                .ToList();
+
+            _bestKeys = stats
+                .Where(s => s.ErrorRate < _errorThreshold)
+                .OrderByDescending(s => s.Attempts)
+                .Take(5)
+                .ToList();
+        }
+    }
+}

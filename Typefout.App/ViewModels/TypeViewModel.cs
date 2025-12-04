@@ -1,87 +1,119 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls;
+using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
-namespace Typefout.App.ViewModels;
-
-public partial class TypeViewModel : ObservableObject
+namespace Typefout.App.ViewModels
 {
-    private readonly IAiService _aiService;
-
-    private int _index = 0;
-    private const int _exerciseLength = 10;
-
-    [ObservableProperty] private string _targetWord;
-    [ObservableProperty] private string _inputText;
-    [ObservableProperty] private bool _isCompleted;
-    [ObservableProperty] private FormattedString _highlightedText;
-
-    public TypeViewModel(IAiService aiService)
+    public partial class TypeViewModel : ObservableObject
     {
-        _aiService = aiService;
-        NextWord();
-    }
+        private readonly IAiService _aiService;
+        private readonly IKeyTrackingService _trackingService;
 
-    partial void OnInputTextChanged(string value)
-    {
-        HighlightErrors();
+        private int _index = 0;
+        private const int _exerciseLength = 10;
+        private int _previousLength = 0;
 
-        if (!string.IsNullOrWhiteSpace(value) && value == TargetWord)
+        [ObservableProperty] private string _targetWord;
+        [ObservableProperty] private string _inputText;
+        [ObservableProperty] private bool _isCompleted;
+        [ObservableProperty] private FormattedString _highlightedText;
+
+        public TypeViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
-            _index++;
+            _aiService = aiService;
+            _trackingService = trackingService;
 
-            if (_index >= _exerciseLength)
-            {
-                ShowCompletionPopup();
-                return;
-            }
+            _trackingService.Reset();
+            _index = 0;
+            _previousLength = 0;
 
             NextWord();
         }
-    }
-
-    private async void ShowCompletionPopup()
-    {
-        await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
-        await Shell.Current.Navigation.PopToRootAsync();
-    }
-
-    private void HighlightErrors()
-    {
-        FormattedString formatted = new();
-
-        if (string.IsNullOrEmpty(InputText))
+        partial void OnInputTextChanged(string value)
         {
-            HighlightedText = formatted;
-            return;
-        }
+            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
+            _previousLength = value?.Length ?? 0;
 
-        for (int i = 0; i < InputText.Length; i++)
-        {
-            char typed = InputText[i];
-            char correct = i < TargetWord.Length ? TargetWord[i] : '?';
+            HighlightErrors(lengthIncreased);
 
-            formatted.Spans.Add(new Span
+            if (!string.IsNullOrEmpty(value) && value == TargetWord)
             {
-                Text = typed.ToString(),
-                TextColor = typed == correct ? Colors.Black : Colors.Red
-            });
+                _index++;
+
+                if (_index >= _exerciseLength)
+                {
+                    ShowResults();
+                    return;
+                }
+                NextWord();
+            }
+        }
+        private async void ShowResults()
+        {
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+
+            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
 
-        HighlightedText = formatted;
-    }
+        private void HighlightErrors(bool registerLastChar)
+        {
+            FormattedString formattedString = new FormattedString();
 
-    [RelayCommand]
-    private async void NextWord()
-    {
-        InputText = string.Empty;
-        IsCompleted = false;
+            if (string.IsNullOrEmpty(InputText))
+            {
+                HighlightedText = formattedString;
+                return;
+            }
 
-        TypingExerciseText newWord = await _aiService.GetExerciseTextAsync("word");
-        TargetWord = newWord.Text;
+            for (int i = 0; i < InputText.Length; i++)
+            {
+                char typedChar = InputText[i];
+                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
 
-        HighlightedText = new FormattedString();
+                Span span = new Span
+                {
+                    Text = typedChar.ToString(),
+                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
+                };
+
+                formattedString.Spans.Add(span);
+            }
+
+            if (registerLastChar)
+            {
+                int lastIndex = InputText.Length - 1;
+
+                if (lastIndex >= 0)
+                {
+                    char typedChar = InputText[lastIndex];
+                    char correctChar = lastIndex < TargetWord.Length ? TargetWord[lastIndex] : '?';
+
+                    if (correctChar != '?')
+                    {
+                        _trackingService.RegisterResult(correctChar, typedChar);
+                    }
+                }
+            }
+
+            HighlightedText = formattedString;
+        }
+
+        [RelayCommand]
+        private async void NextWord()
+        {
+            InputText = string.Empty;
+            IsCompleted = false;
+            _previousLength = 0;
+
+            TypingExerciseText text = await _aiService.GetExerciseTextAsync("word");
+            TargetWord = text.Text;
+
+            HighlightedText = new FormattedString();
+        }
     }
 }

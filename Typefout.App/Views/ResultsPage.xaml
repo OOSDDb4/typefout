@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.ResultsPage"
+             Shell.NavBarIsVisible="False">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <Label Text="Resultaten"
+                   FontSize="40"
+                   HorizontalOptions="Center"
+                   TextColor="#7C3AED"/>
+            
+            <Label Text="Moeilijkste toetsen"
+                   TextColor="Red"
+                   FontSize="28"/>
+
+            <CollectionView ItemsSource="{Binding WorstKeys}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="50, *, *, *"
+                              Padding="5">
+
+                            <Label Text="{Binding Key}"
+                                   FontSize="26"
+                                   TextColor="Red"
+                                   Grid.Column="0"/>
+
+                            <Label Text="{Binding Mistakes, StringFormat='Fouten: {0}'}"
+                                   Grid.Column="1"
+                                   FontSize="20"/>
+
+                            <Label Text="{Binding Attempts, StringFormat='Pogingen: {0}'}"
+                                   Grid.Column="2"
+                                   FontSize="20"/>
+
+                            <Label Text="{Binding ErrorPercentage, StringFormat='Fout Percentage: {0}'}"
+                                   Grid.Column="3"
+                                   FontSize="20"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Label Text="Beste toetsen"
+                   TextColor="Green"
+                   FontSize="28"
+                   Margin="0,20,0,0"/>
+
+            <CollectionView ItemsSource="{Binding BestKeys}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="50, *, *, *"
+                              Padding="5">
+
+                            <Label Text="{Binding Key}"
+                                   FontSize="26"
+                                   TextColor="Green"
+                                   Grid.Column="0"/>
+
+                            <Label Text="{Binding Mistakes, StringFormat='Fouten: {0}'}"
+                                   Grid.Column="1"
+                                   FontSize="20"/>
+
+                            <Label Text="{Binding Attempts, StringFormat='Pogingen: {0}'}"
+                                   Grid.Column="2"
+                                   FontSize="20"/>
+
+                            <Label Text="{Binding ErrorPercentage, StringFormat='Fout Percentage: {0}'}"
+                                   Grid.Column="3"
+                                   FontSize="20"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Terug naar oefening kiezen"
+                    BackgroundColor="#B39DDB"
+                    TextColor="Black"
+                    FontSize="22"
+                    CornerRadius="12"
+                    Clicked="Back_Button"
+                    Margin="0,40,0,20"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
