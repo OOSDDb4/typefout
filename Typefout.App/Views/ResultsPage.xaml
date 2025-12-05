@@ -9,84 +9,101 @@
     </Shell.BackButtonBehavior>
     
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="25">
-
-            <Label Text="Resultaten"
-                   FontSize="40"
-                   HorizontalOptions="Center"
-                   TextColor="#7C3AED"/>
+        <VerticalStackLayout Padding="20" Spacing="25" HorizontalOptions="FillAndExpand" WidthRequest="{OnPlatform Android=Infinity, iOS=Infinity}">
             
-            <Label Text="Moeilijkste toetsen"
-                   TextColor="Red"
-                   FontSize="28"/>
-
-            <CollectionView ItemsSource="{Binding WorstKeys}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="50, *, *, *"
-                              Padding="5">
-
-                            <Label Text="{Binding Key}"
-                                   FontSize="26"
-                                   TextColor="Red"
-                                   Grid.Column="0"/>
-
-                            <Label Text="{Binding Mistakes, StringFormat='Fouten: {0}'}"
-                                   Grid.Column="1"
-                                   FontSize="20"/>
-
-                            <Label Text="{Binding Attempts, StringFormat='Pogingen: {0}'}"
-                                   Grid.Column="2"
-                                   FontSize="20"/>
-
-                            <Label Text="{Binding ErrorPercentage, StringFormat='Fout Percentage: {0}'}"
-                                   Grid.Column="3"
-                                   FontSize="20"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Frame BackgroundColor="LightGray" 
+                   Padding="10"
+                   HorizontalOptions="FillAndExpand">
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    
+                    <ImageButton Grid.Column="0"
+                                 Command="{Binding RestartExerciseCommand}"
+                                 BackgroundColor="Transparent"
+                                 WidthRequest="50"
+                                 HeightRequest="50"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Start"
+                                 Padding="10">
+                        <ImageButton.Source>
+                            <FontImageSource 
+                                Glyph="&#x21BB;"
+                                FontFamily="Arial"
+                                Size="30"
+                                Color="Black"/>
+                        </ImageButton.Source>
+                    </ImageButton>
+                    
+                    <!-- Titel in het midden -->
+                    <Label Text="Resultaten"
+                           Grid.Column="1"
+                           FontSize="40"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="Black"/>
+                    
+                    <BoxView Grid.Column="2"
+                             WidthRequest="50"
+                             HeightRequest="50"
+                             Color="Transparent"/>
+                    
+                </Grid>    
+            </Frame>
             
-            <Label Text="Beste toetsen"
-                   TextColor="Green"
-                   FontSize="28"
-                   Margin="0,20,0,0"/>
+            <Frame BackgroundColor="#e5e5e5"
+                   CornerRadius="15"
+                   Padding="0"
+                   Margin="0, 20, 0, 0">
+                
+                <Grid RowDefinitions="Auto, Auto"
+                      ColumnDefinitions="*, *, *, *, Auto">
+                    
+                    <Label Text="Oefening" Grid.Row="0" Grid.Column="0"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Moeilijke Letters" Grid.Row="0" Grid.Column="1"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Type" Grid.Row="0" Grid.Column="2"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Tijd" Grid.Row="0" Grid.Column="3"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="1" Grid.Row="1" Grid.Column="0"
+                           HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <CollectionView Grid.Row="1" Grid.Column="1"
+                                    ItemsSource="{Binding WorstKeys}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding Key}" 
+                                       HorizontalTextAlignment="Center" 
+                                       VerticalTextAlignment="Center"
+                                       Padding="5"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    
+                    <Label Text="Zin" Grid.Row="1" Grid.Column="2"
+                           HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="0,5 min" Grid.Row="1" Grid.Column="3"
+                           HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                </Grid>
 
-            <CollectionView ItemsSource="{Binding BestKeys}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="50, *, *, *"
-                              Padding="5">
-
-                            <Label Text="{Binding Key}"
-                                   FontSize="26"
-                                   TextColor="Green"
-                                   Grid.Column="0"/>
-
-                            <Label Text="{Binding Mistakes, StringFormat='Fouten: {0}'}"
-                                   Grid.Column="1"
-                                   FontSize="20"/>
-
-                            <Label Text="{Binding Attempts, StringFormat='Pogingen: {0}'}"
-                                   Grid.Column="2"
-                                   FontSize="20"/>
-
-                            <Label Text="{Binding ErrorPercentage, StringFormat='Fout Percentage: {0}'}"
-                                   Grid.Column="3"
-                                   FontSize="20"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <Button Text="Terug naar oefening kiezen"
-                    BackgroundColor="#B39DDB"
-                    TextColor="Black"
-                    FontSize="22"
-                    CornerRadius="12"
-                    Clicked="Back_Button"
-                    Margin="0,40,0,20"/>
-
+            </Frame>
+            
+            <Label Text="Gehaald!"
+                   HorizontalTextAlignment="Center"
+                   Padding="10"
+                   BackgroundColor="#D0D0D0"/>
+                   
         </VerticalStackLayout>
     </ScrollView>
 

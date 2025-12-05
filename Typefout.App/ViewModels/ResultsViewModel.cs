@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -40,6 +41,12 @@ namespace Typefout.App.ViewModels
                 .OrderByDescending(s => s.Attempts)
                 .Take(5)
                 .ToList();
+        }
+
+        [RelayCommand]
+        private async Task RestartExercise()
+        {
+            await Shell.Current.GoToAsync("//TypeView");
         }
     }
 }
