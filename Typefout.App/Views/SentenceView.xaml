@@ -24,7 +24,7 @@
                     Text="Stoppen"
                     VerticalOptions="Start"
                     HorizontalOptions="End"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="#D3D3D3"
                     TextColor="Black"
                     FontSize="20"
                     Command="{Binding StopExerciseCommand}"/>
