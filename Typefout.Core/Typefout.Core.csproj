@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net8.0;net8.0-maccatalyst</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Platforms>AnyCPU;x64</Platforms>
@@ -11,6 +11,8 @@
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="Google.GenAI" Version="0.6.0" />
+      <PackageReference Include="MySqlConnector" Version="2.5.0" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     </ItemGroup>
 
 </Project>
