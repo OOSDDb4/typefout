@@ -4,7 +4,6 @@
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
              x:Class="Typefout.App.Views.TypeView"
              BackgroundColor="White">
-
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
@@ -17,7 +16,6 @@
             <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
-
         <Style x:Key="LetterLabel" TargetType="Label">
             <Setter Property="TextColor" Value="#333333" />
             <Setter Property="FontSize" Value="20" />
@@ -26,8 +24,29 @@
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
     </ContentPage.Resources>
-
     <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
+
+        <Grid Padding="0,0,0,20" VerticalOptions="Start" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width= "900"/>
+            </Grid.ColumnDefinitions>
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Typefout"
+                       FontSize="48"
+                       HorizontalOptions="Start"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+            </VerticalStackLayout>
+            <Button Grid.Column="1"
+                    Text="Stoppen"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    FontSize="20"
+                    Command="{Binding StopExerciseCommand}"/>
+        </Grid>
         <Border Stroke="Transparent"
                 StrokeShape="RoundRectangle 15"
                 BackgroundColor="#E0E0E0"
@@ -73,13 +92,12 @@
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
-                
             </Grid>
         </Border>
-        <VerticalStackLayout Spacing="8"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center">
 
+        <VerticalStackLayout Spacing="8"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
             <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
                 <Border x:Name="Key_Q" Style="{StaticResource LetterBorder}">
                     <Label Text="Q" Style="{StaticResource LetterLabel}"/>
@@ -165,7 +183,5 @@
                 </Border>
             </HorizontalStackLayout>
         </VerticalStackLayout>
-
     </VerticalStackLayout>
-
 </ContentPage>
