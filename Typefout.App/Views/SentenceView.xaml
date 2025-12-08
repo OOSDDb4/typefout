@@ -4,6 +4,31 @@
              x:Class="Typefout.App.Views.SentenceView"
              BackgroundColor="White">
 
+    <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+        
+        <Grid Padding="0,20,0,100" VerticalOptions="Start" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width= "900"/>
+            </Grid.ColumnDefinitions>
+
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Typefout"
+                       FontSize="48"
+                       HorizontalOptions="Start"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="Stoppen"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    FontSize="20"
+                    Command="{Binding StopExerciseCommand}"/>
+        </Grid>
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
