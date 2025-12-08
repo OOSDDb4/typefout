@@ -68,10 +68,6 @@ namespace Typefout.App.ViewModels
             for (int i = 0; i < _inputText.Length; i++)
             {
                 char typedChar = _inputText[i];
-                HighlightedText = formattedString;
-                return;
-            }
-
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
@@ -96,9 +92,15 @@ namespace Typefout.App.ViewModels
                     {
                         _trackingService.RegisterResult(correctChar, typedChar);
                     }
-
                 }
             }
+
+            formattedString.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
 
             HighlightedText = formattedString;
         }
