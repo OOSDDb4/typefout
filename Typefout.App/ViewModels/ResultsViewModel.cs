@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -15,6 +16,9 @@ namespace Typefout.App.ViewModels
 
         [ObservableProperty]
         private List<KeyStat> _bestKeys;
+
+        [ObservableProperty]
+        private int _totalMistakes;
 
         private const double _errorThreshold = 0.15;
 
@@ -40,6 +44,14 @@ namespace Typefout.App.ViewModels
                 .OrderByDescending(s => s.Attempts)
                 .Take(5)
                 .ToList();
+
+            _totalMistakes = _worstKeys.Sum(k => (int)(k.Attempts * k.ErrorRate));
+        }
+
+        [RelayCommand]
+        private async Task RestartExercise()
+        {
+            await Shell.Current.GoToAsync("//TypeView");
         }
     }
 }
