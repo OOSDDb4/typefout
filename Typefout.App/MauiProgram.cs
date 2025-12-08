@@ -24,13 +24,13 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<IAiService, AiService>();
+        builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
 
         builder.Services.AddTransient<TypeViewModel>();
         builder.Services.AddTransient<TypeView>();
 
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<SentenceView>();
-
         return builder.Build();
     }
 }
