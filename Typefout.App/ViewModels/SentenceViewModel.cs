@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls;
+using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -9,23 +11,34 @@ namespace Typefout.App.ViewModels
     public partial class SentenceViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
+        private readonly IKeyTrackingService _trackingService;
 
         private int _index = 0;
         private const int _exerciseLength = 5;
+
+        private int _previousLength = 0;
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
 
-        public SentenceViewModel(IAiService aiService)
+        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
+            _trackingService = trackingService;
+
+            _trackingService.Reset();
+            _index = 0;
+            _previousLength = 0;
+
             NextSentence();
         }
-
         partial void OnInputTextChanged(string value)
         {
-            HighlightErrors();
+            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
+            _previousLength = value?.Length ?? 0;
+
+            HighlightErrors(lengthIncreased);
 
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
@@ -33,57 +46,71 @@ namespace Typefout.App.ViewModels
 
                 if (_index >= _exerciseLength)
                 {
-                    ShowCompletionPopup();
+                    ShowResults();
                     return;
                 }
 
                 NextSentence();
             }
         }
-
-        private async void ShowCompletionPopup()
+        private async void ShowResults()
         {
             await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
-            await Shell.Current.Navigation.PopToRootAsync();
+
+            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
 
-        private void HighlightErrors()
+        private void HighlightErrors(bool registerLastChar)
         {
-            FormattedString formatted = new FormattedString();
+            FormattedString formattedString = new FormattedString();
 
             for (int i = 0; i < _inputText.Length; i++)
             {
                 char typedChar = _inputText[i];
+                HighlightedText = formattedString;
+                return;
+            }
 
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
-                bool isCorrect = typedChar == correctChar;
-
-                formatted.Spans.Add(new Span
+                Span span = new Span
                 {
                     Text = typedChar.ToString(),
-                    TextColor = isCorrect ? Colors.Black : Colors.Red,
-                    FontSize = 18
-                });
+                    TextColor = typedChar == correctChar ? Colors.Black : Colors.Red
+                };
+
+                formattedString.Spans.Add(span);
             }
 
-            formatted.Spans.Add(new Span
+            if (registerLastChar)
             {
-                Text = "|",
-                TextColor = Colors.Black,
-                FontSize = 18
-            });
+                int lastIndex = InputText.Length - 1;
 
-            HighlightedText = formatted;
+                if (lastIndex >= 0)
+                {
+                    char typedChar = InputText[lastIndex];
+                    char correctChar = lastIndex < TargetText.Length ? TargetText[lastIndex] : '?';
+
+                    if (correctChar != '?')
+                    {
+                        _trackingService.RegisterResult(correctChar, typedChar);
+                    }
+
+                }
+            }
+
+            HighlightedText = formattedString;
         }
 
         [RelayCommand]
         private async void NextSentence()
         {
             InputText = string.Empty;
+            _previousLength = 0;
 
-            TypingExerciseText newSentence = await _aiService.GetExerciseTextAsync("sentence");
-            TargetText = newSentence.Text;
+            TypingExerciseText next = await _aiService.GetExerciseTextAsync("sentence");
+            TargetText = next.Text;
 
             HighlightedText = new FormattedString();
 
