@@ -64,6 +64,7 @@
                                    TextColor="Gray"/>
                             <Entry x:Name="TypingEntry"
                                    Text="{Binding InputText}"
+                                   Loaded="OnEntryLoaded"
                                    TextChanged="OnInputChanged"
                                    Opacity="0"
                                    FontSize="18"
