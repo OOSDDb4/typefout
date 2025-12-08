@@ -1,34 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
              x:Class="Typefout.App.Views.SentenceView"
              BackgroundColor="White">
 
-    <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
-        
-        <Grid Padding="0,20,0,100" VerticalOptions="Start" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width= "900"/>
-            </Grid.ColumnDefinitions>
-
-            <VerticalStackLayout Grid.Column="0" Spacing="5">
-                <Label Text="Typefout"
-                       FontSize="48"
-                       HorizontalOptions="Start"
-                       FontAttributes="Bold"
-                       TextColor="Black"/>
-            </VerticalStackLayout>
-
-            <Button Grid.Column="1"
-                    Text="Stoppen"
-                    VerticalOptions="Start"
-                    HorizontalOptions="End"
-                    BackgroundColor="#D3D3D3"
-                    TextColor="Black"
-                    FontSize="20"
-                    Command="{Binding StopExerciseCommand}"/>
-        </Grid>
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
@@ -52,57 +28,82 @@
     </ContentPage.Resources>
 
     <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
+
+        <Grid Padding="0,0,0,20" VerticalOptions="Start">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="900"/>
+            </Grid.ColumnDefinitions>
+
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Typefout"
+                       FontSize="48"
+                       HorizontalOptions="Start"
+                       FontAttributes="Bold"
+                       TextColor="Black"/>
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="Stoppen"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    FontSize="20"
+                    Command="{Binding StopExerciseCommand}"/>
+        </Grid>
+
         <Border Stroke="Transparent"
-            StrokeShape="RoundRectangle 15"
-            BackgroundColor="#E0E0E0"
-            HeightRequest="345"
-            WidthRequest="575"
-            HorizontalOptions="Center">
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#E0E0E0"
+                HeightRequest="345"
+                WidthRequest="575"
+                HorizontalOptions="Center">
             <Grid RowDefinitions="Auto, *">
                 <Grid Grid.Row="0" BackgroundColor="#D0D0D0" HeightRequest="40" Padding="15,0">
                     <Label Text="Typefout"
-                       TextColor="Black"
-                       FontSize="15"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Start"/>
+                           TextColor="Black"
+                           FontSize="15"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"/>
                 </Grid>
                 <VerticalStackLayout Grid.Row="1" Spacing="0" VerticalOptions="Center">
                     <Label Text="{Binding TargetText}"
-                       TextColor="Black"
-                       FontSize="24"
-                       HorizontalOptions="Center"
-                       Margin="0,0,0,20"/>
+                           TextColor="Black"
+                           FontSize="24"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,20"/>
                     <Frame BackgroundColor="White"
-                       Padding="0"
-                       CornerRadius="0"
-                       HasShadow="False"
-                       HeightRequest="45"
-                       HorizontalOptions="Fill"
-                       BorderColor="Transparent">
+                           Padding="0"
+                           CornerRadius="0"
+                           HasShadow="False"
+                           HeightRequest="45"
+                           HorizontalOptions="Fill"
+                           BorderColor="Transparent">
                         <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
                             <Label FormattedText="{Binding HighlightedText}"
-                               FontSize="18"
-                               HorizontalTextAlignment="Center"
-                               VerticalOptions="Center"
-                               InputTransparent="True" 
-                               TextColor="Gray"/>
+                                   FontSize="18"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="Center"
+                                   InputTransparent="True" 
+                                   TextColor="Gray"/>
                             <Entry x:Name="TypingEntry"
-                               Text="{Binding InputText}"
-                               Loaded="OnEntryLoaded"
-                               Opacity="0"
-                               FontSize="18"
-                               HorizontalTextAlignment="Center"
-                               VerticalOptions="Center"/>
+                                   Text="{Binding InputText}"
+                                   TextChanged="OnInputChanged"
+                                   Loaded="OnEntryLoaded"
+                                   Opacity="0"
+                                   FontSize="18"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="Center"/>
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
-
             </Grid>
         </Border>
-        <VerticalStackLayout Spacing="8"
-                 HorizontalOptions="Center"
-                 VerticalOptions="Center">
 
+        <VerticalStackLayout Spacing="8"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
             <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
                 <Border x:Name="Key_Q" Style="{StaticResource LetterBorder}">
                     <Label Text="Q" Style="{StaticResource LetterLabel}"/>
@@ -190,5 +191,4 @@
         </VerticalStackLayout>
 
     </VerticalStackLayout>
-
 </ContentPage>
