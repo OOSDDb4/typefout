@@ -124,7 +124,7 @@ namespace Typefout.App.ViewModels
                 ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
                 await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
             }
-            
+
         }
     }
 }
