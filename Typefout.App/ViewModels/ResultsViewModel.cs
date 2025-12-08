@@ -16,7 +16,7 @@ namespace Typefout.App.ViewModels
 
         [ObservableProperty]
         private List<KeyStat> _bestKeys;
-        
+
         [ObservableProperty]
         private int _totalMistakes;
 
@@ -44,7 +44,7 @@ namespace Typefout.App.ViewModels
                 .OrderByDescending(s => s.Attempts)
                 .Take(5)
                 .ToList();
-            
+
             _totalMistakes = _worstKeys.Sum(k => (int)(k.Attempts * k.ErrorRate));
         }
 
