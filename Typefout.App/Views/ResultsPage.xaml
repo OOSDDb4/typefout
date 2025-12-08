@@ -33,7 +33,6 @@
                         </ImageButton.Source>
                     </ImageButton>
                     
-                    <!-- Titel in het midden -->
                     <Label Text="Resultaten"
                            Grid.Column="1"
                            FontSize="40"
@@ -63,10 +62,13 @@
                     <Label Text="Moeilijke Letters" Grid.Row="0" Grid.Column="1"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
                     
-                    <Label Text="Type" Grid.Row="0" Grid.Column="2"
+                    <Label Text="Aantal fouten" Grid.Row="0" Grid.Column="2"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
                     
-                    <Label Text="Tijd" Grid.Row="0" Grid.Column="3"
+                    <Label Text="Type" Grid.Row="0" Grid.Column="3"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Tijd" Grid.Row="0" Grid.Column="4"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
                     
                     <Label Text="1" Grid.Row="1" Grid.Column="0"
@@ -77,26 +79,35 @@
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center">
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5"/>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Label Text="{Binding Key}" 
-                                       HorizontalTextAlignment="Center" 
-                                       VerticalTextAlignment="Center"
-                                       Padding="5"/>
+                                <VerticalStackLayout Padding="5" Spacing="2">
+                                    <Label Text="{Binding Key}" 
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Mistakes, StringFormat='{0} fout'}"
+                                           FontSize="12"
+                                           HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                     
-                    <Label Text="Zin" Grid.Row="1" Grid.Column="2"
+                    <Label Text="{Binding TotalMistakes}" 
+                           Grid.Row="1" Grid.Column="2"
+                           HorizontalTextAlignment="Center" 
+                           VerticalTextAlignment="Center"
+                           Padding="10"/>
+                    
+                    <Label Text="Zin" Grid.Row="1" Grid.Column="3"
                            HorizontalTextAlignment="Center" Padding="10"/>
                     
-                    <Label Text="0,5 min" Grid.Row="1" Grid.Column="3"
+                    <Label Text="0,5 min" Grid.Row="1" Grid.Column="4"
                            HorizontalTextAlignment="Center" Padding="10"/>
                     
                 </Grid>
-
             </Frame>
             
             <Label Text="Gehaald!"
