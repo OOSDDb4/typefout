@@ -100,7 +100,15 @@ namespace Typefout.App.ViewModels
                 }
             }
 
+            formattedString.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
+
             HighlightedText = formattedString;
+
         }
 
         [RelayCommand]
@@ -114,6 +122,16 @@ namespace Typefout.App.ViewModels
             TargetWord = text.Text;
 
             HighlightedText = new FormattedString();
+
+            HighlightedText.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
         }
+
+
+
     }
 }
