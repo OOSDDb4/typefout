@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls;
 using Typefout.App.Views;
@@ -113,6 +114,18 @@ namespace Typefout.App.ViewModels
             TargetText = next.Text;
 
             HighlightedText = new FormattedString();
+        }
+
+        [RelayCommand]
+        private async void StopExercise()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
+            if (answer)
+            {
+                ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+            }
+
         }
     }
 }

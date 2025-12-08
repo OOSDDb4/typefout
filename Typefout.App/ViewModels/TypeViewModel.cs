@@ -115,5 +115,16 @@ namespace Typefout.App.ViewModels
 
             HighlightedText = new FormattedString();
         }
+        [RelayCommand]
+        private async void StopExercise()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
+            if (answer)
+            {
+                ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+            }
+            
+        }
     }
 }
