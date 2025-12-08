@@ -65,15 +65,9 @@ namespace Typefout.App.ViewModels
         {
             FormattedString formattedString = new FormattedString();
 
-            if (string.IsNullOrEmpty(InputText))
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                HighlightedText = formattedString;
-                return;
-            }
-
-            for (int i = 0; i < InputText.Length; i++)
-            {
-                char typedChar = InputText[i];
+                char typedChar = _inputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
@@ -98,13 +92,20 @@ namespace Typefout.App.ViewModels
                     {
                         _trackingService.RegisterResult(correctChar, typedChar);
                     }
-
                 }
             }
+
+            formattedString.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
 
             HighlightedText = formattedString;
         }
 
+        [RelayCommand]
         private async void NextSentence()
         {
             InputText = string.Empty;
@@ -114,6 +115,13 @@ namespace Typefout.App.ViewModels
             TargetText = next.Text;
 
             HighlightedText = new FormattedString();
+
+            HighlightedText.Spans.Add(new Span
+            {
+                Text = "|",
+                TextColor = Colors.Black,
+                FontSize = 18
+            });
         }
 
         [RelayCommand]
