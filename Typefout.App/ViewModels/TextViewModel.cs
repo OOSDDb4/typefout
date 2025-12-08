@@ -8,13 +8,10 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class SentenceViewModel : ObservableObject
+    public partial class TextViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-
-        private int _index = 0;
-        private const int _exerciseLength = 5;
 
         private int _previousLength = 0;
 
@@ -22,17 +19,17 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
 
-        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public TextViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
             _trackingService = trackingService;
 
             _trackingService.Reset();
-            _index = 0;
             _previousLength = 0;
 
-            NextSentence();
+            LoadText();
         }
+
         partial void OnInputTextChanged(string value)
         {
             bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
@@ -42,20 +39,13 @@ namespace Typefout.App.ViewModels
 
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
-                _index++;
-
-                if (_index >= _exerciseLength)
-                {
-                    ShowResults();
-                    return;
-                }
-
-                NextSentence();
+                ShowResults();
             }
         }
+
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt de tekst getypt!", "OK");
 
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
@@ -106,12 +96,12 @@ namespace Typefout.App.ViewModels
         }
 
         [RelayCommand]
-        private async void NextSentence()
+        private async void LoadText()
         {
             InputText = string.Empty;
             _previousLength = 0;
 
-            TypingExerciseText text = await _aiService.GetExerciseTextAsync("sentence");
+            TypingExerciseText text = await _aiService.GetExerciseTextAsync("text");
             TargetText = text.Text;
 
             HighlightedText = new FormattedString();

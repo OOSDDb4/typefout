@@ -26,11 +26,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAiService, AiService>();
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
 
-        builder.Services.AddTransient<TypeViewModel>();
+        builder.Services.AddTransient<WordViewModel>();
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<ResultsViewModel>();
-
-        builder.Services.AddTransient<TypeView>();
+        builder.Services.AddTransient<TextViewModel>();
+        
+        builder.Services.AddTransient<TextView>();
+        builder.Services.AddTransient<WordView>();
         builder.Services.AddTransient<SentenceView>();
         builder.Services.AddTransient<ResultsPage>();
 

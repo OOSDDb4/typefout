@@ -13,8 +13,8 @@ public partial class OefeningenMenuPage : ContentPage
 
     private async void Oefening1_Clicked(object sender, EventArgs e)
     {
-        TypeViewModel vm = App.Services.GetRequiredService<TypeViewModel>();
-        await Navigation.PushAsync(new TypeView(vm));
+        WordViewModel vm = App.Services.GetRequiredService<WordViewModel>();
+        await Navigation.PushAsync(new WordView(vm));
     }
 
     private async void Oefening2_Clicked(object sender, EventArgs e)
@@ -22,4 +22,12 @@ public partial class OefeningenMenuPage : ContentPage
         SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
         await Navigation.PushAsync(new SentenceView(vm));
     }
+    
+    private async void Oefening3_Clicked(object sender, EventArgs e)
+    {
+        TextViewModel vm = App.Services.GetRequiredService<TextViewModel>();
+        await Navigation.PushAsync(new TextView(vm));
+    }
+    
+    
 }

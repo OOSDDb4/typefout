@@ -8,7 +8,7 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class TypeViewModel : ObservableObject
+    public partial class WordViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
@@ -22,7 +22,7 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
 
-        public TypeViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
             _trackingService = trackingService;
