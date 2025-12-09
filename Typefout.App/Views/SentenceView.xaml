@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
-             x:Class="Typefout.App.Views.TypeView"
+             x:Class="Typefout.App.Views.SentenceView"
              BackgroundColor="White">
+
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
@@ -16,6 +17,7 @@
             <Setter Property="HorizontalOptions" Value="Center" />
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
+
         <Style x:Key="LetterLabel" TargetType="Label">
             <Setter Property="TextColor" Value="#333333" />
             <Setter Property="FontSize" Value="20" />
@@ -24,13 +26,15 @@
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
     </ContentPage.Resources>
+
     <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
 
-        <Grid Padding="0,0,0,20" VerticalOptions="Start" >
+        <Grid Padding="0,0,0,20" VerticalOptions="Start">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width= "900"/>
+                <ColumnDefinition Width="900"/>
             </Grid.ColumnDefinitions>
+
             <VerticalStackLayout Grid.Column="0" Spacing="5">
                 <Label Text="Typefout"
                        FontSize="48"
@@ -38,6 +42,7 @@
                        FontAttributes="Bold"
                        TextColor="Black"/>
             </VerticalStackLayout>
+
             <Button Grid.Column="1"
                     Text="Stoppen"
                     VerticalOptions="Start"
@@ -47,6 +52,7 @@
                     FontSize="20"
                     Command="{Binding StopExerciseCommand}"/>
         </Grid>
+
         <Border Stroke="Transparent"
                 StrokeShape="RoundRectangle 15"
                 BackgroundColor="#E0E0E0"
@@ -62,7 +68,7 @@
                            HorizontalOptions="Start"/>
                 </Grid>
                 <VerticalStackLayout Grid.Row="1" Spacing="0" VerticalOptions="Center">
-                    <Label Text="{Binding TargetWord}"
+                    <Label Text="{Binding TargetText}"
                            TextColor="Black"
                            FontSize="24"
                            HorizontalOptions="Center"
@@ -83,8 +89,8 @@
                                    TextColor="Gray"/>
                             <Entry x:Name="TypingEntry"
                                    Text="{Binding InputText}"
-                                   Loaded="OnEntryLoaded"
                                    TextChanged="OnInputChanged"
+                                   Loaded="OnEntryLoaded"
                                    Opacity="0"
                                    FontSize="18"
                                    HorizontalTextAlignment="Center"
@@ -183,5 +189,6 @@
                 </Border>
             </HorizontalStackLayout>
         </VerticalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>

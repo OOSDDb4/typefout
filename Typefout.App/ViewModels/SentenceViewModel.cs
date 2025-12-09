@@ -8,21 +8,21 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class TypeViewModel : ObservableObject
+    public partial class SentenceViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
 
         private int _index = 0;
-        private const int _exerciseLength = 10;
+        private const int _exerciseLength = 5;
+
         private int _previousLength = 0;
 
-        [ObservableProperty] private string _targetWord;
+        [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
-        [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
 
-        public TypeViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
             _trackingService = trackingService;
@@ -31,7 +31,7 @@ namespace Typefout.App.ViewModels
             _index = 0;
             _previousLength = 0;
 
-            NextWord();
+            NextSentence();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -40,7 +40,7 @@ namespace Typefout.App.ViewModels
 
             HighlightErrors(lengthIncreased);
 
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
+            if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
                 _index++;
 
@@ -49,12 +49,13 @@ namespace Typefout.App.ViewModels
                     ShowResults();
                     return;
                 }
-                NextWord();
+
+                NextSentence();
             }
         }
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
 
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
@@ -64,16 +65,10 @@ namespace Typefout.App.ViewModels
         {
             FormattedString formattedString = new FormattedString();
 
-            if (string.IsNullOrEmpty(InputText))
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                HighlightedText = formattedString;
-                return;
-            }
-
-            for (int i = 0; i < InputText.Length; i++)
-            {
-                char typedChar = InputText[i];
-                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+                char typedChar = _inputText[i];
+                char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
                 {
@@ -91,7 +86,7 @@ namespace Typefout.App.ViewModels
                 if (lastIndex >= 0)
                 {
                     char typedChar = InputText[lastIndex];
-                    char correctChar = lastIndex < TargetWord.Length ? TargetWord[lastIndex] : '?';
+                    char correctChar = lastIndex < TargetText.Length ? TargetText[lastIndex] : '?';
 
                     if (correctChar != '?')
                     {
@@ -108,18 +103,16 @@ namespace Typefout.App.ViewModels
             });
 
             HighlightedText = formattedString;
-
         }
 
         [RelayCommand]
-        private async void NextWord()
+        private async void NextSentence()
         {
             InputText = string.Empty;
-            IsCompleted = false;
             _previousLength = 0;
 
-            TypingExerciseText text = await _aiService.GetExerciseTextAsync("word");
-            TargetWord = text.Text;
+            TypingExerciseText next = await _aiService.GetExerciseTextAsync("sentence");
+            TargetText = next.Text;
 
             HighlightedText = new FormattedString();
 
@@ -130,6 +123,7 @@ namespace Typefout.App.ViewModels
                 FontSize = 18
             });
         }
+
         [RelayCommand]
         private async void StopExercise()
         {

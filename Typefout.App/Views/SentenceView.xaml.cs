@@ -2,9 +2,9 @@ using Typefout.App.ViewModels;
 
 namespace Typefout.App.Views;
 
-public partial class TypeView : ContentPage
+public partial class SentenceView : ContentPage
 {
-    public TypeView(TypeViewModel vm)
+    public SentenceView(SentenceViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;
@@ -23,13 +23,13 @@ public partial class TypeView : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is TypeViewModel vm)
+        if (BindingContext is SentenceViewModel vm)
         {
             UpdateColors("");
 
             vm.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName == "TargetWord" || args.PropertyName == "InputText")
+                if (args.PropertyName == "TargetText" || args.PropertyName == "InputText")
                 {
                     UpdateColors(vm.InputText ?? "");
                 }
@@ -51,19 +51,19 @@ public partial class TypeView : ContentPage
             if (button != null) button.BackgroundColor = Colors.White;
         }
 
-        string targetWord = "";
+        string targetText = "";
 
-        if (BindingContext is TypeViewModel vm)
-            targetWord = vm.TargetWord;
+        if (BindingContext is SentenceViewModel vm)
+            targetText = vm.TargetText;
 
-        if (string.IsNullOrEmpty(targetWord))
+        if (string.IsNullOrEmpty(targetText))
         {
             return;
         }
 
-        if (typedText.Length < targetWord.Length)
+        if (typedText.Length < targetText.Length)
         {
-            char nextLetter = char.ToUpper(targetWord[typedText.Length]);
+            char nextLetter = char.ToUpper(targetText[typedText.Length]);
 
             Border nextButton = this.FindByName<Border>($"Key_{nextLetter}");
             if (nextButton != null)
