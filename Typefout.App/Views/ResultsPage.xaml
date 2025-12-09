@@ -106,15 +106,23 @@
                     
                     <Label Text="0,5 min" Grid.Row="1" Grid.Column="4"
                            HorizontalTextAlignment="Center" Padding="10"/>
-                    
+
                 </Grid>
             </Frame>
-            
+
             <Label Text="Gehaald!"
                    HorizontalTextAlignment="Center"
                    Padding="10"
                    BackgroundColor="#D0D0D0"/>
-                   
+
+            <Button Text="Terug naar oefening kiezen"
+                    BackgroundColor="LightGray"
+                    TextColor="Black"
+                    FontSize="22"
+                    CornerRadius="12"
+                    Clicked="Back_Button"
+                    Margin="0,40,0,20"/>
+
         </VerticalStackLayout>
     </ScrollView>
 
