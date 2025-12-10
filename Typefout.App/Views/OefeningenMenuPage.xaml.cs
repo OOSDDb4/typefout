@@ -22,12 +22,12 @@ public partial class OefeningenMenuPage : ContentPage
         SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
         await Navigation.PushAsync(new SentenceView(vm));
     }
-    
+
     private async void Oefening3_Clicked(object sender, EventArgs e)
     {
         TextViewModel vm = App.Services.GetRequiredService<TextViewModel>();
         await Navigation.PushAsync(new TextView(vm));
     }
-    
-    
+
+
 }
