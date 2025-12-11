@@ -75,10 +75,10 @@ namespace Typefout.Core.Data.Services
 
             return mode switch
             {
-                "word"     => BuildWordPrompt(difficult, avoid),
+                "word" => BuildWordPrompt(difficult, avoid),
                 "sentence" => BuildSentencePrompt(difficult, avoid),
-                "text"     => BuildTextPrompt(difficult, avoid),
-                _          => throw new ArgumentException($"Unknown AI mode: {mode}")
+                "text" => BuildTextPrompt(difficult, avoid),
+                _ => throw new ArgumentException($"Unknown AI mode: {mode}")
             };
         }
 

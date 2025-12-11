@@ -22,7 +22,7 @@ namespace Typefout.App.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            
+
             if (BindingContext is TextViewModel vm)
             {
                 if (!string.IsNullOrEmpty(vm.TargetText))
@@ -120,7 +120,7 @@ namespace Typefout.App.Views
                 }
             }
         }
-        
+
         private void UpdateSentenceWindow(string fullText)
         {
             if (_sentenceEndPositions.Count == 0)

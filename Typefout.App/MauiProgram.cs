@@ -30,7 +30,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<ResultsViewModel>();
         builder.Services.AddTransient<TextViewModel>();
-        
+
         builder.Services.AddTransient<TextView>();
         builder.Services.AddTransient<WordView>();
         builder.Services.AddTransient<SentenceView>();
