@@ -10,17 +10,21 @@ namespace Typefout.Core.Data.Services
     {
         private readonly string _apiKey;
         private readonly Client _client;
+        private readonly IKeyTrackingService _tracking;
 
-        public AiService()
+        public AiService(IKeyTrackingService tracking)
         {
+            _tracking = tracking;
+
             EnvService.Load();
 
             _apiKey = EnvService.Get("API_KEY")
                 ?? throw new InvalidOperationException("API_KEY not found in environment.");
+
             _client = new Client(apiKey: _apiKey);
         }
 
-        private readonly List<string> _recentHistory = new();
+        private readonly List<string> _recentHistory = new List<string>();
         private const int _maxHistorySize = 15;
 
         private Schema BuildSchema()
@@ -42,6 +46,11 @@ namespace Typefout.Core.Data.Services
 
         private string BuildPrompt(string mode)
         {
+            IReadOnlyList<char> difficultKeys = _tracking.GetMostDifficultKeys(5);
+            string difficultList = difficultKeys.Count > 0
+                ? string.Join(", ", difficultKeys)
+                : "None";
+
             string avoidList = _recentHistory.Count > 0
                 ? string.Join("; ", _recentHistory)
                 : "None";
@@ -57,12 +66,12 @@ CONSTRAINTS:
 1. Output MUST be valid JSON.
 2. Key: ""exercise_text"" = the generated word.
 3. Avoid previously generated words: [{avoidList}]
-4. Word must be 3–12 characters.
-5. No names, no brands, no offensive content.
-6. Only one word. No sentences.";
+4. TRY TO INCLUDE DIFFICULT KEYS: [{difficultList}]
+5. Word must be 3–12 characters.
+6. Only one word. No sentences.
+7. No names or offensive content.";
             }
 
-            // Default → SENTENCE MODE
             return $@"
 ROLE: You are a typing tutor engine.
 
@@ -72,10 +81,11 @@ CONSTRAINTS:
 1. Output MUST be valid JSON.
 2. Key: ""exercise_text"" = the generated sentence.
 3. Avoid previously generated sentences: [{avoidList}]
-4. Length: 5–10 words.
-5. Grammar: Correct Dutch.
-6. Safe for all ages.
-7. Must be UNIQUE—not similar to [{avoidList}].";
+4. TRY TO INCLUDE DIFFICULT KEYS: [{difficultList}]
+5. Length: 5–10 words.
+6. Grammar: Correct Dutch.
+7. Safe for all ages.
+8. UNIQUE and different from [{avoidList}].";
         }
 
         public async Task<TypingExerciseText> GetExerciseTextAsync(string mode)
@@ -112,8 +122,11 @@ CONSTRAINTS:
         private void UpdateHistory(string text)
         {
             _recentHistory.Add(text);
+
             if (_recentHistory.Count > _maxHistorySize)
+            {
                 _recentHistory.RemoveAt(0);
+            }
         }
     }
 }
