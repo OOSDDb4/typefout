@@ -11,6 +11,14 @@ public partial class WordView : ContentPage
         UpdateColors("");
     }
 
+    private void OnEntryLoaded(object sender, EventArgs e)
+    {
+        if (sender is Entry entry)
+        {
+            entry.Focus();
+        }
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
