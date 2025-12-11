@@ -12,6 +12,6 @@ public partial class MainPage : ContentPage
 
     private async void InlogButtonClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new OefeningenMenuPage());
+        await Navigation.PushAsync(new LoginPage());
     }
 }
