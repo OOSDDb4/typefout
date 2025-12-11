@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Typefout.Core.Interfaces;
-using System;
 using System.Data;
 using MySqlConnector;
 
@@ -8,17 +7,16 @@ namespace Typefout.Core.Data.Services;
 
 public class DatabaseService : IDatabaseService
 {
-    private readonly string _databaseHost;
-    private readonly string _databaseUser;
-    private readonly string _databasePassword;
-    private readonly string _databasePort;
-    private readonly string _databaseName;
+    private readonly string? _databaseHost;
+    private readonly string? _databaseUser;
+    private readonly string? _databasePassword;
+    private readonly string? _databasePort;
+    private readonly string? _databaseName;
     private MySqlConnection _connection;
 
     public DatabaseService()
     {
         // Getting the database credentials from the .env file
-            
         Trace.WriteLine("Database service initialized");
         EnvService.Load();
 
@@ -27,10 +25,9 @@ public class DatabaseService : IDatabaseService
         _databasePassword = EnvService.Get("DATABASE_PASSWORD");
         _databasePort = EnvService.Get("DATABASE_PORT");
         _databaseName = EnvService.Get("DATABASE_NAME");
-        Connect();
     }
 
-    public void Connect()
+    public int Connect()
     {
         try
         {
@@ -66,6 +63,26 @@ public class DatabaseService : IDatabaseService
         DataTable table = new DataTable();
         adapter.Fill(table);
         return table;
+    }
+
+    public void Create()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Read()
+    {
+        
+    }
+
+    public void Update()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete()
+    {
+        throw new NotImplementedException();
     }
 }
 
