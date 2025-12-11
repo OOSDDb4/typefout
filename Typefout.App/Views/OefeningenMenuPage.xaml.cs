@@ -11,8 +11,10 @@ namespace Typefout.App.Views;
 
 public partial class OefeningenMenuPage : ContentPage
 {
+    private IDatabaseService _databaseService;
     public OefeningenMenuPage()
     {
+        _databaseService = new DatabaseService();
         InitializeComponent();
     }
 
@@ -27,25 +29,4 @@ public partial class OefeningenMenuPage : ContentPage
         SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
         await Navigation.PushAsync(new SentenceView(vm));
     }
-
-    private async void Database_Clicked(object sender, EventArgs e)
-    {
-        Trace.WriteLine("DatabaseClicked");
-
-        IDatabaseService service = new DatabaseService();
-        service.Connect();
-        service.Open();
-        DataTable words = service.ExecuteQuery("SELECT * FROM Word");
-
-        foreach (DataRow row in words.Rows)
-        {
-            Trace.WriteLine($"{row["wordId"]}, {row["word"]}");
-        }
-
-        service.Close();
-
-        // DatabaseViewModel dvm = App.Services.GetRequiredService<DatabaseViewModel>();
-        // await Navigation.PushAsync(new DatabaseView(dvm));
-    }
-    
 }
