@@ -36,14 +36,16 @@ public class DatabaseService : IDatabaseService
         {
             string cs = $"Server={_databaseHost};Port={_databasePort};Database={_databaseName};User Id={_databaseUser};Password={_databasePassword};SslMode=Preferred;";
             _connection = new MySqlConnection(cs);
-            Open();
+            _connection.Open();
+            _connection.Close();
+            return 202;
         }
         catch (Exception e)
         {
             // Console.WriteLine(e);
             Trace.WriteLine($"DatabaseConnection failed: {e.Message}");
             Trace.WriteLine($"Error: {e}");
-            throw;
+            return 500;
         }
     }
 
