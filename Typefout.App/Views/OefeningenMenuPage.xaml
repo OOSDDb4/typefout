@@ -16,7 +16,7 @@
                 FontSize="22"
                 Clicked="Oefening2_Clicked" />
         
-        <Button Text="Database coneectie testen"
+        <Button Text="Database connectie testen"
                 FontSize="22"
                 Clicked="Database_Clicked"/>
 
