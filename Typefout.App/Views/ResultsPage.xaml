@@ -57,22 +57,22 @@
                 <Grid RowDefinitions="Auto, Auto"
                       ColumnDefinitions="*, *, *, *, Auto">
                     
-                    <Label Text="Oefening" Grid.Row="0" Grid.Column="0"
+                    <Label Text="Oefening" Grid.Row="0" Grid.Column="0" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
-                    
-                    <Label Text="Moeilijke Letters" Grid.Row="0" Grid.Column="1"
+
+                    <Label Text="Moeilijke Letters" Grid.Row="0" Grid.Column="1" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
-                    
-                    <Label Text="Aantal fouten" Grid.Row="0" Grid.Column="2"
+
+                    <Label Text="Aantal fouten" Grid.Row="0" Grid.Column="2" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
-                    
-                    <Label Text="Type" Grid.Row="0" Grid.Column="3"
+
+                    <Label Text="Type" Grid.Row="0" Grid.Column="3" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
-                    
-                    <Label Text="Tijd" Grid.Row="0" Grid.Column="4"
+
+                    <Label Text="Tijd" Grid.Row="0" Grid.Column="4" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
-                    
-                    <Label Text="1" Grid.Row="1" Grid.Column="0"
+
+                    <Label Text="1" Grid.Row="1" Grid.Column="0" TextColor="Black"
                            HorizontalTextAlignment="Center" Padding="10"/>
                     
                     <CollectionView Grid.Row="1" Grid.Column="1"
@@ -85,10 +85,12 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <VerticalStackLayout Padding="5" Spacing="2">
-                                    <Label Text="{Binding Key}" 
+                                    <Label Text="{Binding Key}"
+                                           TextColor="Black"
                                            FontAttributes="Bold"
                                            HorizontalTextAlignment="Center"/>
                                     <Label Text="{Binding Mistakes, StringFormat='{0} fout'}"
+                                           TextColor="Black"
                                            FontSize="12"
                                            HorizontalTextAlignment="Center"/>
                                 </VerticalStackLayout>
@@ -97,21 +99,25 @@
                     </CollectionView>
                     
                     <Label Text="{Binding TotalMistakes}" 
+                           TextColor="Black"
                            Grid.Row="1" Grid.Column="2"
                            HorizontalTextAlignment="Center" 
                            VerticalTextAlignment="Center"
                            Padding="10"/>
                     
                     <Label Text="Zin" Grid.Row="1" Grid.Column="3"
+                           TextColor="Black"
                            HorizontalTextAlignment="Center" Padding="10"/>
                     
                     <Label Text="0,5 min" Grid.Row="1" Grid.Column="4"
+                           TextColor="Black"
                            HorizontalTextAlignment="Center" Padding="10"/>
 
                 </Grid>
             </Frame>
 
             <Label Text="Gehaald!"
+                   TextColor="Black"
                    HorizontalTextAlignment="Center"
                    Padding="10"
                    BackgroundColor="#D0D0D0"/>
