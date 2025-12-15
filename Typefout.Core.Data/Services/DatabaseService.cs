@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using System.Data;
+using System.Diagnostics;
 using MySqlConnector;
 using Typefout.Core.Interfaces;
 
