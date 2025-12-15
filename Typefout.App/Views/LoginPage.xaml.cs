@@ -1,11 +1,14 @@
+using Typefout.App.ViewModels;
+
 namespace Typefout.App.Views;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LoginPageViewModel vm)
 	{
 		InitializeComponent();
-	}
+        BindingContext = vm;
+    }
 
     private async void InlogButtonClicked(object sender, EventArgs e)
     {

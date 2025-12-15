@@ -12,6 +12,7 @@ public partial class MainPage : ContentPage
 
     private async void InlogButtonClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new LoginPage());
+        LoginPageViewModel vm = App.Services.GetRequiredService<LoginPageViewModel>();
+        await Shell.Current.Navigation.PushAsync(new LoginPage(vm));
     }
 }
