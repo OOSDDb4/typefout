@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<!-- MAIN PROPERTY GROUP (Hier hoef je niets aan te doen) -->
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
@@ -31,12 +30,9 @@
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<!-- TYPO GEREPAREERD: Msix i.p.v. Mxis -->
 		<EnableMsixTooling>true</EnableMsixTooling>
-
 		<!-- AANBEVOLEN: Zet dit op MSIX voor development, tenzij je echt unpackaged wilt -->
 		<WindowsPackageType>None</WindowsPackageType>
-
 		<OutputType>WinExe</OutputType>
-
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<publishReadyToRun>false</publishReadyToRun>
 	</PropertyGroup>
@@ -65,7 +61,7 @@
 
 	<ItemGroup>
 		<Compile Update="Views\LoginPage.xaml.cs">
-		  <DependentUpon>LoginPage.xaml</DependentUpon>
+			<DependentUpon>LoginPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Views\TypeView.xaml.cs">
 			<DependentUpon>TypeView.xaml</DependentUpon>
@@ -74,11 +70,10 @@
 
 	<ItemGroup>
 		<MauiXaml Update="Views\LoginPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\TypeView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
-
 </Project>

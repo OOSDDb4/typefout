@@ -14,7 +14,7 @@ namespace Typefout.Core.Services
         public User? Login(string? username, string? email, string password)
         {
             if (username is not null)
-            {   
+            {
                 User? user = _userRepo.GetUser(username);
                 if (user is null) return null;
                 if (PasswordHelper.VerifyPassword(password, user.Password)) return user;

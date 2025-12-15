@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
-using Typefout.Core.Services;
-using Typefout.Core.Data.Services;
 using Typefout.Core.Data.Repo;
+using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
+using Typefout.Core.Services;
 
 namespace Typefout.App;
 
