@@ -45,7 +45,7 @@
             <Border Style="{StaticResource CardStyle}">
 
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Oefening1_Clicked" />
+                    <TapGestureRecognizer Tapped="WordExersiceClicked" />
                 </Border.GestureRecognizers>
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
@@ -90,7 +90,7 @@
             </Border>
             <Border Style="{StaticResource CardStyle}">
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Oefening2_Clicked" />
+                    <TapGestureRecognizer Tapped="SentenceExersiceClicked" />
                 </Border.GestureRecognizers>
 
                 <Grid RowDefinitions="*, Auto">
@@ -119,7 +119,7 @@
             </Border>
             <Border Style="{StaticResource CardStyle}">
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Oefening3_Clicked" />
+                    <TapGestureRecognizer Tapped="TextExersiceClicked" />
                 </Border.GestureRecognizers>
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">

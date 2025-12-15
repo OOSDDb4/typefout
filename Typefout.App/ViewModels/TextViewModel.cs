@@ -14,11 +14,16 @@ namespace Typefout.App.ViewModels
         private readonly IKeyTrackingService _trackingService;
 
         private int _previousLength = 0;
-
+        private bool _firstWordCompleted = false;
+        
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
 
+        private string FirstWord =>
+            string.IsNullOrWhiteSpace(TargetText)
+                ? ""
+                : TargetText.Split(' ')[0];
         public TextViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
@@ -29,20 +34,29 @@ namespace Typefout.App.ViewModels
 
             LoadText();
         }
-
         partial void OnInputTextChanged(string value)
         {
             bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
             _previousLength = value?.Length ?? 0;
 
             HighlightErrors(lengthIncreased);
+            CheckFirstWordProgress();
 
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
                 ShowResults();
             }
         }
-
+        private void CheckFirstWordProgress()
+        {
+            if (string.IsNullOrEmpty(InputText))
+                return;
+            
+            if (InputText.StartsWith(FirstWord))
+            {
+                _firstWordCompleted = true;
+            }
+        }
         private async void ShowResults()
         {
             await Shell.Current.DisplayAlert("Klaar!", "Je hebt de tekst getypt!", "OK");
@@ -112,6 +126,23 @@ namespace Typefout.App.ViewModels
                 TextColor = Colors.Black,
                 FontSize = 18
             });
+        }
+        [RelayCommand]
+        private async void StopExercise()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
+            if (!answer)
+                return;
+
+            if (_firstWordCompleted)
+            {
+                ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+            }
+            else
+            {
+                await Shell.Current.Navigation.PopAsync();
+            }
         }
     }
 }
