@@ -102,7 +102,7 @@
                            TextColor="Black"
                            Grid.Row="1" Grid.Column="2"
                            HorizontalTextAlignment="Center" 
-                           VerticalTextAlignment="Center"
+                           VerticalTextAlignment="Start"
                            Padding="10"/>
                     
                     <Label Text="Zin" Grid.Row="1" Grid.Column="3"

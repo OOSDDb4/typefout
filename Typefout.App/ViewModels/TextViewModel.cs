@@ -8,30 +8,31 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class TypeViewModel : ObservableObject
+    public partial class TextViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
 
-        private int _index = 0;
-        private const int _exerciseLength = 10;
         private int _previousLength = 0;
+        private bool _firstWordCompleted = false;
 
-        [ObservableProperty] private string _targetWord;
+        [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
-        [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
 
-        public TypeViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        private string FirstWord =>
+            string.IsNullOrWhiteSpace(TargetText)
+                ? ""
+                : TargetText.Split(' ')[0];
+        public TextViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
             _trackingService = trackingService;
 
             _trackingService.Reset();
-            _index = 0;
             _previousLength = 0;
 
-            NextWord();
+            LoadText();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -39,22 +40,26 @@ namespace Typefout.App.ViewModels
             _previousLength = value?.Length ?? 0;
 
             HighlightErrors(lengthIncreased);
+            CheckFirstWordProgress();
 
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
+            if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
-                _index++;
+                ShowResults();
+            }
+        }
+        private void CheckFirstWordProgress()
+        {
+            if (string.IsNullOrEmpty(InputText))
+                return;
 
-                if (_index >= _exerciseLength)
-                {
-                    ShowResults();
-                    return;
-                }
-                NextWord();
+            if (InputText.StartsWith(FirstWord))
+            {
+                _firstWordCompleted = true;
             }
         }
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt de tekst getypt!", "OK");
 
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
@@ -64,16 +69,10 @@ namespace Typefout.App.ViewModels
         {
             FormattedString formattedString = new FormattedString();
 
-            if (string.IsNullOrEmpty(InputText))
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                HighlightedText = formattedString;
-                return;
-            }
-
-            for (int i = 0; i < InputText.Length; i++)
-            {
-                char typedChar = InputText[i];
-                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+                char typedChar = _inputText[i];
+                char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
                 {
@@ -91,7 +90,7 @@ namespace Typefout.App.ViewModels
                 if (lastIndex >= 0)
                 {
                     char typedChar = InputText[lastIndex];
-                    char correctChar = lastIndex < TargetWord.Length ? TargetWord[lastIndex] : '?';
+                    char correctChar = lastIndex < TargetText.Length ? TargetText[lastIndex] : '?';
 
                     if (correctChar != '?')
                     {
@@ -108,18 +107,16 @@ namespace Typefout.App.ViewModels
             });
 
             HighlightedText = formattedString;
-
         }
 
         [RelayCommand]
-        private async void NextWord()
+        private async void LoadText()
         {
             InputText = string.Empty;
-            IsCompleted = false;
             _previousLength = 0;
 
-            TypingExerciseText text = await _aiService.GetExerciseTextAsync("word");
-            TargetWord = text.Text;
+            TypingExerciseText text = await _aiService.GetExerciseTextAsync("text");
+            TargetText = text.Text;
 
             HighlightedText = new FormattedString();
 
@@ -134,18 +131,17 @@ namespace Typefout.App.ViewModels
         private async void StopExercise()
         {
             bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
-            if (answer)
+            if (!answer)
+                return;
+
+            if (_firstWordCompleted)
             {
-                if (_index == 0)
-                {
-                    await Shell.Current.Navigation.PopAsync();
-                    return;
-                }
-                else
-                {
-                    ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
-                    await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-                }
+                ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+            }
+            else
+            {
+                await Shell.Current.Navigation.PopAsync();
             }
         }
     }
