@@ -15,7 +15,7 @@ namespace Typefout.App.ViewModels
 
         private int _previousLength = 0;
         private bool _firstWordCompleted = false;
-        
+
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
@@ -51,7 +51,7 @@ namespace Typefout.App.ViewModels
         {
             if (string.IsNullOrEmpty(InputText))
                 return;
-            
+
             if (InputText.StartsWith(FirstWord))
             {
                 _firstWordCompleted = true;
