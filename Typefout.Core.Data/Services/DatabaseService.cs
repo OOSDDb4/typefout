@@ -19,7 +19,6 @@ public class DatabaseService : IDatabaseService
         // Getting the database credentials from the .env file
         Trace.WriteLine("Database service initialized");
         EnvService.Load();
-
         _databaseHost = EnvService.Get("DATABASE_HOST");
         _databaseUser = EnvService.Get("DATABASE_USER");
         _databasePassword = EnvService.Get("DATABASE_PASSWORD");
@@ -72,7 +71,7 @@ public class DatabaseService : IDatabaseService
 
     public void Read()
     {
-        
+        throw new NotImplementedException();
     }
 
     public void Update()
