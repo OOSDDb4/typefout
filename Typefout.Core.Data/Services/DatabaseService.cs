@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Typefout.Core.Interfaces;
 using System.Data;
 using MySqlConnector;
+using Typefout.Core.Interfaces;
 
 namespace Typefout.Core.Data.Services;
 
