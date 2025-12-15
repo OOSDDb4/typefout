@@ -11,23 +11,23 @@ public class DataBaseTest
     {
         // Arrange
         IDatabaseService databaseService = new DatabaseService();
-        
+
         // Act
         int result = databaseService.Connect();
-        
+
         // Assert
         Assert.Equal(202, result);
     }
-    
+
     [Fact]
     public void DatabaseConnectionGiveNoErrorTest()
     {
         // Arrange
         IDatabaseService databaseService = new DatabaseService();
-        
+
         // Act
         int result = databaseService.Connect();
-        
+
         // Assert
         Assert.NotEqual(500, result);
     }
@@ -38,10 +38,10 @@ public class DataBaseTest
         // Arrange
         int a = 2;
         int b = 3;
-        
+
         // Act
         int result = a + b;
-        
+
         // Assert
         Assert.Equal(5, result);
     }
