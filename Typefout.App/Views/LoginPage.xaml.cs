@@ -10,10 +10,6 @@ public partial class LoginPage : ContentPage
         BindingContext = vm;
     }
 
-    private async void InlogButtonClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new OefeningenMenuPage());
-    }
 
     private void OnEyeIconTapped(object sender, EventArgs e)
     {

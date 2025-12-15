@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
+using Typefout.Core.Services;
 using Typefout.Core.Data.Services;
+using Typefout.Core.Data.Repo;
 using Typefout.Core.Interfaces;
 
 namespace Typefout.App;
@@ -25,6 +27,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IAiService, AiService>();
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
+        builder.Services.AddSingleton<IAuthService, AuthService>();
+        builder.Services.AddSingleton<IUserRepo, UserRepo>();
 
         builder.Services.AddTransient<LoginPageViewModel>();
         builder.Services.AddTransient<TypeViewModel>();
