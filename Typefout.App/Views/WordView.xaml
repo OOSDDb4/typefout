@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
-             x:Class="Typefout.App.Views.TypeView"
+             x:Class="Typefout.App.Views.WordView"
              BackgroundColor="White">
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
@@ -92,9 +97,9 @@
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
+                
             </Grid>
         </Border>
-
         <VerticalStackLayout Spacing="8"
                              HorizontalOptions="Center"
                              VerticalOptions="Center">
