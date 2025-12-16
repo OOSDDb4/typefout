@@ -1,5 +1,3 @@
-using System.Data;
-using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
@@ -18,15 +16,29 @@ public partial class OefeningenMenuPage : ContentPage
         InitializeComponent();
     }
 
-    private async void Oefening1_Clicked(object sender, EventArgs e)
+    private async void WordExersiceClicked(object sender, EventArgs e)
     {
-        TypeViewModel vm = App.Services.GetRequiredService<TypeViewModel>();
-        await Navigation.PushAsync(new TypeView(vm));
+        WordViewModel vm = App.Services.GetRequiredService<WordViewModel>();
+        await Navigation.PushAsync(new WordView(vm));
     }
 
-    private async void Oefening2_Clicked(object sender, EventArgs e)
+    private async void SentenceExersiceClicked(object sender, EventArgs e)
     {
         SentenceViewModel vm = App.Services.GetRequiredService<SentenceViewModel>();
         await Navigation.PushAsync(new SentenceView(vm));
     }
+
+    private async void OnNavigateButtonClicked(object sender, EventArgs e)
+    {
+        TeacherPage detailPage = new TeacherPage();
+
+        await Navigation.PushAsync(detailPage);
+    }
+    private async void TextExersiceClicked(object sender, EventArgs e)
+    {
+        TextViewModel vm = App.Services.GetRequiredService<TextViewModel>();
+        await Navigation.PushAsync(new TextView(vm));
+    }
+
+
 }

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<!-- MAIN PROPERTY GROUP (Hier hoef je niets aan te doen) -->
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
@@ -27,50 +26,64 @@
 		<UserSecretsId>467898dc-c6af-4c61-bc20-4f7facc1592c</UserSecretsId>
 	</PropertyGroup>
 
-	<!-- WINDOWS-SPECIFIC SETTINGS (GECORRIGEERD) -->
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- TYPO GEREPAREERD: Msix i.p.v. Mxis -->
-		<EnableMsixTooling>true</EnableMsixTooling>
-
-		<!-- AANBEVOLEN: Zet dit op MSIX voor development, tenzij je echt unpackaged wilt -->
-		<WindowsPackageType>None</WindowsPackageType>
-
-		<OutputType>WinExe</OutputType>
+    <!-- WINDOWS-SPECIFIC SETTINGS -->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+        <WindowsPackageType>None</WindowsPackageType>
+        <OutputType>WinExe</OutputType>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <SelfContained>true</SelfContained>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <publishReadyToRun>false</publishReadyToRun>
-	</PropertyGroup>
+        <PublishReadyToRun>false</PublishReadyToRun>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-		<MauiFont Include="Resources\Fonts\*" />
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
+    <ItemGroup>
+        <!-- App Icon -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
+        <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*" />
+        <!-- Raw Assets -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
         <PackageReference Include="MySqlConnector" Version="2.5.0" />
         <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-	</ItemGroup>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Typefout.Core.Data\Typefout.Core.Data.csproj" />
+        <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
+    </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Typefout.Core.Data\Typefout.Core.Data.csproj" />
-		<ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<Compile Update="Views\StudentsContentView.xaml.cs">
+		  <DependentUpon>StudentsContentView.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Views\TypeView.xaml.cs">
 			<DependentUpon>TypeView.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Views\SchoolContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\StudentsContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\TeacherPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\TypeView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
