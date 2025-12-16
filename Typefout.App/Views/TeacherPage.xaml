@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views" 
+             x:Class="Typefout.App.Views.TeacherPage" 
+             BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <Style x:Key="MenuItemStyle" TargetType="Border">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 0"/>
+            <Setter Property="Margin" Value="0, 0, 0, 1"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="MaximumWidthRequest" Value="200"/>
+        </Style>
+
+        <Style x:Key="ActiveMenuItemStyle" TargetType="Border" BasedOn="{StaticResource MenuItemStyle}">
+            <Setter Property="BackgroundColor" Value="#CCCCFF"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="200, *">
+
+        <ScrollView Grid.Column="0" BackgroundColor="#E0E0E0">
+            <StackLayout Padding="15, 30, 15, 30" Spacing="1">
+
+                <StackLayout Orientation="Horizontal" Spacing="10" Margin="0, 0, 0, 20">
+                </StackLayout>
+
+                <Border x:Name="SchoolMenuButton" Style="{StaticResource ActiveMenuItemStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuItem_Tapped" CommandParameter="School" />
+                    </Border.GestureRecognizers>
+                    <Label Text="School" VerticalOptions="Center" TextColor="Black" />
+                </Border>
+
+                <Border x:Name="GroepenMenuButton" Style="{StaticResource MenuItemStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuItem_Tapped" CommandParameter="Groepen" />
+                    </Border.GestureRecognizers>
+                    <Label Text="Groepen" VerticalOptions="Center" TextColor="Black" />
+                </Border>
+
+                <Border x:Name="StudentsMenuButton" Style="{StaticResource MenuItemStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuItem_Tapped" CommandParameter="Students" />
+                    </Border.GestureRecognizers>
+                    <Label Text="Leerlingen" VerticalOptions="Center" TextColor="Black" />
+                </Border>
+
+                <Border x:Name="InstellingenMenuButton" Style="{StaticResource MenuItemStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuItem_Tapped" CommandParameter="Instellingen" />
+                    </Border.GestureRecognizers>
+                    <Label Text="Instellingen" VerticalOptions="Center" TextColor="Black" />
+                </Border>
+
+            </StackLayout>
+        </ScrollView>
+
+        <StackLayout Grid.Column="1" Padding="40, 20, 40, 20">
+
+            <Label x:Name="PageTitleLabel" 
+                   Text="School" 
+                   FontSize="36" 
+                   FontAttributes="Bold" 
+                   Margin="0, 0, 0, 30" 
+                   HorizontalOptions="Center"/>
+
+            <ContentView x:Name="ContentPlaceholder" VerticalOptions="FillAndExpand">
+                <local:SchoolContentView />
+            </ContentView>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>

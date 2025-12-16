@@ -1,4 +1,4 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Typefout.App.Views.OefeningenMenuPage"
              BackgroundColor="White">
@@ -27,9 +27,15 @@
         </Style>
 
     </ContentPage.Resources>
-    <Grid RowDefinitions="Auto, *" Padding="30">
 
-        <Label Grid.Row="0" 
+    <Grid RowDefinitions="Auto, Auto, *" Padding="30">
+        <!--Tijdelijke button voor TeacherPage-->
+        <Button Grid.Row="0"
+                Text="TeacherPage"
+                Clicked="OnNavigateButtonClicked"
+                Margin="0, 0, 0, 20" />
+
+        <Label Grid.Row="1" 
                Text="Kies een oefening" 
                FontSize="32" 
                FontAttributes="Bold" 
@@ -37,13 +43,12 @@
                HorizontalOptions="Center" 
                Margin="0,20,0,50"/>
 
-        <HorizontalStackLayout Grid.Row="1" 
+        <HorizontalStackLayout Grid.Row="2"
                                HorizontalOptions="Center" 
                                VerticalOptions="Start" 
                                Spacing="30">
 
             <Border Style="{StaticResource CardStyle}">
-
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="WordExersiceClicked" />
                 </Border.GestureRecognizers>
@@ -60,6 +65,7 @@
                                 </LinearGradientBrush>
                             </Ellipse.Stroke>
                         </Ellipse>
+
                         <Ellipse WidthRequest="115" HeightRequest="115">
                             <Ellipse.Fill>
                                 <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
@@ -70,9 +76,9 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <Ellipse WidthRequest="180" HeightRequest="60" 
-                             StrokeThickness="5" Rotation="-25"
-                             Fill="Transparent"
-                             InputTransparent="True">
+                                 StrokeThickness="5" Rotation="-25"
+                                 Fill="Transparent"
+                                 InputTransparent="True">
                             <Ellipse.Stroke>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#CC9900" Offset="0.0" />
@@ -113,6 +119,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                     </Grid>
                     <Label Grid.Row="1" Text="Zinnen" Style="{StaticResource CardTitle}"/>
                 </Grid>
