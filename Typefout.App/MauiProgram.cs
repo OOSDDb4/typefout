@@ -26,6 +26,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<IAiService, AiService>();
+        builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<IUserRepo, UserRepo>();

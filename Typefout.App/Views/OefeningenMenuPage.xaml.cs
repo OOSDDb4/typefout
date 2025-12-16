@@ -1,13 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
+using Typefout.Core;
+using Typefout.Core.Data.Services;
+using Typefout.Core.Interfaces;
 
 namespace Typefout.App.Views;
 
 public partial class OefeningenMenuPage : ContentPage
 {
+    private IDatabaseService _databaseService;
     public OefeningenMenuPage()
     {
+        _databaseService = new DatabaseService();
         InitializeComponent();
     }
 
