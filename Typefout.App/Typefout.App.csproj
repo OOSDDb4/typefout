@@ -64,12 +64,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Views\StudentsContentView.xaml.cs">
+		  <DependentUpon>StudentsContentView.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Views\TypeView.xaml.cs">
 			<DependentUpon>TypeView.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Views\SchoolContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\StudentsContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\TeacherPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\TypeView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
