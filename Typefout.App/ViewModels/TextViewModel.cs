@@ -49,7 +49,6 @@ namespace Typefout.App.ViewModels
             {
                 ShowResults();
             });
-            
         }
         partial void OnInputTextChanged(string value)
         {

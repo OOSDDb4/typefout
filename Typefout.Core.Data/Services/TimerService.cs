@@ -8,7 +8,7 @@ namespace Typefout.Core.Data.Services;
 public class TimerService(int timerLength) : ITimerService
 {
     private Timer _timer = new();
-    private TimeSpan  _remainingTime = TimeSpan.FromSeconds(timerLength);
+    private TimeSpan _remainingTime = TimeSpan.FromSeconds(timerLength);
     public event EventHandler? Tick;
     public event EventHandler? Finished;
 
@@ -39,5 +39,4 @@ public class TimerService(int timerLength) : ITimerService
     {
         return _remainingTime.ToString(@"mm\:ss");
     }
-    
 }

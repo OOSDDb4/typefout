@@ -8,12 +8,10 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    
     public partial class WordViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-        
         private int _index = 0;
         private const int _exerciseLength = 10;
         private const int _exerciseTime = 30; // seconds
@@ -30,12 +28,10 @@ namespace Typefout.App.ViewModels
         {
             _aiService = aiService;
             _trackingService = trackingService;
-
             _trackingService.Reset();
             _index = 0;
             _previousLength = 0;
             NextWord();
-            
             _timerService.Tick += UpdateTimerText;
             _timerService.Finished += OnTimerFinished;
             _timerService.Start();
@@ -69,7 +65,6 @@ namespace Typefout.App.ViewModels
             {
                 ShowResults();
             });
-            
         }
         private async void ShowResults()
         {
@@ -78,7 +73,6 @@ namespace Typefout.App.ViewModels
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
-
         private void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
@@ -127,9 +121,7 @@ namespace Typefout.App.ViewModels
             });
 
             HighlightedText = formattedString;
-
         }
-
         [RelayCommand]
         private async void NextWord()
         {
@@ -167,7 +159,5 @@ namespace Typefout.App.ViewModels
                 }
             }
         }
-
-
     }
 }

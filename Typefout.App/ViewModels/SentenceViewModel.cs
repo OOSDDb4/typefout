@@ -65,12 +65,10 @@ namespace Typefout.App.ViewModels
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
-        
         private void UpdateTimerText(object sender, EventArgs eventArgs)
         {
             TimerText = _timerService.TimeToString();
         }
-        
         private void OnTimerFinished(object sender, EventArgs eventArgs)
         {
             MainThread.BeginInvokeOnMainThread(() =>
@@ -79,7 +77,6 @@ namespace Typefout.App.ViewModels
             });
             
         }
-
         private void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
