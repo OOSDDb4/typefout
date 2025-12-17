@@ -1,18 +1,19 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls;
 using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
+using Microsoft.Maui.Dispatching;
 
 namespace Typefout.App.ViewModels
 {
+    
     public partial class WordViewModel : ObservableObject
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-
+        private IDispatcherTimer _timer;
+        private TimeSpan _remainingTime;
         private int _index = 0;
         private const int _exerciseLength = 10;
         private int _previousLength = 0;
@@ -21,9 +22,12 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
+        [ObservableProperty] private string _timerText = "01:00";
 
         public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
+            
+            
             _aiService = aiService;
             _trackingService = trackingService;
 
@@ -147,6 +151,33 @@ namespace Typefout.App.ViewModels
                     await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
                 }
             }
+        }
+        private void StartTimer(object sender, EventArgs e)
+        {
+            _remainingTime = TimeSpan.FromSeconds(60); // 1-minute exercise
+
+            _timer?.Stop();
+
+            _timer = Application.Current.Dispatcher.CreateTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += OnTimerTick;
+            _timer.Start();
+        }
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            _remainingTime -= TimeSpan.FromSeconds(1);
+            UpdateTimerLabel();
+
+            if (_remainingTime.TotalSeconds <= 0)
+            {
+                _timer.Stop();
+                _timerText = "Time's up!";
+                ShowResults();
+            }
+        }
+        private void UpdateTimerLabel()
+        {
+            _timerText = _remainingTime.ToString(@"mm\:ss");
         }
     }
 }

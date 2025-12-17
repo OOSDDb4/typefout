@@ -33,17 +33,20 @@
 
         <Grid Padding="0,0,0,20" VerticalOptions="Start" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width= "900"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width= "700"/>
+                <ColumnDefinition Width= "*"/>
             </Grid.ColumnDefinitions>
-            <VerticalStackLayout Grid.Column="0" Spacing="5">
-                <Label Text="Typefout"
-                       FontSize="48"
-                       HorizontalOptions="Start"
-                       FontAttributes="Bold"
-                       TextColor="Black"/>
-            </VerticalStackLayout>
-            <Button Grid.Column="1"
+            <Label Grid.Column="0" Text="Typefout"
+                   FontSize="48"
+                   HorizontalOptions="Start"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Grid.Column="1" Text="1:00"
+                                  FontSize="20"
+                                  HorizontalOptions="Center"
+                                  TextColor="Black"/>
+            <Button Grid.Column="2"
                     Text="Stoppen"
                     VerticalOptions="Start"
                     HorizontalOptions="End"

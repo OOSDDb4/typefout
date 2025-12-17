@@ -32,14 +32,14 @@ public static class MauiProgram
         builder.Services.AddSingleton<IUserRepo, UserRepo>();
 
         builder.Services.AddTransient<LoginPageViewModel>();
-        builder.Services.AddTransient<TypeViewModel>();
+       // builder.Services.AddTransient<TypeViewModel>();
         builder.Services.AddTransient<WordViewModel>();
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<ResultsViewModel>();
         builder.Services.AddTransient<TextViewModel>();
 
         builder.Services.AddTransient<LoginPage>();
-        builder.Services.AddTransient<TypeView>();
+        //builder.Services.AddTransient<TypeView>();
         builder.Services.AddTransient<TextView>();
         builder.Services.AddTransient<WordView>();
         builder.Services.AddTransient<SentenceView>();
