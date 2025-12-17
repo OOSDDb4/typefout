@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls;
 using Typefout.App.Views;
+using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -12,14 +13,15 @@ namespace Typefout.App.ViewModels
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-
+        private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
         private bool _firstWordCompleted = false;
+        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
-
+        [ObservableProperty] private string _timerText = _exerciseTime.ToString(@"mm\:ss");
         private string FirstWord =>
             string.IsNullOrWhiteSpace(TargetText)
                 ? ""
@@ -33,6 +35,20 @@ namespace Typefout.App.ViewModels
             _previousLength = 0;
 
             LoadText();
+            _timerService.Tick += UpdateTimerText;
+            _timerService.Finished += OnTimerFinished;
+            _timerService.Start();
+        }
+        private void UpdateTimerText(object sender, EventArgs eventArgs)
+        {
+            TimerText = _timerService.TimeToString();
+        }
+        private void OnTimerFinished(object sender, EventArgs eventArgs)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ShowResults();
+            });
         }
         partial void OnInputTextChanged(string value)
         {
