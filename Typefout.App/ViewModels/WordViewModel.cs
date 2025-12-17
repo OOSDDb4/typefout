@@ -1,9 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Typefout.App.Views;
+using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
-using Microsoft.Maui.Dispatching;
+
 
 namespace Typefout.App.ViewModels
 {
@@ -12,12 +13,12 @@ namespace Typefout.App.ViewModels
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-        private IDispatcherTimer _timer;
-        private TimeSpan _remainingTime;
+        
         private int _index = 0;
         private const int _exerciseLength = 10;
-        private const int _exerciseTime = 60; // seconds
+        private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
+        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
 
         [ObservableProperty] private string _targetWord;
         [ObservableProperty] private string _inputText;
@@ -34,7 +35,10 @@ namespace Typefout.App.ViewModels
             _index = 0;
             _previousLength = 0;
             NextWord();
-            StartTimer();
+            
+            _timerService.Tick += UpdateTimerText;
+            _timerService.Finished += OnTimerFinished;
+            _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -54,6 +58,18 @@ namespace Typefout.App.ViewModels
                 }
                 NextWord();
             }
+        }
+        private void UpdateTimerText(object sender, EventArgs eventArgs)
+        {
+            TimerText = _timerService.TimeToString();
+        }
+        private void OnTimerFinished(object sender, EventArgs eventArgs)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ShowResults();
+            });
+            
         }
         private async void ShowResults()
         {
@@ -151,31 +167,7 @@ namespace Typefout.App.ViewModels
                 }
             }
         }
-        private void StartTimer()
-        {
-            _remainingTime = TimeSpan.FromSeconds(_exerciseTime);
 
-            _timer?.Stop();
 
-            _timer = Application.Current.Dispatcher.CreateTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += OnTimerTick;
-            _timer.Start();
-        }
-        private void OnTimerTick(object sender, EventArgs e)
-        {
-            _remainingTime -= TimeSpan.FromSeconds(1);
-            UpdateTimerLabel();
-
-            if (_remainingTime.TotalSeconds <= 0)
-            {
-                _timer.Stop();
-                ShowResults();
-            }
-        }
-        private void UpdateTimerLabel()
-        {
-            TimerText = _remainingTime.ToString(@"mm\:ss");
-        }
     }
 }
