@@ -75,7 +75,6 @@ namespace Typefout.App.ViewModels
             {
                 ShowResults();
             });
-            
         }
         private void HighlightErrors(bool registerLastChar)
         {
