@@ -33,18 +33,19 @@
 
         <Grid Padding="0,0,0,20" VerticalOptions="Start" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width= "700"/>
+                <ColumnDefinition Width="220"/>
                 <ColumnDefinition Width= "*"/>
+                <ColumnDefinition Width= "220"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Text="Typefout"
                    FontSize="48"
                    HorizontalOptions="Start"
                    FontAttributes="Bold"
                    TextColor="Black"/>
-            <Label Grid.Column="1" Text="1:00"
+            <Label Grid.Column="1" Text="{Binding TimerText}"
                                   FontSize="20"
                                   HorizontalOptions="Center"
+                                  VerticalOptions="Start"
                                   TextColor="Black"/>
             <Button Grid.Column="2"
                     Text="Stoppen"

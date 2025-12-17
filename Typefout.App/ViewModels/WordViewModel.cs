@@ -16,26 +16,25 @@ namespace Typefout.App.ViewModels
         private TimeSpan _remainingTime;
         private int _index = 0;
         private const int _exerciseLength = 10;
+        private const int _exerciseTime = 60; // seconds
         private int _previousLength = 0;
 
         [ObservableProperty] private string _targetWord;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText = "01:00";
+        [ObservableProperty] private string _timerText = _exerciseTime.ToString(@"mm\:ss");
 
         public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
-            
-            
             _aiService = aiService;
             _trackingService = trackingService;
 
             _trackingService.Reset();
             _index = 0;
             _previousLength = 0;
-
             NextWord();
+            StartTimer();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -152,9 +151,9 @@ namespace Typefout.App.ViewModels
                 }
             }
         }
-        private void StartTimer(object sender, EventArgs e)
+        private void StartTimer()
         {
-            _remainingTime = TimeSpan.FromSeconds(60); // 1-minute exercise
+            _remainingTime = TimeSpan.FromSeconds(_exerciseTime);
 
             _timer?.Stop();
 
@@ -171,13 +170,12 @@ namespace Typefout.App.ViewModels
             if (_remainingTime.TotalSeconds <= 0)
             {
                 _timer.Stop();
-                _timerText = "Time's up!";
                 ShowResults();
             }
         }
         private void UpdateTimerLabel()
         {
-            _timerText = _remainingTime.ToString(@"mm\:ss");
+            TimerText = _remainingTime.ToString(@"mm\:ss");
         }
     }
 }
