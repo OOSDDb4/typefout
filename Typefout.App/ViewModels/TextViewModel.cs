@@ -1,7 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls;
 using Typefout.App.Views;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
@@ -21,7 +19,7 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText = _exerciseTime.ToString(@"mm\:ss");
+        [ObservableProperty] private string _timerText;
         private string FirstWord =>
             string.IsNullOrWhiteSpace(TargetText)
                 ? ""
@@ -39,16 +37,13 @@ namespace Typefout.App.ViewModels
             _timerService.Finished += OnTimerFinished;
             _timerService.Start();
         }
-        private void UpdateTimerText(object sender, EventArgs eventArgs)
+        private void UpdateTimerText(object? sender, EventArgs eventArgs)
         {
             TimerText = _timerService.TimeToString();
         }
-        private void OnTimerFinished(object sender, EventArgs eventArgs)
+        private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowResults();
-            });
+            MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         partial void OnInputTextChanged(string value)
         {
