@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Typefout.Core.Models;
 
@@ -9,10 +6,16 @@ namespace Typefout.Core.Interfaces
 {
     public interface IUserRepo
     {
-        public User? GetUser(string username);
-        public User? GetUserById(int id);
-        public User? GetMail(string mail);
+        User? GetUser(string username);
+        User? GetMail(string mail);
+        User? GetUserById(int id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User?> GetByIdAsync(int userId);
+        Task<IEnumerable<User>> GetTeachersBySchoolIdAsync(int schoolId);
+        Task<IEnumerable<User>> GetStudentsByGroupIdAsync(int groupId);
 
-        public List<User> GetAllUsers();
+        Task CreateAsync(User user);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int userId);
     }
 }
