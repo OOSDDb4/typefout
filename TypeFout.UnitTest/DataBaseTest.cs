@@ -33,6 +33,48 @@ public class DataBaseTest
     }
 
     [Fact]
+    public void DatabaseCreateTest()
+    {
+        // Arrange
+        IDatabaseService databaseService = new DatabaseService();
+
+        // Act
+        databaseService.Connect();
+        databaseService.Open();
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            { "testWord", "UnitTest" },
+            { "testInt", 123 }
+        };
+        int result = databaseService.Create("test", data);
+        databaseService.Close();
+
+        // Assert
+        Assert.Equal(202, result);
+    }
+
+    [Fact]
+    public void DatabaseCreateTableDoesNotExistTest()
+    {
+        // Arrange
+        IDatabaseService databaseService = new DatabaseService();
+
+        // Act
+        databaseService.Connect();
+        databaseService.Open();
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            { "testword", "hallo" },
+            { "testInt", 42 }
+        };
+        int result = databaseService.Create("NoTable", data);
+        databaseService.Close();
+
+        // Assert
+        Assert.Equal(500, result);
+    }
+
+    [Fact]
     public void Sanity_Check_ShoudlAlwayPass()
     {
         // Arrange
