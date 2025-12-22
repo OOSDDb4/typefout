@@ -1,0 +1,108 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.AddUserPage">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40">
+
+            <Label Text="Gebruiker toevoegen"
+                   FontSize="28"
+                   TextColor="Black"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F0F0F0" Padding="30" Margin="0,20">
+
+                <VerticalStackLayout Spacing="25">
+
+                    <Label Text="Soort gebruiker:"
+                           FontSize="18"
+                           TextColor="Black"/>
+
+                    <HorizontalStackLayout Spacing="20">
+                        <RadioButton Content="Leerling"
+                                     GroupName="UserType"
+                                     TextColor="Black"
+                                     IsChecked="{Binding IsStudentSelected}" />
+
+                        <RadioButton Content="Docent"
+                                     GroupName="UserType"
+                                     TextColor="Black"
+                                     IsChecked="{Binding IsTeacherSelected}" />
+                    </HorizontalStackLayout>
+
+                    <!-- LEERLING -->
+                    <VerticalStackLayout Spacing="15"
+                                         IsVisible="{Binding IsStudentSelected}">
+
+                        <Label Text="Leerling"
+                               FontSize="20"
+                               TextColor="Black"/>
+
+                        <Entry Placeholder="Gebruikersnaam"
+                               TextColor="Black"
+                               Text="{Binding StudentUsername}" />
+
+                        <Entry Placeholder="Wachtwoord"
+                               IsPassword="True"
+                               TextColor="Black"
+                               Text="{Binding StudentPassword}" />
+
+                        <Entry Placeholder="Wachtwoord herhalen"
+                               IsPassword="True"
+                               TextColor="Black"
+                               Text="{Binding StudentPasswordRepeat}" />
+
+                        <Picker Title="Groep"
+                                ItemsSource="{Binding Groups}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedGroup}"
+                                TextColor="Black"/>
+
+                        <Button Text="Aanmaken"
+                                BackgroundColor="#9B8CF2"
+                                TextColor="Black"
+                                Command="{Binding CreateStudentCommand}" />
+                    </VerticalStackLayout>
+
+                    <!-- DOCENT -->
+                    <VerticalStackLayout Spacing="15"
+                                         IsVisible="{Binding IsTeacherSelected}">
+
+                        <Label Text="Docent"
+                               FontSize="20"
+                               TextColor="Black"/>
+
+                        <Entry Placeholder="Gebruikersnaam"
+                               TextColor="Black"
+                               Text="{Binding TeacherUsername}" />
+
+                        <Entry Placeholder="Email"
+                               TextColor="Black"
+                               Text="{Binding TeacherEmail}" />
+
+                        <Entry Placeholder="Wachtwoord"
+                               IsPassword="True"
+                               TextColor="Black"
+                               Text="{Binding TeacherPassword}" />
+
+                        <Entry Placeholder="Wachtwoord herhalen"
+                               IsPassword="True"
+                               TextColor="Black"
+                               Text="{Binding TeacherPasswordRepeat}" />
+
+                        <Button Text="Aanmaken"
+                                BackgroundColor="#9B8CF2"
+                                TextColor="Black"
+                                Command="{Binding CreateTeacherCommand}" />
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+</ContentPage>

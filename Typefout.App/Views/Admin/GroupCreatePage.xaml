@@ -1,0 +1,37 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.GroupCreatePage">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40">
+
+            <Label Text="Groep Aanmaken"
+                   FontSize="28"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F0F0F0" Padding="30">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Entry Placeholder="Docent"
+                           TextColor="Black"
+                           Text="{Binding TeacherName}" />
+
+                    <Entry Placeholder="Groepsnaam"
+                           TextColor="Black"
+                           Text="{Binding GroupName}" />
+
+                    <Button Text="Aanmaken"
+                            BackgroundColor="#9B8CF2"
+                            TextColor="Black"
+                            Command="{Binding CreateGroupCommand}" />
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+</ContentPage>

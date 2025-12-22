@@ -1,0 +1,186 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.SchoolInfoPage">
+
+    <local:AdminNavigationView>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="40" Spacing="25">
+
+                <Label Text="School info"
+                       FontSize="28"
+                       TextColor="Black"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="{Binding SchoolName}"
+                       FontSize="22"
+                       TextColor="Black"
+                       HorizontalOptions="Center"/>
+
+                <Frame BackgroundColor="#F0F0F0" Padding="25">
+
+                    <VerticalStackLayout Spacing="35">
+
+                        <!-- USERS -->
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Gebruikers"
+                                   FontSize="20"
+                                   TextColor="Black"/>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  ColumnSpacing="12">
+
+                                <Entry Grid.Column="0"
+                                       WidthRequest="220"
+                                       Placeholder="Naam zoeken"
+                                       Text="{Binding SearchText}"
+                                       TextColor="Black"/>
+
+                                <Button Grid.Column="2"
+                                        Text="Gebruiker toevoegen"
+                                        Command="{Binding AddUserCommand}"
+                                        BackgroundColor="#9B8CF2"
+                                        TextColor="Black"/>
+                            </Grid>
+
+                            <!-- USERS HEADER -->
+                            <Grid ColumnDefinitions="*,*,*,Auto"
+                                  Padding="10"
+                                  BackgroundColor="#E0E0E0">
+
+                                <Label Text="Naam" TextColor="Black"/>
+                                <Label Grid.Column="1" Text="Type" TextColor="Black"/>
+                                <Label Grid.Column="2" Text="Groep" TextColor="Black"/>
+                                <Label Grid.Column="3" Text="Actie" TextColor="Black"/>
+                            </Grid>
+
+                            <!-- USERS LIST -->
+                            <CollectionView ItemsSource="{Binding Users}"
+                                            HeightRequest="260">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,*,*,Auto"
+                                              Padding="10">
+
+                                            <Label Text="{Binding Username}"
+                                                   TextColor="Black"/>
+
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding UserType}"
+                                                   TextColor="Black"/>
+
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding GroupName}"
+                                                   TextColor="Black"/>
+
+                                            <Button Grid.Column="3"
+                                                    Text="Wijzigen"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                              Path=BindingContext.EditUserCommand}"
+                                                    CommandParameter="{Binding}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <HorizontalStackLayout HorizontalOptions="Center"
+                                                   Spacing="40">
+
+                                <Button Text="Vorige"
+                                        Command="{Binding PreviousUserPageCommand}"/>
+
+                                <Label Text="{Binding UserPageText}"
+                                       TextColor="Black"
+                                       VerticalOptions="Center"/>
+
+                                <Button Text="Volgende"
+                                        Command="{Binding NextUserPageCommand}"/>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+                        <!-- GROUPS -->
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Groepen"
+                                   FontSize="20"
+                                   TextColor="Black"/>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  ColumnSpacing="12">
+
+                                <Entry Grid.Column="0"
+                                       WidthRequest="220"
+                                       Placeholder="Groep zoeken"
+                                       TextColor="Black"/>
+
+                                <Button Grid.Column="2"
+                                        Text="Groep toevoegen"
+                                        Command="{Binding AddGroupCommand}"
+                                        BackgroundColor="#9B8CF2"
+                                        TextColor="Black"/>
+                            </Grid>
+
+                            <!-- GROUP HEADER -->
+                            <Grid ColumnDefinitions="*,*,Auto"
+                                  Padding="10"
+                                  BackgroundColor="#E0E0E0">
+
+                                <Label Text="Groep" TextColor="Black"/>
+                                <Label Grid.Column="1" Text="Docent" TextColor="Black"/>
+                                <Label Grid.Column="2" Text="Actie" TextColor="Black"/>
+                            </Grid>
+
+                            <!-- GROUP LIST -->
+                            <CollectionView ItemsSource="{Binding Groups}"
+                                            HeightRequest="260">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,*,Auto"
+                                              Padding="10">
+
+                                            <Label Text="{Binding Name}"
+                                                   TextColor="Black"/>
+
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding TeacherName}"
+                                                   TextColor="Black"/>
+
+                                            <Button Grid.Column="2"
+                                                    Text="Wijzigen"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                              Path=BindingContext.EditGroupCommand}"
+                                                    CommandParameter="{Binding}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <HorizontalStackLayout HorizontalOptions="Center"
+                                                   Spacing="40">
+
+                                <Button Text="Vorige"
+                                        Command="{Binding PreviousGroupPageCommand}"/>
+
+                                <Label Text="{Binding GroupPageText}"
+                                       TextColor="Black"
+                                       VerticalOptions="Center"/>
+
+                                <Button Text="Volgende"
+                                        Command="{Binding NextGroupPageCommand}"/>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </local:AdminNavigationView>
+</ContentPage>
