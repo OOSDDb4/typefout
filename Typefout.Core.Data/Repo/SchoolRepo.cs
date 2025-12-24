@@ -18,7 +18,7 @@ namespace Typefout.Core.Data.Repo
             string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Directory.CreateDirectory(basePath);
             _filePath = Path.Combine(basePath, "schools.json");
-          
+
             if (!File.Exists(_filePath))
             {
                 File.WriteAllText(_filePath, "[]");

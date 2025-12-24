@@ -32,7 +32,7 @@ public partial class SchoolInfoViewModel : ObservableObject
 
     [ObservableProperty] private int _groupPage = 1;
     [ObservableProperty] private int _groupTotalPages = 1;
-    
+
     public string UserPageText => $"{UserPage} / {UserTotalPages}";
     public string GroupPageText => $"{GroupPage} / {GroupTotalPages}";
 
@@ -69,7 +69,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         OnPropertyChanged(nameof(GroupPageText));
     }
-    
+
     [RelayCommand]
     private async Task LoadData()
     {
@@ -115,7 +115,7 @@ public partial class SchoolInfoViewModel : ObservableObject
         ApplyUserPaging();
         ApplyGroupPaging();
     }
-    
+
     partial void OnUserSearchTextChanged(string value)
     {
         UserPage = 1;
@@ -150,7 +150,7 @@ public partial class SchoolInfoViewModel : ObservableObject
             ? _allGroups
             : _allGroups.Where(g =>
                 g.Name.Contains(GroupSearchText, StringComparison.OrdinalIgnoreCase));
-    
+
         GroupTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
         Groups.Clear();

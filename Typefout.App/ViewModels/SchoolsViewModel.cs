@@ -131,7 +131,7 @@ public partial class SchoolsViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("schoolcreate");
     }
-    
+
     [RelayCommand]
     private async Task DeleteSchool(School school)
     {
