@@ -29,11 +29,14 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto, Auto, *" Padding="30">
-        <!--Tijdelijke button voor TeacherPage-->
-        <Button Grid.Row="0"
-                Text="TeacherPage"
-                Clicked="OnNavigateButtonClicked"
-                Margin="0, 0, 0, 20" />
+        
+        <HorizontalStackLayout Grid.Row="0" Spacing="10">
+            <Button Text="TeacherPage"
+                    Clicked="OnNavigateButtonClicked" />
+
+            <Button Text="Admin"
+                    Clicked="OnAdminButtonClicked" />
+        </HorizontalStackLayout>
 
         <Label Grid.Row="1" 
                Text="Kies een oefening" 

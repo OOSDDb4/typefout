@@ -107,8 +107,13 @@ namespace Typefout.Core.Data.Repo
         public async Task DeleteAsync(int userId)
         {
             List<User> users = await LoadAsync();
-            users.RemoveAll(u => u.Id == userId);
-            await SaveAsync(users);
+
+            User? user = users.FirstOrDefault(s => s.Id == userId);
+            if (user != null)
+            {
+                users.Remove(user);
+                await SaveAsync(users);
+            }
         }
         //users
         private List<User> Load()

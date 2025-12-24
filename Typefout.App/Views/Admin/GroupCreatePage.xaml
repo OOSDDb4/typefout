@@ -15,9 +15,11 @@
 
                 <VerticalStackLayout Spacing="20">
 
-                    <Entry Placeholder="Docent"
+                    <Picker Title="Docent"
                            TextColor="Black"
-                           Text="{Binding TeacherName}" />
+                           ItemsSource="{Binding Teachers}"
+                           ItemDisplayBinding="{Binding Username}"
+                           SelectedItem="{Binding SelectedTeacher}" />
 
                     <Entry Placeholder="Groepsnaam"
                            TextColor="Black"

@@ -75,8 +75,13 @@ namespace Typefout.Core.Data.Repo
         public async Task DeleteAsync(int groupId)
         {
             List<Group> groups = await LoadAsync();
-            groups.RemoveAll(g => g.Id == groupId);
-            await SaveAsync(groups);
+
+            Group? group = groups.FirstOrDefault(s => s.Id == groupId);
+            if (group != null)
+            {
+                groups.Remove(group);
+                await SaveAsync(groups);
+            }
         }
 
         private async Task<List<Group>> LoadAsync()

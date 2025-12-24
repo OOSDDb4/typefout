@@ -24,7 +24,8 @@ public partial class SchoolInfoViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<User> _users = new();
     [ObservableProperty] private ObservableCollection<Group> _groups = new();
 
-    [ObservableProperty] private string _searchText = string.Empty;
+    [ObservableProperty] private string _userSearchText = string.Empty;
+    [ObservableProperty] private string _groupSearchText = string.Empty;
 
     [ObservableProperty] private int _userPage = 1;
     [ObservableProperty] private int _userTotalPages = 1;
@@ -114,20 +115,24 @@ public partial class SchoolInfoViewModel : ObservableObject
         ApplyUserPaging();
         ApplyGroupPaging();
     }
-
-
-    partial void OnSearchTextChanged(string value)
+    
+    partial void OnUserSearchTextChanged(string value)
     {
         UserPage = 1;
         ApplyUserPaging();
     }
+    partial void OnGroupSearchTextChanged(string value)
+    {
+        GroupPage = 1;
+        ApplyGroupPaging();
+    }
 
     private void ApplyUserPaging()
     {
-        IEnumerable<User> filtered = string.IsNullOrWhiteSpace(SearchText)
+        IEnumerable<User> filtered = string.IsNullOrWhiteSpace(UserSearchText)
             ? _allUsers
             : _allUsers.Where(u =>
-                u.Username.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+                u.Username.Contains(UserSearchText, StringComparison.OrdinalIgnoreCase));
 
         UserTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
@@ -139,13 +144,17 @@ public partial class SchoolInfoViewModel : ObservableObject
             Users.Add(user);
         }
     }
-
     private void ApplyGroupPaging()
     {
-        GroupTotalPages = Math.Max(1, (int)Math.Ceiling(_allGroups.Count / (double)_pageSize));
+        IEnumerable<Group> filtered = string.IsNullOrWhiteSpace(GroupSearchText)
+            ? _allGroups
+            : _allGroups.Where(g =>
+                g.Name.Contains(GroupSearchText, StringComparison.OrdinalIgnoreCase));
+    
+        GroupTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
         Groups.Clear();
-        foreach (Group group in _allGroups
+        foreach (Group group in filtered
                      .Skip((GroupPage - 1) * _pageSize)
                      .Take(_pageSize))
         {
@@ -198,6 +207,21 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync($"adduser?schoolId={SchoolId}");
     }
+    [RelayCommand]
+    private async Task DeleteUser(User user)
+    {
+        bool answer = await Application.Current.MainPage.DisplayAlert(
+            "Gebruiker verwijderen",
+            $"Weet je zeker dat je gebruiker '{user.Username}' wilt verwijderen?",
+            "Ja",
+            "Nee");
+
+        if (answer)
+        {
+            await _userRepo.DeleteAsync(user.Id);
+            await LoadData();
+        }
+    }
 
     [RelayCommand]
     private async Task AddGroup()
@@ -220,4 +244,20 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync($"groupedit?groupId={group.Id}");
     }
+    [RelayCommand]
+    private async Task DeleteGroup(Group group)
+    {
+        bool answer = await Application.Current.MainPage.DisplayAlert(
+            "Groep verwijderen",
+            $"Weet je zeker dat je groep '{group.Name}' wilt verwijderen?",
+            "Ja",
+            "Nee");
+
+        if (answer)
+        {
+            await _groupRepo.DeleteAsync(group.Id);
+            await LoadData();
+        }
+    }
+
 }

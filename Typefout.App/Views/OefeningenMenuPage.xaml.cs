@@ -34,6 +34,9 @@ public partial class OefeningenMenuPage : ContentPage
         TextViewModel vm = App.Services.GetRequiredService<TextViewModel>();
         await Navigation.PushAsync(new TextView(vm));
     }
-
+    private async void OnAdminButtonClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("schools");
+    }
 
 }

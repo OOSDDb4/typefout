@@ -131,6 +131,22 @@ public partial class SchoolsViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("schoolcreate");
     }
+    
+    [RelayCommand]
+    private async Task DeleteSchool(School school)
+    {
+        bool answer = await Application.Current.MainPage.DisplayAlert(
+            "School verwijderen",
+            $"Weet je zeker dat je school '{school.Name}' wilt verwijderen?",
+            "Ja",
+            "Nee");
+
+        if (answer)
+        {
+            await _schoolRepo.DeleteAsync(school.Id);
+            await LoadSchools();
+        }
+    }
 
     [RelayCommand]
     private async Task EditSchool(School school)

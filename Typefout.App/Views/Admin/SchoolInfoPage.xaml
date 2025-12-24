@@ -22,7 +22,6 @@
 
                     <VerticalStackLayout Spacing="35">
 
-                        <!-- USERS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Gebruikers"
@@ -35,7 +34,7 @@
                                 <Entry Grid.Column="0"
                                        WidthRequest="220"
                                        Placeholder="Naam zoeken"
-                                       Text="{Binding SearchText}"
+                                       Text="{Binding UserSearchText}"
                                        TextColor="Black"/>
 
                                 <Button Grid.Column="2"
@@ -45,7 +44,6 @@
                                         TextColor="Black"/>
                             </Grid>
 
-                            <!-- USERS HEADER -->
                             <Grid ColumnDefinitions="*,*,*,Auto"
                                   Padding="10"
                                   BackgroundColor="#E0E0E0">
@@ -56,14 +54,14 @@
                                 <Label Grid.Column="3" Text="Actie" TextColor="Black"/>
                             </Grid>
 
-                            <!-- USERS LIST -->
                             <CollectionView ItemsSource="{Binding Users}"
                                             HeightRequest="260">
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid ColumnDefinitions="*,*,*,Auto"
-                                              Padding="10">
+                                        <Grid ColumnDefinitions="*,*,*,Auto,Auto"
+                                              Padding="10"
+                                              ColumnSpacing="10">
 
                                             <Label Text="{Binding Username}"
                                                    TextColor="Black"/>
@@ -79,8 +77,14 @@
                                             <Button Grid.Column="3"
                                                     Text="Wijzigen"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                              Path=BindingContext.EditUserCommand}"
+                                                    Path=BindingContext.EditUserCommand}"
                                                     CommandParameter="{Binding}"/>
+                                            <Button Grid.Column="4"
+                                                    Text="Verwijderen"
+                                                    BackgroundColor="#E57373"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                    Path=BindingContext.DeleteUserCommand}"
+                                                    CommandParameter="{Binding}" />
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
@@ -102,7 +106,6 @@
 
                         </VerticalStackLayout>
 
-                        <!-- GROUPS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Groepen"
@@ -115,6 +118,7 @@
                                 <Entry Grid.Column="0"
                                        WidthRequest="220"
                                        Placeholder="Groep zoeken"
+                                       Text = "{Binding GroupSearchText}"
                                        TextColor="Black"/>
 
                                 <Button Grid.Column="2"
@@ -124,7 +128,6 @@
                                         TextColor="Black"/>
                             </Grid>
 
-                            <!-- GROUP HEADER -->
                             <Grid ColumnDefinitions="*,*,Auto"
                                   Padding="10"
                                   BackgroundColor="#E0E0E0">
@@ -134,14 +137,14 @@
                                 <Label Grid.Column="2" Text="Actie" TextColor="Black"/>
                             </Grid>
 
-                            <!-- GROUP LIST -->
                             <CollectionView ItemsSource="{Binding Groups}"
                                             HeightRequest="260">
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid ColumnDefinitions="*,*,Auto"
-                                              Padding="10">
+                                        <Grid ColumnDefinitions="*,*,Auto,Auto"
+                                              Padding="10"
+                                              ColumnSpacing="10">
 
                                             <Label Text="{Binding Name}"
                                                    TextColor="Black"/>
@@ -153,8 +156,14 @@
                                             <Button Grid.Column="2"
                                                     Text="Wijzigen"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                              Path=BindingContext.EditGroupCommand}"
+                                                    Path=BindingContext.EditGroupCommand}"
                                                     CommandParameter="{Binding}"/>
+                                            <Button Grid.Column="3"
+                                                    Text="Verwijderen"
+                                                    BackgroundColor="#E57373"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                    Path=BindingContext.DeleteGroupCommand}"
+                                                    CommandParameter="{Binding}" />
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

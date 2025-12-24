@@ -32,7 +32,6 @@
                                      IsChecked="{Binding IsTeacherSelected}" />
                     </HorizontalStackLayout>
 
-                    <!-- LEERLING -->
                     <VerticalStackLayout Spacing="15"
                                          IsVisible="{Binding IsStudentSelected}">
 
@@ -66,7 +65,6 @@
                                 Command="{Binding CreateStudentCommand}" />
                     </VerticalStackLayout>
 
-                    <!-- DOCENT -->
                     <VerticalStackLayout Spacing="15"
                                          IsVisible="{Binding IsTeacherSelected}">
 

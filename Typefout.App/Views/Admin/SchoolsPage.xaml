@@ -16,7 +16,6 @@
 
                 <VerticalStackLayout Spacing="20">
 
-                    <!-- Search + add -->
                     <Grid ColumnDefinitions="Auto,*,Auto"
                           ColumnSpacing="12">
 
@@ -33,7 +32,6 @@
                                 TextColor="Black"/>
                     </Grid>
 
-                    <!-- HEADER -->
                     <Grid ColumnDefinitions="*,*,*,Auto"
                           Padding="10"
                           BackgroundColor="#E0E0E0">
@@ -57,7 +55,6 @@
                                HorizontalTextAlignment="End"/>
                     </Grid>
 
-                    <!-- LIST -->
                     <CollectionView ItemsSource="{Binding Schools}"
                                     HeightRequest="300">
 
@@ -92,6 +89,11 @@
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
                                                                   Path=BindingContext.EditSchoolCommand}"
                                                 CommandParameter="{Binding}" />
+                                        <Button Text="Verwijderen"
+                                                BackgroundColor="#E57373"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                    Path=BindingContext.DeleteSchoolCommand}"
+                                                CommandParameter="{Binding}" />
                                     </HorizontalStackLayout>
 
                                 </Grid>
@@ -99,7 +101,6 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <!-- PAGINATION -->
                     <HorizontalStackLayout HorizontalOptions="Center"
                                            Spacing="40">
 
