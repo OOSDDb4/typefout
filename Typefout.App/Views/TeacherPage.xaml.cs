@@ -59,7 +59,8 @@ namespace Typefout.App.Views
                     PageTitleLabel.Text = "Leerlingen";
                     break;
                 case "Groepen":
-                    newContent = new Label { Text = "Groepen", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
+                    newContent = new GroupContentView();
+                    PageTitleLabel.Text = "Groepen";
                     break;
                 case "Instellingen":
                     newContent = new Label { Text = "Instellingen", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
@@ -68,8 +69,11 @@ namespace Typefout.App.Views
                     newContent = new Label { Text = $"Content voor '{pageName}' niet gevonden.", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
                     break;
             }
-
-            ContentPlaceholder.Content = newContent;
+            
+            if (newContent != null)
+            {
+                ContentPlaceholder.Content = newContent;
+            }
         }
     }
 }
