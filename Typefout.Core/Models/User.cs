@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Typefout.Core.Models
 {
@@ -11,11 +6,18 @@ namespace Typefout.Core.Models
     {
         public int Id { get; set; }
 
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
+
+        public UserType UserType { get; set; }
+
+        public int SchoolId { get; set; }
+
+        public int? GroupId { get; set; }
+        public string GroupName { get; set; } = string.Empty;
 
         public User()
         {

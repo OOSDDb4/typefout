@@ -1,0 +1,45 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.StudentCreatePage">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40">
+
+            <Label Text="Leerling Aanmaken"
+                   FontSize="28"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F0F0F0" Padding="30">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Entry Placeholder="Gebruikersnaam"
+                           Text="{Binding Username}" />
+
+                    <Entry Placeholder="Wachtwoord"
+                           IsPassword="True"
+                           Text="{Binding Password}" />
+
+                    <Entry Placeholder="Wachtwoord herhalen"
+                           IsPassword="True"
+                           Text="{Binding PasswordRepeat}" />
+
+                    <Picker Title="Groep"
+                            ItemsSource="{Binding Groups}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedGroup}" />
+
+                    <Button Text="Aanmaken"
+                            BackgroundColor="#9B8CF2"
+                            TextColor="Black"
+                            Command="{Binding CreateStudentCommand}" />
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+</ContentPage>

@@ -1,0 +1,126 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.SchoolsPage">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40" Spacing="25">
+
+            <Label Text="Scholen"
+                   FontSize="28"
+                   TextColor="Black"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F0F0F0" Padding="25">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                          ColumnSpacing="12">
+
+                        <Entry Grid.Column="0"
+                               WidthRequest="220"
+                               Placeholder="Zoeken"
+                               Text="{Binding SearchText}"
+                               TextColor="Black"/>
+
+                        <Button Grid.Column="2"
+                                Text="School toevoegen"
+                                Command="{Binding AddSchoolCommand}"
+                                BackgroundColor="#9B8CF2"
+                                TextColor="Black"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*,*,Auto"
+                          Padding="10"
+                          BackgroundColor="#E0E0E0">
+
+                        <Label Text="School"
+                               TextColor="Black"/>
+
+                        <Label Grid.Column="1"
+                               Text="Groepen"
+                               TextColor="Black"
+                               HorizontalTextAlignment="Center"/>
+
+                        <Label Grid.Column="2"
+                               Text="Leerlingen"
+                               TextColor="Black"
+                               HorizontalTextAlignment="Center"/>
+
+                        <Label Grid.Column="3"
+                               Text="Actie"
+                               TextColor="Black"
+                               HorizontalTextAlignment="End"/>
+                    </Grid>
+
+                    <CollectionView ItemsSource="{Binding Schools}"
+                                    HeightRequest="300">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="*,*,*,Auto"
+                                      Padding="10">
+
+                                    <Label Text="{Binding Name}"
+                                           TextColor="Black"/>
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding GroupCount}"
+                                           TextColor="Black"
+                                           HorizontalTextAlignment="Center"/>
+
+                                    <Label Grid.Column="2"
+                                           Text="{Binding StudentCount}"
+                                           TextColor="Black"
+                                           HorizontalTextAlignment="Center"/>
+
+                                    <HorizontalStackLayout Grid.Column="3"
+                                                           Spacing="10"
+                                                           HorizontalOptions="End">
+
+                                        <Button Text="Info"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                  Path=BindingContext.ViewInfoCommand}"
+                                                CommandParameter="{Binding}" />
+
+                                        <Button Text="Wijzigen"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                  Path=BindingContext.EditSchoolCommand}"
+                                                CommandParameter="{Binding}" />
+                                        <Button Text="Verwijderen"
+                                                BackgroundColor="#E57373"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                    Path=BindingContext.DeleteSchoolCommand}"
+                                                CommandParameter="{Binding}" />
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="40">
+
+                        <Button Text="Vorige"
+                                Command="{Binding PreviousPageCommand}"/>
+
+                        <Label Text="{Binding PageText}"
+                               TextColor="Black"
+                               VerticalOptions="Center"/>
+
+                        <Button Text="Volgende"
+                                Command="{Binding NextPageCommand}"/>
+
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+</ContentPage>

@@ -1,0 +1,35 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.SchoolEditPage">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40">
+
+            <Label Text="{Binding SchoolName}"
+                   FontSize="28"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F0F0F0" Padding="20" Margin="0,20">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Entry Placeholder="Schoolnaam"
+                           TextColor="Black"
+                           Text="{Binding SchoolName}" />
+
+                    <Button Text="Wijzigen"
+                            BackgroundColor="#9B8CF2"
+                            TextColor="Black"
+                            Command="{Binding SaveEditCommand}" />
+
+                </VerticalStackLayout>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+
+</ContentPage>
