@@ -33,17 +33,21 @@
     <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
         <Grid Padding="0,0,0,20" VerticalOptions="Start" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width= "900"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width= "*"/>
+                <ColumnDefinition Width= "220"/>
             </Grid.ColumnDefinitions>
-            <VerticalStackLayout Grid.Column="0" Spacing="5">
-                <Label Text="Typefout"
-                       FontSize="48"
-                       HorizontalOptions="Start"
-                       FontAttributes="Bold"
-                       TextColor="Black"/>
-            </VerticalStackLayout>
-            <Button Grid.Column="1"
+            <Label Grid.Column="0" Text="Typefout"
+                   FontSize="48"
+                   HorizontalOptions="Start"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Grid.Column="1" Text="{Binding TimerText}"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
+                   TextColor="Black"/>
+            <Button Grid.Column="2"
                     Text="Stoppen"
                     VerticalOptions="Start"
                     HorizontalOptions="End"
