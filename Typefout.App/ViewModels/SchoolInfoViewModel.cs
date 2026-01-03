@@ -63,7 +63,10 @@ public partial class SchoolInfoViewModel : ObservableObject
         SchoolName = school?.Name ?? string.Empty;
 
         IEnumerable<User> users = await _userRepo.GetAllAsync();
-        _allUsers = users.Where(u => u.SchoolId == SchoolId).ToList();
+        _allUsers = users
+            .Where(u => u.SchoolId == SchoolId)
+            .Where(u => u.UserType != UserType.Admin)
+            .ToList();
 
         IEnumerable<Group> groups = await _groupRepo.GetBySchoolIdAsync(SchoolId);
         _allGroups = groups.ToList();
@@ -269,7 +272,7 @@ public partial class SchoolInfoViewModel : ObservableObject
             "Status wijzigen",
             targetValue
                 ? $"Wil je het account van '{user.Username}' activeren?"
-                : $"Wil je het account van '{user.Username}' uitschakelen? (Kan niet meer inloggen)",
+                : $"Wil je het account van '{user.Username}' uitzetten? (kan niet meer inloggen)",
             "Ja",
             "Nee");
 
