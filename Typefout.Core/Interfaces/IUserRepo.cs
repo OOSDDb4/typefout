@@ -14,5 +14,6 @@ namespace Typefout.Core.Interfaces
         public User? GetMail(string mail);
 
         public List<User> GetAllUsers();
+        public void AddUser(User user);
     }
 }

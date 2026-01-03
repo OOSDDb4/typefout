@@ -19,7 +19,7 @@ namespace Typefout.Core.Data.Repo
         {
             _usersList = new List<User>
             {
-                new User { Id = 1, Username = "user1", Email = "user1@mail.com", Password = "FLeqWLF6n2rMxgeYy5aAgQ==.drm7OYTXB2dsptZcCjxje3W0Z8yqDOx5qhqXaZ4t4bs=" }
+                new User { Id = 1, Username = "user1", Email = "user1@mail.com", Password = "FLeqWLF6n2rMxgeYy5aAgQ==.drm7OYTXB2dsptZcCjxje3W0Z8yqDOx5qhqXaZ4t4bs=", Group = "None" }
             };
         }
 
@@ -45,5 +45,12 @@ namespace Typefout.Core.Data.Repo
             User? user = _usersList.FirstOrDefault(c => c.Id == id);
             return user;
         }
+
+        public void AddUser(User user)
+        {
+            user.Id = _usersList.Count > 0 ? _usersList.Max(u => u.Id) + 1 : 1;
+            _usersList.Add(user);
+        }
+
     }
 }

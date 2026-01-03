@@ -30,5 +30,17 @@ namespace Typefout.Core.Services
             else
                 return null;
         }
+        public void Register(string username, string email, string password, string group)
+        {
+            string hashedPassword = PasswordHelper.HashPassword(password);
+            User newUser = new User
+            {
+                Username = username,
+                Email = email,
+                Password = hashedPassword,
+                Group = group
+            };
+            _userRepo.AddUser(newUser);
+        }
     }
 }
