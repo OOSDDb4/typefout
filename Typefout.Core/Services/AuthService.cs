@@ -15,9 +15,9 @@ namespace Typefout.Core.Services
 
         public User? Login(string? username, string? email, string password)
         {
-            User? user = username is not null 
+            User? user = username is not null
                 ? _userRepo.GetUser(username)
-                : email is not null 
+                : email is not null
                     ? _userRepo.GetMail(email)
                     : null;
 
