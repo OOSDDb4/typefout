@@ -82,12 +82,13 @@ public class DatabaseService : IDatabaseService
                 command.Parameters.AddWithValue($"@{item.Key}", item.Value ?? DBNull.Value);
             }
             command.ExecuteNonQuery();
+            // Return succeeded code
             return 202;
         }
         catch (Exception e)
         {
             Trace.WriteLine(e);
-            // throw new Exception("Something went wrong with the creation of the database");
+            // return error code
             return 500;
         }
     }
@@ -159,9 +160,38 @@ public class DatabaseService : IDatabaseService
         throw new NotImplementedException();
     }
 
-    public void Delete()
+    public int Delete(string table, string idName, int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(table))
+            {
+                throw new ArgumentException("Table is required");
+            }
+
+            if (string.IsNullOrWhiteSpace(id.ToString()) && string.IsNullOrWhiteSpace(idName))
+            {
+                throw new ArgumentException("Id is required");
+            }
+
+            string query = $"DELETE FROM {table} WHERE {idName} = @id";
+
+            using MySqlCommand command = new MySqlCommand(query, _connection);
+            command.Parameters.AddWithValue($"@id", id.ToString());
+
+            int rowsAffected = command.ExecuteNonQuery();
+            
+            // Return 202 if there are rows affected
+            // Return 404 if there are no rows affected
+            return rowsAffected > 0 ? 202 : 404;
+        }
+        catch (Exception e)
+        {
+            Trace.WriteLine($"DatabaseService Delete Error: {e.Message}");
+            Trace.WriteLine($"Error: {e}");
+            // Return error code
+            return 500;
+        }
     }
 }
 
