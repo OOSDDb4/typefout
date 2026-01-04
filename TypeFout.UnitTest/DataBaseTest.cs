@@ -75,6 +75,27 @@ public class DataBaseTest
     }
 
     [Fact]
+    public void DatabaseDeleteTest()
+    {
+        // Arrange
+        IDatabaseService databaseService = new DatabaseService();
+        string table = "test";
+        string idName = "testId";
+        int id = 7;
+
+        // Act
+        databaseService.Connect();
+        databaseService.Open();
+
+        int result = databaseService.Delete(table, idName, id);
+
+        databaseService.Close();
+
+        // Assert
+        Assert.Equal(202, result);
+    }
+
+    [Fact]
     public void Sanity_Check_ShoudlAlwayPass()
     {
         // Arrange
