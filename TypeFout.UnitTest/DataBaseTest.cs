@@ -80,6 +80,27 @@ public class DataBaseTest
         // Arrange
         IDatabaseService databaseService = new DatabaseService();
         string table = "test";
+        string columnName = "testId";
+        int id = 7;
+
+        // Act
+        databaseService.Connect();
+        databaseService.Open();
+
+        int result = databaseService.Delete(table, columnName, id);
+
+        databaseService.Close();
+
+        // Assert
+        Assert.Equal(202, result);
+    }
+
+    [Fact]
+    public void DatabaseDeleteTableDoesNotExistTest()
+    {
+        // Arrange
+        IDatabaseService databaseService = new DatabaseService();
+        string table = "WrongTable";
         string idName = "testId";
         int id = 7;
 
@@ -89,10 +110,10 @@ public class DataBaseTest
 
         int result = databaseService.Delete(table, idName, id);
 
-        databaseService.Close();
+        databaseService.Open();
 
         // Assert
-        Assert.Equal(202, result);
+        Assert.Equal(500, result);
     }
 
     [Fact]
