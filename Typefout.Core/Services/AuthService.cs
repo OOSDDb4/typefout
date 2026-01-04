@@ -17,6 +17,9 @@ namespace Typefout.Core.Services
             {
                 User? user = _userRepo.GetUser(username);
                 if (user is null) return null;
+
+                if (!user.IsActive) return null;
+
                 if (PasswordHelper.VerifyPassword(password, user.Password)) return user;
                 return null;
             }
@@ -24,6 +27,9 @@ namespace Typefout.Core.Services
             {
                 User? user = _userRepo.GetMail(email);
                 if (user is null) return null;
+
+                if (!user.IsActive) return null;
+
                 if (PasswordHelper.VerifyPassword(password, user.Password)) return user;
                 return null;
             }

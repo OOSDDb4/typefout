@@ -74,6 +74,16 @@ namespace Typefout.Core.Data.Repo
             return users.FirstOrDefault(u => u.Id == userId);
         }
 
+        public async Task SetActiveAsync(int userId, bool isActive)
+        {
+            List<User> users = await LoadAsync();
+            User? existing = users.FirstOrDefault(u => u.Id == userId);
+            if (existing == null) return;
+
+            existing.IsActive = isActive;
+
+            await SaveAsync(users);
+        }
         public async Task CreateAsync(User user)
         {
             List<User> users = await LoadAsync();

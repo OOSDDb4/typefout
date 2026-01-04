@@ -19,9 +19,9 @@
                        HorizontalOptions="Center"/>
 
                 <Frame BackgroundColor="#F0F0F0" Padding="25">
-
                     <VerticalStackLayout Spacing="35">
 
+                        <!-- USERS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Gebruikers"
@@ -44,14 +44,16 @@
                                         TextColor="Black"/>
                             </Grid>
 
-                            <Grid ColumnDefinitions="*,*,*,Auto"
+                            <Grid ColumnDefinitions="*,*,*,60,120,160"
                                   Padding="10"
+                                  ColumnSpacing="10"
                                   BackgroundColor="#E0E0E0">
 
-                                <Label Text="Naam" TextColor="Black"/>
-                                <Label Grid.Column="1" Text="Type" TextColor="Black"/>
-                                <Label Grid.Column="2" Text="Groep" TextColor="Black"/>
-                                <Label Grid.Column="3" Text="Actie" TextColor="Black"/>
+                                <Label Grid.Column="0" Text="Naam" TextColor="Black" />
+                                <Label Grid.Column="1" Text="Type" TextColor="Black" />
+                                <Label Grid.Column="2" Text="Groep" TextColor="Black" />
+                                <Label Grid.Column="3" Text="Status" TextColor="Black"/>
+                                <Label Grid.Column="4" Grid.ColumnSpan="2" Text="Actie" TextColor="Black" HorizontalTextAlignment="End" />
                             </Grid>
 
                             <CollectionView ItemsSource="{Binding Users}"
@@ -59,7 +61,7 @@
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid ColumnDefinitions="*,*,*,Auto,Auto"
+                                        <Grid ColumnDefinitions="*,*,*,180,Auto,Auto"
                                               Padding="10"
                                               ColumnSpacing="10">
 
@@ -74,16 +76,27 @@
                                                    Text="{Binding GroupName}"
                                                    TextColor="Black"/>
 
-                                            <Button Grid.Column="3"
+                                            <Grid Grid.Column="3" HorizontalOptions="Center">
+                                                <CheckBox IsChecked="{Binding IsActive}"
+                                                          InputTransparent="True" />
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                                           Path=BindingContext.ToggleUserActiveCommand}"
+                                                                          CommandParameter="{Binding}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+
+                                            <Button Grid.Column="4"
                                                     Text="Wijzigen"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                    Path=BindingContext.EditUserCommand}"
-                                                    CommandParameter="{Binding}"/>
-                                            <Button Grid.Column="4"
+                                                                    Path=BindingContext.EditUserCommand}"
+                                                    CommandParameter="{Binding}" />
+
+                                            <Button Grid.Column="5"
                                                     Text="Verwijderen"
                                                     BackgroundColor="#E57373"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                    Path=BindingContext.DeleteUserCommand}"
+                                                                    Path=BindingContext.DeleteUserCommand}"
                                                     CommandParameter="{Binding}" />
                                         </Grid>
                                     </DataTemplate>
@@ -106,6 +119,7 @@
 
                         </VerticalStackLayout>
 
+                        <!-- GROUPS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Groepen"
@@ -118,7 +132,7 @@
                                 <Entry Grid.Column="0"
                                        WidthRequest="220"
                                        Placeholder="Groep zoeken"
-                                       Text = "{Binding GroupSearchText}"
+                                       Text="{Binding GroupSearchText}"
                                        TextColor="Black"/>
 
                                 <Button Grid.Column="2"
@@ -156,13 +170,14 @@
                                             <Button Grid.Column="2"
                                                     Text="Wijzigen"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                    Path=BindingContext.EditGroupCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                                    Path=BindingContext.EditGroupCommand}"
+                                                    CommandParameter="{Binding}" />
+
                                             <Button Grid.Column="3"
                                                     Text="Verwijderen"
                                                     BackgroundColor="#E57373"
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
-                                                    Path=BindingContext.DeleteGroupCommand}"
+                                                                    Path=BindingContext.DeleteGroupCommand}"
                                                     CommandParameter="{Binding}" />
                                         </Grid>
                                     </DataTemplate>
