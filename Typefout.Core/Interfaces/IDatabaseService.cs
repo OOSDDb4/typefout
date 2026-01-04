@@ -11,5 +11,5 @@ public interface IDatabaseService
     public int Create(string table, Dictionary<string, object> data);
     public DataTable Read(string table, List<string>? columns = null, string? where = null, string? joins = null, string? orderBy = null, int? limit = null);
     public void Update();
-    public void Delete();
+    public int Delete(string table, string idName, int id);
 }
