@@ -96,6 +96,31 @@ public class DataBaseTest
     }
 
     [Fact]
+    public void DatabaseUpdateTest()
+    {
+        // Arrange
+        IDatabaseService databaseService = new DatabaseService();
+        string table = "test";
+        string whereName = "testId";
+        string whereValue = "5";
+        Dictionary<string, object> data = new Dictionary<string, object>(){
+            { "testWord", "UnitTestUpdate" },
+            { "testInt", 321 }
+        };
+
+        // Act
+        databaseService.Connect();
+        databaseService.Open();
+
+        int result = databaseService.Update(table, whereName, whereValue, data);
+
+        databaseService.Close();
+
+        // Assert
+        Assert.Equal(202, result);
+    }
+
+    [Fact]
     public void Sanity_Check_ShoudlAlwayPass()
     {
         // Arrange
