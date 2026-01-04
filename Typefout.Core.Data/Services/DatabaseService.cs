@@ -155,9 +155,55 @@ public class DatabaseService : IDatabaseService
     }
 
 
-    public void Update()
+    public int Update(string table, string whereName, string whereValue, Dictionary<string, object> data)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(table))
+            {
+                throw new ArgumentException("Table is required");
+            }
+            if (string.IsNullOrWhiteSpace(whereName))
+            {
+                throw new ArgumentException("Where column is required");
+            }
+
+            if (string.IsNullOrWhiteSpace(whereValue))
+            {
+                throw new ArgumentException("Where value is required");
+            }
+            if (data == null || data.Count == 0)
+            {
+                throw new ArgumentNullException("No data provided");
+            }
+
+            // Set `col1` = @set_col1, `col2` = @set_col2
+            string setClause = string.Join(", ", data.Keys.Select(k => $"`{k}` = @set_{k}"));
+
+            StringBuilder query = new StringBuilder();
+            query.Append($"UPDATE {table} SET {setClause} WHERE `{whereName}` = @whereValue");
+
+            using MySqlCommand command = new MySqlCommand(query.ToString(), _connection);
+
+            // SET values
+            foreach (KeyValuePair<string, object> item in data)
+            {
+                command.Parameters.AddWithValue($"@set_{item.Key}", item.Value);
+            }
+
+            // WHERE value
+            command.Parameters.AddWithValue($"@whereValue", whereValue);
+
+            int rowsAffected = command.ExecuteNonQuery();
+            Trace.WriteLine($"Updated {rowsAffected} rows");
+            return rowsAffected > 0 ? 202 : 404;
+        }
+        catch (Exception e)
+        {
+            Trace.WriteLine($"DatabaseService Update Error: {e.Message}");
+            Trace.WriteLine($"Error: {e}");
+            return 500;
+        }
     }
 
     public int Delete(string table, string idName, int id)
