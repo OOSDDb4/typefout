@@ -206,7 +206,7 @@ public class DatabaseService : IDatabaseService
         }
     }
 
-    public int Delete(string table, string idName, int id)
+    public int Delete(string table, string columnName, int id)
     {
         try
         {
@@ -215,12 +215,12 @@ public class DatabaseService : IDatabaseService
                 throw new ArgumentException("Table is required");
             }
 
-            if (string.IsNullOrWhiteSpace(id.ToString()) && string.IsNullOrWhiteSpace(idName))
+            if (string.IsNullOrWhiteSpace(id.ToString()) && string.IsNullOrWhiteSpace(columnName))
             {
                 throw new ArgumentException("Id is required");
             }
 
-            string query = $"DELETE FROM {table} WHERE {idName} = @id";
+            string query = $"DELETE FROM {table} WHERE {columnName} = @id";
 
             using MySqlCommand command = new MySqlCommand(query, _connection);
             command.Parameters.AddWithValue($"@id", id.ToString());
