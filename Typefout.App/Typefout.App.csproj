@@ -1,52 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<!-- MAIN PROPERTY GROUP (Hier hoef je niets aan te doen) -->
-	<PropertyGroup>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
-			$(TargetFrameworks);net8.0-windows10.0.19041.0
-		</TargetFrameworks>
-		<OutputType>Exe</OutputType>
-		<RootNamespace>Typefout.App</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<ApplicationTitle>Typefout.App</ApplicationTitle>
-		<ApplicationId>com.companyname.typefout.app</ApplicationId>
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
-		<!-- ... overige supported platforms settings laten staan ... -->
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<Platforms>x64</Platforms>
-		<Configurations>Debug;Release;release2</Configurations>
-		<UserSecretsId>467898dc-c6af-4c61-bc20-4f7facc1592c</UserSecretsId>
-	</PropertyGroup>
 
-    <!-- WINDOWS-SPECIFIC SETTINGS -->
-    <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-        <WindowsPackageType>None</WindowsPackageType>
-        <OutputType>WinExe</OutputType>
-        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-        <SelfContained>true</SelfContained>
-        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <PublishReadyToRun>false</PublishReadyToRun>
+    <!-- MAIN PROPERTY GROUP (Hier hoef je niets aan te doen) -->
+    <PropertyGroup>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
+            $(TargetFrameworks);net8.0-windows10.0.19041.0
+        </TargetFrameworks>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Typefout.App</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <ApplicationTitle>Typefout.App</ApplicationTitle>
+        <ApplicationId>com.companyname.typefout.app</ApplicationId>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <!-- ... overige supported platforms settings laten staan ... -->
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <Platforms>x64</Platforms>
+        <Configurations>Debug;Release;release2</Configurations>
+        <UserSecretsId>467898dc-c6af-4c61-bc20-4f7facc1592c</UserSecretsId>
     </PropertyGroup>
-    
+
+    <!-- WINDOWS-SPECIFIC SETTINGS (GECORRIGEERD) -->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+        <!-- TYPO GEREPAREERD: Msix i.p.v. Mxis -->
+        <EnableMsixTooling>true</EnableMsixTooling>
+
+        <!-- AANBEVOLEN: Zet dit op MSIX voor development, tenzij je echt unpackaged wilt -->
+        <WindowsPackageType>MSIX</WindowsPackageType>
+
+        <OutputType>WinExe</OutputType>
+
+        <!-- Deze settings zijn vaak overbodig bij MSIX, maar mogen blijven staan -->
+        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+        <SelfContained>false</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <publishReadyToRun>false</publishReadyToRun>
+    </PropertyGroup>
+
     <ItemGroup>
-        <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-        <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-        <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
         <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-        <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
-        <!-- Raw Assets -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
@@ -63,28 +66,16 @@
         <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
     </ItemGroup>
 
-	<ItemGroup>
-		<Compile Update="Views\StudentsContentView.xaml.cs">
-		  <DependentUpon>StudentsContentView.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\TypeView.xaml.cs">
-			<DependentUpon>TypeView.xaml</DependentUpon>
-		</Compile>
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Update="Views\TypeView.xaml.cs">
+            <DependentUpon>TypeView.xaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-	<ItemGroup>
-		<MauiXaml Update="Views\SchoolContentView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\StudentsContentView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\TeacherPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\TypeView.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-	</ItemGroup>
+    <ItemGroup>
+        <MauiXaml Update="Views\TypeView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+    </ItemGroup>
 
 </Project>

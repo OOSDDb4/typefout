@@ -57,7 +57,7 @@
                 <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="5"
                                      BindableLayout.ItemsSource="{Binding Groups}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:GroupContentViewModel">
+                        <DataTemplate x:DataType="viewmodels:GroupItem">
                             <Grid ColumnDefinitions="*, *, Auto, Auto, Auto" 
                                   ColumnSpacing="1">
                                 <Label Grid.Column="0" Text="{Binding GroupName}" 
@@ -66,10 +66,20 @@
                                        BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
                                 <Label Grid.Column="2" Text="{Binding StudentCount}" 
                                        BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
-                                <Label Grid.Column="3" Text="info" 
-                                       BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
-                                <Label Grid.Column="4" Text="Wijzigen" 
-                                       BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                                <Button Grid.Column="3" 
+                                        Text="Info" 
+                                        BackgroundColor="#4CAF50" 
+                                        TextColor="White" 
+                                        HeightRequest="35"
+                                        Padding="15, 5"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:GroupContentViewModel}}, Path=InfoGroupsCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                <Button Grid.Column="4" 
+                                        Text="Wijzigen" 
+                                        BackgroundColor="#2196F3" 
+                                        TextColor="White" 
+                                        HeightRequest="35"
+                                        Padding="15, 5"/>
                             </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
