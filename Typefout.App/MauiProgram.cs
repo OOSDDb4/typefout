@@ -34,6 +34,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<IUserRepo, UserRepo>();
+        builder.Services.AddSingleton<IVerificationService, VerificationService>();
+
         builder.Services.AddSingleton<ISchoolRepo, SchoolRepo>();
         builder.Services.AddSingleton<IGroupRepo, GroupRepo>();
 
@@ -43,6 +45,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<ResultsViewModel>();
         builder.Services.AddTransient<TextViewModel>();
+        builder.Services.AddTransient<PasswordReset2PageViewmodel>();
 
         builder.Services.AddTransient<SchoolsViewModel>();
         builder.Services.AddTransient<SchoolCreateViewModel>();
@@ -62,6 +65,9 @@ public static class MauiProgram
         builder.Services.AddTransient<WordView>();
         builder.Services.AddTransient<SentenceView>();
         builder.Services.AddTransient<ResultsPage>();
+        builder.Services.AddTransient<PasswordReset1Page>();
+        builder.Services.AddTransient<PasswordReset2Page>();
+        builder.Services.AddTransient<PasswordReset3Page>();
         builder.Services.AddTransient<OefeningenMenuPage>();
 
         // Admin pages
