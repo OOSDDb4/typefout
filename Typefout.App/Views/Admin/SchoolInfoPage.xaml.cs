@@ -12,7 +12,6 @@ public partial class SchoolInfoPage : ContentPage
         _viewModel = vm;
         BindingContext = vm;
     }
-
     protected override void OnAppearing()
     {
         base.OnAppearing();

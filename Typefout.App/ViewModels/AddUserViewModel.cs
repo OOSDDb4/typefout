@@ -98,6 +98,11 @@ public partial class AddUserViewModel : ObservableObject
         {
             Groups.Add(group);
         }
+
+        if (Groups.Count == 0)
+        {
+            SelectedGroup = null;
+        }
     }
 
     [RelayCommand]
@@ -118,11 +123,6 @@ public partial class AddUserViewModel : ObservableObject
             return;
         }
 
-        if (SelectedGroup == null)
-        {
-            return;
-        }
-
         User user = new User
         {
             Username = StudentUsername,
@@ -130,7 +130,8 @@ public partial class AddUserViewModel : ObservableObject
             Password = PasswordHelper.HashPassword(StudentPassword),
             UserType = UserType.Leerling,
             SchoolId = SchoolId,
-            GroupId = SelectedGroup.Id
+            GroupId = SelectedGroup?.Id,
+            IsActive = true
         };
 
         await _userRepo.CreateAsync(user);
@@ -167,7 +168,8 @@ public partial class AddUserViewModel : ObservableObject
             Password = PasswordHelper.HashPassword(TeacherPassword),
             UserType = UserType.Docent,
             SchoolId = SchoolId,
-            GroupId = null
+            GroupId = null,
+            IsActive = true
         };
 
         await _userRepo.CreateAsync(user);
