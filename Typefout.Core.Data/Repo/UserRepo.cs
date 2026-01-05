@@ -17,7 +17,7 @@ namespace Typefout.Core.Data.Repo
         {
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "Typefout.Core.Data", "bin");
             basePath = Path.GetFullPath(basePath);
-    
+
             Directory.CreateDirectory(basePath);
 
             _filePath = Path.Combine(basePath, "users.json");
