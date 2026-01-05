@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Typefout.Core.Interfaces;
@@ -27,7 +25,6 @@ namespace Typefout.App.ViewModels
             _trackingService = trackingService;
             LoadStats();
         }
-
         private void LoadStats()
         {
             List<KeyStat> stats = _trackingService.GetStats()

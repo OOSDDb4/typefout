@@ -1,0 +1,20 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.Admin.AdminNavigationView">
+
+    <Grid ColumnDefinitions="200,*">
+        <StackLayout BackgroundColor="#E6E6E6" Padding="20,40">
+            <Image Source="profile_placeholder.png" HeightRequest="60" WidthRequest="60"/>
+            <Label Text="{Binding LoggedInName}" FontSize="16" Margin="0,10,0,30"/>
+
+            <Button Text="Scholen"
+                    Command="{Binding NavigateSchoolsCommand}"
+                    Margin="0,10"/>
+            <Button Text="Instellingen"
+                    Command="{Binding NavigateSettingsCommand}"
+                    Margin="0,10"/>
+        </StackLayout>
+
+        <ContentPresenter Grid.Column="1" x:Name="ContentArea" />
+    </Grid>
+</ContentView>

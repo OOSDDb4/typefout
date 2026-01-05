@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.StudentsContentView">
+
+    <Border BackgroundColor="#E0E0E0" 
+            StrokeShape="RoundRectangle 10" 
+            Padding="30" 
+            VerticalOptions="FillAndExpand">
+
+        <StackLayout Spacing="20">
+
+            <Grid ColumnDefinitions="*, Auto, Auto" Margin="0, 0, 0, 20">
+                <Frame Grid.Column="0" 
+                       Padding="5" 
+                       CornerRadius="5" 
+                       BackgroundColor="White" 
+                       HorizontalOptions="Start"
+                       WidthRequest="200">
+                    <Label Text="Gebruikersnaam zoeken" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Frame>
+                <Button Grid.Column="2" 
+                        Text="Leerlingen aanmaken" 
+                        BackgroundColor="White" 
+                        TextColor="Black" 
+                        CornerRadius="5" 
+                        HeightRequest="30"
+                        HorizontalOptions="End"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*, *, Auto, Auto" 
+                  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, *"
+                  RowSpacing="1" 
+                  ColumnSpacing="1"
+                  VerticalOptions="Start">
+
+                <Label Grid.Row="0" Grid.Column="0" Text="Gebruikersnaam" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Groep" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="info" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="3" Text="Wijzigen" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Jeroen" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                <Label Grid.Row="1" Grid.Column="1" Text="Groep 8" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="info" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                <Label Grid.Row="1" Grid.Column="3" Text="Wijzigen" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+
+            </Grid>
+        </StackLayout>
+    </Border>
+</ContentView>

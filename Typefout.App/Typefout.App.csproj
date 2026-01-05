@@ -35,7 +35,7 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <PublishReadyToRun>false</PublishReadyToRun>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -56,6 +56,8 @@
         <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.40" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+        <PackageReference Include="MySqlConnector" Version="2.5.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -63,11 +65,14 @@
         <ProjectReference Include="..\Typefout.Core\Typefout.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="Views\TypeView.xaml.cs">
-            <DependentUpon>TypeView.xaml</DependentUpon>
-        </Compile>
-    </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Views\StudentsContentView.xaml.cs">
+		  <DependentUpon>StudentsContentView.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\TypeView.xaml.cs">
+			<DependentUpon>TypeView.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
     <ItemGroup>
         <MauiXaml Update="Views\PasswordReset1Page.xaml">
@@ -83,5 +88,19 @@
             <Generator>MSBuild:Compile</Generator>
         </MauiXaml>
     </ItemGroup>
+	<ItemGroup>
+		<MauiXaml Update="Views\SchoolContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\StudentsContentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\TeacherPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\TypeView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+	</ItemGroup>
 
 </Project>
