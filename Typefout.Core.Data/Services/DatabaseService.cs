@@ -226,7 +226,7 @@ public class DatabaseService : IDatabaseService
             command.Parameters.AddWithValue($"@id", id.ToString());
 
             int rowsAffected = command.ExecuteNonQuery();
-            
+
             // Return 202 if there are rows affected
             // Return 404 if there are no rows affected
             return rowsAffected > 0 ? 202 : 404;
