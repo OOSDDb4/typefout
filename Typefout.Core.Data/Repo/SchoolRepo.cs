@@ -15,8 +15,11 @@ namespace Typefout.Core.Data.Repo
 
         public SchoolRepo()
         {
-            string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "Typefout.Core.Data", "bin");
+            basePath = Path.GetFullPath(basePath);
+
             Directory.CreateDirectory(basePath);
+
             _filePath = Path.Combine(basePath, "schools.json");
 
             if (!File.Exists(_filePath))
