@@ -29,12 +29,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<IUserRepo, UserRepo>();
+        builder.Services.AddSingleton<IVerificationService, VerificationService>();
+
 
         builder.Services.AddTransient<LoginPageViewModel>();
         builder.Services.AddTransient<WordViewModel>();
         builder.Services.AddTransient<SentenceViewModel>();
         builder.Services.AddTransient<ResultsViewModel>();
         builder.Services.AddTransient<TextViewModel>();
+        builder.Services.AddTransient<PasswordReset2PageViewmodel>();
 
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<TextView>();
@@ -43,6 +46,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ResultsPage>();
         builder.Services.AddTransient<PasswordReset1Page>();
         builder.Services.AddTransient<PasswordReset2Page>();
+        builder.Services.AddTransient<PasswordReset3Page>();
 
 
         return builder.Build();

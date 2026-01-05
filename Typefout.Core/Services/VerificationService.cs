@@ -10,43 +10,57 @@ namespace Typefout.Core.Services
 {
     public class VerificationService : IVerificationService
     {
-        private static HashSet<string> _activeCodes = new HashSet<string>();
+        private static Dictionary<string, string> _activeCodes = new Dictionary<string, string>();
 
-        public string GenerateVerificationCode()
+        public string GenerateVerificationCode(string email)
         {
-            string code;
-            int safetyCounter = 0;
-
-            do
+            if(_activeCodes.ContainsKey(email))
             {
-                code = Random.Shared.Next(0, 1000000).ToString("D6");
-
-                safetyCounter++;
-                if (safetyCounter > 100) throw new Exception("Kan geen unieke code genereren");
-
+                System.Diagnostics.Debug.WriteLine($"{_activeCodes[email]}");
+                return _activeCodes[email];
             }
-            while (_activeCodes.Contains(code));
 
-            _activeCodes.Add(code);
-            RemoveCodeAfterDelay(code, 300); 
+            string code = Random.Shared.Next(0, 1000000).ToString("D6");
 
-            System.Diagnostics.Debug.WriteLine($"Code is: {code}");
+            _activeCodes[email] = code;
+
+            RemoveCodeAfterDelay(email, 300);
+
+            System.Diagnostics.Debug.WriteLine($"Code voor {email} is: {code}");
             return code;
         }
 
-        private async void RemoveCodeAfterDelay(string code, int seconds)
+        private async void RemoveCodeAfterDelay(string email, int seconds)
         {
             await Task.Delay(TimeSpan.FromSeconds(seconds));
-            ReleaseCode(code);
+
+            if (_activeCodes.ContainsKey(email))
+            {
+                ReleaseCode(email);
+                System.Diagnostics.Debug.WriteLine($"Code voor {email} is verlopen.");
+            }
         }
 
-        public void ReleaseCode(string code)
+        public void ReleaseCode(string email)
         {
-            if (!string.IsNullOrEmpty(code) && _activeCodes.Contains(code))
+            if (!string.IsNullOrEmpty(email) && _activeCodes.ContainsKey(email))
             {
-                _activeCodes.Remove(code);
-                System.Diagnostics.Debug.WriteLine($"Code {code} is vrijgegeven en kan weer gebruikt worden.");
+                _activeCodes.Remove(email);
+                System.Diagnostics.Debug.WriteLine($"Code is vrijgegeven voor {email} en kan weer gebruikt worden.");
             }
+        }
+
+        public bool TryValidateCode(string email, string inputCode)
+        {
+            if (_activeCodes.TryGetValue(email, out string correctCode))
+            {
+                if (correctCode == inputCode)
+                {
+                    ReleaseCode(email);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
