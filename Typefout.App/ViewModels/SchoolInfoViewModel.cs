@@ -50,25 +50,11 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         LoadDataCommand.Execute(null);
     }
-    partial void OnUserPageChanged(int value)
-    {
-        OnPropertyChanged(nameof(UserPageText));
-    }
 
-    partial void OnUserTotalPagesChanged(int value)
-    {
-        OnPropertyChanged(nameof(UserPageText));
-    }
-
-    partial void OnGroupPageChanged(int value)
-    {
-        OnPropertyChanged(nameof(GroupPageText));
-    }
-
-    partial void OnGroupTotalPagesChanged(int value)
-    {
-        OnPropertyChanged(nameof(GroupPageText));
-    }
+    partial void OnUserPageChanged(int value) => OnPropertyChanged(nameof(UserPageText));
+    partial void OnUserTotalPagesChanged(int value) => OnPropertyChanged(nameof(UserPageText));
+    partial void OnGroupPageChanged(int value) => OnPropertyChanged(nameof(GroupPageText));
+    partial void OnGroupTotalPagesChanged(int value) => OnPropertyChanged(nameof(GroupPageText));
 
     [RelayCommand]
     private async Task LoadData()
@@ -77,13 +63,15 @@ public partial class SchoolInfoViewModel : ObservableObject
         SchoolName = school?.Name ?? string.Empty;
 
         IEnumerable<User> users = await _userRepo.GetAllAsync();
-        _allUsers = users.Where(u => u.SchoolId == SchoolId).ToList();
+        _allUsers = users
+            .Where(u => u.SchoolId == SchoolId)
+            .Where(u => u.UserType != UserType.Admin)
+            .ToList();
 
         IEnumerable<Group> groups = await _groupRepo.GetBySchoolIdAsync(SchoolId);
         _allGroups = groups.ToList();
 
-        Dictionary<int, Group> groupById =
-            _allGroups.ToDictionary(g => g.Id);
+        Dictionary<int, Group> groupById = _allGroups.ToDictionary(g => g.Id);
 
         Dictionary<int, User> teacherById =
             _allUsers
@@ -110,6 +98,10 @@ public partial class SchoolInfoViewModel : ObservableObject
             {
                 group.TeacherName = teacher.Username;
             }
+            else
+            {
+                group.TeacherName = string.Empty;
+            }
         }
 
         ApplyUserPaging();
@@ -121,6 +113,7 @@ public partial class SchoolInfoViewModel : ObservableObject
         UserPage = 1;
         ApplyUserPaging();
     }
+
     partial void OnGroupSearchTextChanged(string value)
     {
         GroupPage = 1;
@@ -136,6 +129,9 @@ public partial class SchoolInfoViewModel : ObservableObject
 
         UserTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
+        if (UserPage > UserTotalPages) UserPage = UserTotalPages;
+        if (UserPage < 1) UserPage = 1;
+
         Users.Clear();
         foreach (User user in filtered
                      .Skip((UserPage - 1) * _pageSize)
@@ -144,6 +140,7 @@ public partial class SchoolInfoViewModel : ObservableObject
             Users.Add(user);
         }
     }
+
     private void ApplyGroupPaging()
     {
         IEnumerable<Group> filtered = string.IsNullOrWhiteSpace(GroupSearchText)
@@ -152,6 +149,9 @@ public partial class SchoolInfoViewModel : ObservableObject
                 g.Name.Contains(GroupSearchText, StringComparison.OrdinalIgnoreCase));
 
         GroupTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
+
+        if (GroupPage > GroupTotalPages) GroupPage = GroupTotalPages;
+        if (GroupPage < 1) GroupPage = 1;
 
         Groups.Clear();
         foreach (Group group in filtered
@@ -207,6 +207,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync($"adduser?schoolId={SchoolId}");
     }
+
     [RelayCommand]
     private async Task DeleteUser(User user)
     {
@@ -244,6 +245,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync($"groupedit?groupId={group.Id}");
     }
+
     [RelayCommand]
     private async Task DeleteGroup(Group group)
     {
@@ -259,5 +261,26 @@ public partial class SchoolInfoViewModel : ObservableObject
             await LoadData();
         }
     }
+    [RelayCommand]
+    private async Task ToggleUserActive(User user)
+    {
+        if (user is null) return;
 
+        bool targetValue = !user.IsActive;
+
+        bool ok = await Application.Current.MainPage.DisplayAlert(
+            "Status wijzigen",
+            targetValue
+                ? $"Wil je het account van '{user.Username}' activeren?"
+                : $"Wil je het account van '{user.Username}' uitzetten? (kan niet meer inloggen)",
+            "Ja",
+            "Nee");
+
+        if (!ok) return;
+
+        user.IsActive = targetValue;
+        await _userRepo.SetActiveAsync(user.Id, targetValue);
+
+        await LoadData();
+    }
 }
