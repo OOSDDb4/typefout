@@ -22,15 +22,6 @@ public partial class StudentCreateViewModel : ObservableObject
     [ObservableProperty]
     private Group _selectedGroup;
 
-    public StudentCreateViewModel()
-    {
-        Groups = new ObservableCollection<Group>
-        {
-            new Group { Id = 1, Name = "Groep 7" },
-            new Group { Id = 2, Name = "Groep 8" }
-        };
-    }
-
     [RelayCommand]
     private async Task CreateStudent()
     {

@@ -3,6 +3,10 @@
              xmlns:local="clr-namespace:Typefout.App.Views.Admin"
              x:Class="Typefout.App.Views.Admin.SchoolsPage">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <local:AdminNavigationView>
 
         <VerticalStackLayout Padding="40" Spacing="25">

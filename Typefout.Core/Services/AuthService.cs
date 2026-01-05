@@ -7,34 +7,24 @@ namespace Typefout.Core.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepo _userRepo;
+
         public AuthService(IUserRepo userRepo)
         {
             _userRepo = userRepo;
         }
+
         public User? Login(string? username, string? email, string password)
         {
-            if (username is not null)
-            {
-                User? user = _userRepo.GetUser(username);
-                if (user is null) return null;
+            User? user = username is not null
+                ? _userRepo.GetUser(username)
+                : email is not null
+                    ? _userRepo.GetMail(email)
+                    : null;
 
-                if (!user.IsActive) return null;
-
-                if (PasswordHelper.VerifyPassword(password, user.Password)) return user;
+            if (user is null || !PasswordHelper.VerifyPassword(password, user.Password))
                 return null;
-            }
-            else if (email is not null)
-            {
-                User? user = _userRepo.GetMail(email);
-                if (user is null) return null;
 
-                if (!user.IsActive) return null;
-
-                if (PasswordHelper.VerifyPassword(password, user.Password)) return user;
-                return null;
-            }
-            else
-                return null;
+            return user;
         }
     }
 }

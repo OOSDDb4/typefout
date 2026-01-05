@@ -173,7 +173,7 @@ namespace Typefout.Core.Data.Repo
                 Username = "user1",
                 Email = "user1@mail.com",
                 Password = "FLeqWLF6n2rMxgeYy5aAgQ==.drm7OYTXB2dsptZcCjxje3W0Z8yqDOx5qhqXaZ4t4bs=",
-                UserType = UserType.Docent,
+                UserType = UserType.Admin,
                 SchoolId = 1
             });
 

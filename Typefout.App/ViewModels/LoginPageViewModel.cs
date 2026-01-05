@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// LoginPageViewModel.cs (FULL UPDATED)
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -51,16 +51,28 @@ namespace Typefout.App.ViewModels
                 authenticatedClient = _authService.Login(LoginInput, null, PasswordInput);
             }
 
-            if (authenticatedClient != null)
+            if (authenticatedClient == null)
             {
-                ErrorMessage = string.Empty;
-                await Application.Current.MainPage.Navigation.PushAsync(new OefeningenMenuPage());
+                ErrorMessage = "Ongeldige inloggegevens. Probeer het opnieuw.";
+                return;
+            }
+
+            if (!authenticatedClient.IsActive)
+            {
+                ErrorMessage = "Dit account is gedeactiveerd.";
+                return;
+            }
+
+            ErrorMessage = string.Empty;
+
+            if (authenticatedClient.UserType == UserType.Admin)
+            {
+                await Shell.Current.GoToAsync("schools");
             }
             else
             {
-                ErrorMessage = "Ongeldige inloggegevens. Probeer het opnieuw.";
+                await Shell.Current.GoToAsync("oefeningen");
             }
         }
-
     }
 }
