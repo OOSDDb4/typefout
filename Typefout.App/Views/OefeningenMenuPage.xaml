@@ -1,4 +1,4 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Typefout.App.Views.OefeningenMenuPage"
              BackgroundColor="White">
@@ -27,20 +27,18 @@
         </Style>
 
     </ContentPage.Resources>
-    <Grid RowDefinitions="Auto, *" Padding="30">
 
-        <Label Grid.Row="0" 
-                   Text="Kies een oefening" 
-                   FontSize="32" 
-                   FontAttributes="Bold" 
-                   TextColor="#333" 
-                   HorizontalOptions="Center" 
-                   Margin="0,20,0,50"/>
-    </Grid>
+    <Grid RowDefinitions="Auto, Auto, *" Padding="30">
+        
+        <HorizontalStackLayout Grid.Row="0" Spacing="10">
+            <Button Text="TeacherPage"
+                    Clicked="OnNavigateButtonClicked" />
 
-    <Grid RowDefinitions="Auto, *" Padding="30">
+            <Button Text="Admin"
+                    Clicked="OnAdminButtonClicked" />
+        </HorizontalStackLayout>
 
-        <Label Grid.Row="0" 
+        <Label Grid.Row="1" 
                Text="Kies een oefening" 
                FontSize="32" 
                FontAttributes="Bold" 
@@ -48,17 +46,15 @@
                HorizontalOptions="Center" 
                Margin="0,20,0,50"/>
 
-        <HorizontalStackLayout Grid.Row="1" 
+        <HorizontalStackLayout Grid.Row="2"
                                HorizontalOptions="Center" 
                                VerticalOptions="Start" 
                                Spacing="30">
 
             <Border Style="{StaticResource CardStyle}">
-
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Oefening1_Clicked" />
+                    <TapGestureRecognizer Tapped="WordExersiceClicked" />
                 </Border.GestureRecognizers>
-
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
                         <Ellipse WidthRequest="180" HeightRequest="60" 
@@ -73,7 +69,6 @@
                             </Ellipse.Stroke>
                         </Ellipse>
 
-
                         <Ellipse WidthRequest="115" HeightRequest="115">
                             <Ellipse.Fill>
                                 <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
@@ -83,11 +78,10 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-
                         <Ellipse WidthRequest="180" HeightRequest="60" 
-                             StrokeThickness="5" Rotation="-25"
-                             Fill="Transparent"
-                             InputTransparent="True">
+                                 StrokeThickness="5" Rotation="-25"
+                                 Fill="Transparent"
+                                 InputTransparent="True">
                             <Ellipse.Stroke>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#CC9900" Offset="0.0" />
@@ -95,22 +89,17 @@
                                     <GradientStop Color="#CC9900" Offset="1.0" />
                                 </LinearGradientBrush>
                             </Ellipse.Stroke>
-
                             <Ellipse.Clip>
                                 <RectangleGeometry Rect="0, 30, 200, 30" />
                             </Ellipse.Clip>
                         </Ellipse>
-
                     </Grid>
-
                     <Label Grid.Row="1" Text="Woorden" Style="{StaticResource CardTitle}"/>
                 </Grid>
             </Border>
-
-
             <Border Style="{StaticResource CardStyle}">
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Oefening2_Clicked" />
+                    <TapGestureRecognizer Tapped="SentenceExersiceClicked" />
                 </Border.GestureRecognizers>
 
                 <Grid RowDefinitions="*, Auto">
@@ -124,7 +113,6 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-
                         <Ellipse WidthRequest="100" HeightRequest="100" TranslationX="-20" TranslationY="10">
                             <Ellipse.Fill>
                                 <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
@@ -134,12 +122,75 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                    </Grid>
 
+                    </Grid>
                     <Label Grid.Row="1" Text="Zinnen" Style="{StaticResource CardTitle}"/>
                 </Grid>
             </Border>
-
+            <Border Style="{StaticResource CardStyle}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TextExersiceClicked" />
+                </Border.GestureRecognizers>
+                <Grid RowDefinitions="*, Auto">
+                    <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Ellipse WidthRequest="150" HeightRequest="80"
+                                 Opacity="0.35"
+                                 Rotation="-20">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Radius="1.0">
+                                    <GradientStop Color="#6688AADD" Offset="0.0" />
+                                    <GradientStop Color="#33446688" Offset="0.5" />
+                                    <GradientStop Color="Transparent" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse WidthRequest="130" HeightRequest="70"
+                                 Rotation="-20"
+                                 Opacity="0.40">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.45,0.45" Radius="0.9">
+                                    <GradientStop Color="#80D0E8FF" Offset="0.0" />
+                                    <GradientStop Color="#4080A0FF" Offset="0.4" />
+                                    <GradientStop Color="#10203040" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse WidthRequest="130" HeightRequest="70"
+                                 Rotation="-20"
+                                 Opacity="0.40">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.6,0.4" Radius="0.9">
+                                    <GradientStop Color="#70C0D8FF" Offset="0.0" />
+                                    <GradientStop Color="#305080AA" Offset="0.5" />
+                                    <GradientStop Color="#10102030" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse WidthRequest="110" HeightRequest="60"
+                                 Rotation="-20"
+                                 Opacity="0.55">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.5,0.35" Radius="0.7">
+                                    <GradientStop Color="#A0CCE0FF" Offset="0.0" />
+                                    <GradientStop Color="#506080CC" Offset="0.5" />
+                                    <GradientStop Color="#10203030" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse WidthRequest="60" HeightRequest="35"
+                                 Rotation="-20">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                    <GradientStop Color="#FFFFE0" Offset="0.0" />
+                                    <GradientStop Color="#FFDD88" Offset="0.5" />
+                                    <GradientStop Color="#22000000" Offset="1.0" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+                    <Label Grid.Row="1" Text="Text" Style="{StaticResource CardTitle}"/>
+                </Grid>
+            </Border>
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>

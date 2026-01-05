@@ -2,9 +2,9 @@ using Typefout.App.ViewModels;
 
 namespace Typefout.App.Views;
 
-public partial class TypeView : ContentPage
+public partial class WordView : ContentPage
 {
-    public TypeView(TypeViewModel vm)
+    public WordView(WordViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;
@@ -23,7 +23,7 @@ public partial class TypeView : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is TypeViewModel vm)
+        if (BindingContext is WordViewModel vm)
         {
             UpdateColors("");
 
@@ -53,7 +53,7 @@ public partial class TypeView : ContentPage
 
         string targetWord = "";
 
-        if (BindingContext is TypeViewModel vm)
+        if (BindingContext is WordViewModel vm)
             targetWord = vm.TargetWord;
 
         if (string.IsNullOrEmpty(targetWord))

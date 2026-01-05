@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.MainPage"
+             BackgroundColor="White">
+
+    <VerticalStackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Spacing="60">
+        <Label Text="TypeFout"
+               FontSize="64"
+               TextColor="Black"
+               HorizontalOptions="Center" />
+
+        <Button Text="Inloggen"
+                TextColor="Black"
+                Clicked="InlogButtonClicked"
+                BorderColor="#A0A0A0"
+                BorderWidth="1"
+                CornerRadius="0"
+                HeightRequest="50"
+                WidthRequest="200"
+                FontSize="16">
+
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                        Offset="5,5"
+                        Radius="5"
+                        Opacity="0.3" />
+            </Button.Shadow>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#F0F0F0" />
+                            </VisualState.Setters>
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+
+        </Button>
+
+    </VerticalStackLayout>
+
+</ContentPage>

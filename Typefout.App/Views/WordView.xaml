@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Typefout.App.ViewModels"
-             x:Class="Typefout.App.Views.TypeView"
+             x:Class="Typefout.App.Views.WordView"
              BackgroundColor="White">
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <ContentPage.Resources>
         <Style x:Key="LetterBorder" TargetType="Border">
             <Setter Property="Stroke" Value="#333333" />
@@ -28,17 +33,21 @@
 
         <Grid Padding="0,0,0,20" VerticalOptions="Start" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width= "900"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width= "*"/>
+                <ColumnDefinition Width= "220"/>
             </Grid.ColumnDefinitions>
-            <VerticalStackLayout Grid.Column="0" Spacing="5">
-                <Label Text="Typefout"
-                       FontSize="48"
-                       HorizontalOptions="Start"
-                       FontAttributes="Bold"
-                       TextColor="Black"/>
-            </VerticalStackLayout>
-            <Button Grid.Column="1"
+            <Label Grid.Column="0" Text="Typefout"
+                   FontSize="48"
+                   HorizontalOptions="Start"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Grid.Column="1" Text="{Binding TimerText}"
+                                  FontSize="20"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Start"
+                                  TextColor="Black"/>
+            <Button Grid.Column="2"
                     Text="Stoppen"
                     VerticalOptions="Start"
                     HorizontalOptions="End"
@@ -92,9 +101,9 @@
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
+                
             </Grid>
         </Border>
-
         <VerticalStackLayout Spacing="8"
                              HorizontalOptions="Center"
                              VerticalOptions="Center">

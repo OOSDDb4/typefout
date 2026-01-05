@@ -8,6 +8,6 @@
     
     <ShellContent
         Route="Menu"
-        ContentTemplate="{DataTemplate views:OefeningenMenuPage}" />
+        ContentTemplate="{DataTemplate views:MainPage}" />
 
 </Shell>

@@ -1,0 +1,170 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Typefout.App.ViewModels"
+             x:Class="Typefout.App.Views.TextView"
+             BackgroundColor="White">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <Style x:Key="LetterBorder" TargetType="Border">
+            <Setter Property="Stroke" Value="#333333" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="45" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="LetterLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="#333333" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
+        <Grid Padding="0,0,0,20" VerticalOptions="Start" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width= "*"/>
+                <ColumnDefinition Width= "220"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="Typefout"
+                   FontSize="48"
+                   HorizontalOptions="Start"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Grid.Column="1" Text="{Binding TimerText}"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
+                   TextColor="Black"/>
+            <Button Grid.Column="2"
+                    Text="Stoppen"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    TextColor="Black"
+                    FontSize="20"
+                    Command="{Binding StopExerciseCommand}"/>
+        </Grid>
+        <Border Stroke="Transparent"
+                StrokeShape="RoundRectangle 15"
+                BackgroundColor="#E0E0E0"
+                HeightRequest="345"
+                WidthRequest="575"
+                HorizontalOptions="Center">
+
+            <Grid RowDefinitions="Auto, *">
+                <Grid Grid.Row="0"
+                      BackgroundColor="#D0D0D0"
+                      HeightRequest="40"
+                      Padding="15,0">
+                    <Label Text="Typefout"
+                           TextColor="Black"
+                           FontSize="15"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <VerticalStackLayout x:Name="TextContent"
+                             VerticalOptions="Start"
+                             Spacing="10"
+                             Padding="15">
+
+                <Label x:Name="VisibleText"
+                       TextColor="Black"
+                       FontSize="24"
+                       LineBreakMode="WordWrap"
+                       VerticalOptions="Start" />
+
+                <Frame BackgroundColor="White"
+                       Padding="10"
+                       CornerRadius="5"
+                       HasShadow="False"
+                       BorderColor="Transparent"
+                       HeightRequest="90">
+
+                <Grid>
+                    <ScrollView x:Name="TypingScroll"
+                                Orientation="Vertical"
+                                VerticalScrollBarVisibility="Never">
+                        <Label x:Name="TypingOverlay"
+                               FormattedText="{Binding HighlightedText}"
+                               FontSize="18"
+                               LineBreakMode="WordWrap"
+                               TextColor="Gray"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Start"/>
+                    </ScrollView>
+                    <Editor x:Name="TypingEditor"
+                            Text="{Binding InputText}"
+                            Loaded="OnEditorLoaded"
+                            TextChanged="TypingEditor_TextChanged"
+                            BackgroundColor="Transparent"
+                            FontSize="18"
+                            AutoSize="Disabled"
+                            IsSpellCheckEnabled="False"
+                            IsTextPredictionEnabled="False"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            Opacity="0"/>
+                    <BoxView BackgroundColor="Transparent"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill">
+                        <BoxView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEditorTapped"/>
+                        </BoxView.GestureRecognizers>
+                    </BoxView>
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>
+                </Grid>
+            </Grid>
+        </Border>
+        <VerticalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+            <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Border x:Name="Key_Q" Style="{StaticResource LetterBorder}"><Label Text="Q" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_W" Style="{StaticResource LetterBorder}"><Label Text="W" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_E" Style="{StaticResource LetterBorder}"><Label Text="E" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_R" Style="{StaticResource LetterBorder}"><Label Text="R" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_T" Style="{StaticResource LetterBorder}"><Label Text="T" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_Y" Style="{StaticResource LetterBorder}"><Label Text="Y" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_U" Style="{StaticResource LetterBorder}"><Label Text="U" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_I" Style="{StaticResource LetterBorder}"><Label Text="I" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_O" Style="{StaticResource LetterBorder}"><Label Text="O" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_P" Style="{StaticResource LetterBorder}"><Label Text="P" Style="{StaticResource LetterLabel}"/></Border>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="6" Margin="12.5,0,0,0" HorizontalOptions="Center">
+                <Border x:Name="Key_A" Style="{StaticResource LetterBorder}"><Label Text="A" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_S" Style="{StaticResource LetterBorder}"><Label Text="S" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_D" Style="{StaticResource LetterBorder}"><Label Text="D" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_F" Style="{StaticResource LetterBorder}"><Label Text="F" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_G" Style="{StaticResource LetterBorder}"><Label Text="G" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_H" Style="{StaticResource LetterBorder}"><Label Text="H" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_J" Style="{StaticResource LetterBorder}"><Label Text="J" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_K" Style="{StaticResource LetterBorder}"><Label Text="K" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_L" Style="{StaticResource LetterBorder}"><Label Text="L" Style="{StaticResource LetterLabel}"/></Border>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="6" Margin="25,0,0,0" HorizontalOptions="Center">
+                <Border x:Name="Key_Z" Style="{StaticResource LetterBorder}"><Label Text="Z" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_X" Style="{StaticResource LetterBorder}"><Label Text="X" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_C" Style="{StaticResource LetterBorder}"><Label Text="C" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_V" Style="{StaticResource LetterBorder}"><Label Text="V" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_B" Style="{StaticResource LetterBorder}"><Label Text="B" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_N" Style="{StaticResource LetterBorder}"><Label Text="N" Style="{StaticResource LetterLabel}"/></Border>
+                <Border x:Name="Key_M" Style="{StaticResource LetterBorder}"><Label Text="M" Style="{StaticResource LetterLabel}"/></Border>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
