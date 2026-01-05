@@ -89,7 +89,7 @@ namespace Typefout.Core.Data.Repo
             if (!File.Exists(_filePath))
                 return new List<Group>();
 
-            string json =  File.ReadAllTextAsync(_filePath).GetAwaiter().GetResult();
+            string json = File.ReadAllTextAsync(_filePath).GetAwaiter().GetResult();
 
             if (string.IsNullOrWhiteSpace(json))
                 return new List<Group>();

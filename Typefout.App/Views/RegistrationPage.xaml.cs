@@ -20,7 +20,6 @@ namespace Typefout.App.Views
         {
             PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
         }
-        
         private void OnRepeatPasswordEyeIconTapped(object sender, EventArgs e)
         {
             RepeatPasswordEntry.IsPassword = !RepeatPasswordEntry.IsPassword;

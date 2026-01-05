@@ -11,7 +11,7 @@ using Typefout.Core.Interfaces;
 
 namespace Typefout.App.ViewModels
 {
-    public class TeacherViewModel: INotifyPropertyChanged
+    public class TeacherViewModel : INotifyPropertyChanged
     {
         private View _currentContent;
         private string _pageTitle = "School";

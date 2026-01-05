@@ -8,7 +8,7 @@ using Typefout.Core.Interfaces;
 
 namespace Typefout.App.Views
 {
-    public partial class StudentsContentView: ContentView
+    public partial class StudentsContentView : ContentView
     {
         public StudentsContentView()
         {
