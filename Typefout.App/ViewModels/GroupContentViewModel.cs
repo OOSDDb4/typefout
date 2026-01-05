@@ -13,23 +13,23 @@ public partial class GroupContentViewModel : ObservableObject
 
     [ObservableProperty]
     private ObservableCollection<GroupItem> _groups;
-    
+
     [RelayCommand]
     private void InfoGroups(GroupItem group)
     {
         if (group == null)
             return;
-    
+
         try
         {
             // Start from the current view
             Page currentView = Application.Current?.MainPage;
 
             System.Diagnostics.Trace.WriteLine($"MainPage type: {currentView?.GetType().Name}");
-        
+
             // Check common navigation patterns
             TeacherPage teacherPage = null;
-        
+
             // Pattern 1: Direct TeacherPage
             if (currentView is TeacherPage tp1)
             {
@@ -52,7 +52,7 @@ public partial class GroupContentViewModel : ObservableObject
             {
                 teacherPage = flyoutPage.Detail as TeacherPage;
             }
-        
+
             if (teacherPage != null)
             {
                 System.Diagnostics.Trace.WriteLine("TeacherPage found!");
@@ -68,23 +68,23 @@ public partial class GroupContentViewModel : ObservableObject
             System.Diagnostics.Trace.WriteLine($"InfoGroups error: {ex.Message}");
         }
     }
-    
+
     private TeacherPage FindTeacherPage(Element element)
     {
         if (element == null)
             return null;
-            
+
         if (element is TeacherPage teacherPage)
             return teacherPage;
-            
+
         // Zoek in de parent hierarchy
         if (element.Parent != null)
             return FindTeacherPage(element.Parent);
-            
+
         // Zoek in de navigation stack
         if (Application.Current.MainPage is NavigationPage navPage && navPage.CurrentPage is TeacherPage tp)
             return tp;
-            
+
         return null;
     }
 
@@ -100,7 +100,7 @@ public partial class GroupContentViewModel : ObservableObject
         try
         {
             List<GroupItem> groupsFromDb = await GetGroupsFromDatabase();
-            
+
             Groups.Clear();
             foreach (GroupItem group in groupsFromDb)
             {
@@ -166,7 +166,7 @@ public partial class GroupContentViewModel : ObservableObject
     {
         LoadGroups();
     }
-    
+
 }
 
 public class GroupItem

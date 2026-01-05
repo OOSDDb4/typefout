@@ -6,13 +6,13 @@ namespace Typefout.App.Views
     public partial class GroupContentInfoView : ContentView
     {
         private GroupItem _group;
-        
+
         public GroupContentInfoView(GroupContentInfoViewModel vm, GroupItem group)
         {
             InitializeComponent();
             BindingContext = vm;
             _group = group;
-            
+
             // Pass the group to the viewmodel
             vm.SetGroup(group);
         }
@@ -31,13 +31,13 @@ namespace Typefout.App.Views
         {
             if (element == null)
                 return null;
-                
+
             if (element is TeacherPage teacherPage)
                 return teacherPage;
-                
+
             if (element.Parent != null)
                 return FindTeacherPage(element.Parent);
-                
+
             return null;
         }
     }

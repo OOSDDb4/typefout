@@ -6,7 +6,7 @@
              x:DataType="viewmodels:GroupContentInfoViewModel">
 
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" />
+        <BackButtonBehavior IsVisible="False"/>
     </Shell.BackButtonBehavior>
 
     <Border BackgroundColor="#E0E0E0" 
@@ -15,9 +15,9 @@
             VerticalOptions="FillAndExpand">
 
         <StackLayout Spacing="20">
-            
-            <Button Text="← Terug naar Groepen" 
-                    BackgroundColor="White" 
+
+            <Button Text="← Terug naar Groepen"
+                    BackgroundColor="White"
                     TextColor="Black" 
                     HorizontalOptions="Start"
                     Clicked="BackButton_Clicked"/>
@@ -25,14 +25,14 @@
             <Frame BackgroundColor="White" Padding="20" CornerRadius="10">
                 <VerticalStackLayout Spacing="15">
                     <Label Text="Groep Informatie" FontSize="24" FontAttributes="Bold"/>
-                    
+
                     <Grid ColumnDefinitions="150, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
                         <Label Grid.Row="0" Grid.Column="0" Text="Groep Naam:" FontAttributes="Bold"/>
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedGroup.GroupName}"/>
-                        
+
                         <Label Grid.Row="1" Grid.Column="0" Text="Gezamenlijke Score:" FontAttributes="Bold"/>
                         <Label Grid.Row="1" Grid.Column="1" Text="500"/>
-                        
+
                         <Label Grid.Row="2" Grid.Column="0" Text="Aantal Leerlingen:" FontAttributes="Bold"/>
                         <Label Grid.Row="2" Grid.Column="1" Text="{Binding SelectedGroup.StudentCount}"/>
                     </Grid>

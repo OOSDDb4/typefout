@@ -83,7 +83,7 @@ namespace Typefout.App.Views
                     newContent = new Label { Text = $"Content voor '{pageName}' niet gevonden.", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
                     break;
             }
-            
+
             if (newContent != null)
             {
                 ContentPlaceholder.Content = newContent;
