@@ -15,7 +15,6 @@ namespace Typefout.Core.Interfaces
         Task<IEnumerable<User>> GetStudentsByGroupIdAsync(int groupId);
 
         public List<User> GetAllUsers();
-        public void AddUser(User user);
         Task CreateAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int userId);

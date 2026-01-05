@@ -53,6 +53,7 @@ namespace Typefout.App.ViewModels
 
             if (authenticatedClient != null)
             {
+                _authService.CurrentUser = authenticatedClient;
                 ErrorMessage = string.Empty;
                 await Application.Current.MainPage.Navigation.PushAsync(new OefeningenMenuPage());
             }

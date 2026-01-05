@@ -23,13 +23,12 @@ namespace Typefout.Core.Models
         {
         }
 
-        public User(int id, string username, string email, string password, string group)
+        public User(int id, string username, string email, string password)
         {
             Id = id;
             Username = username;
             Email = email;
             Password = password;
-            Group = group;
         }
     }
 }

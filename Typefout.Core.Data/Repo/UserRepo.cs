@@ -33,7 +33,10 @@ namespace Typefout.Core.Data.Repo
             List<User> users = Load();
             return users.FirstOrDefault(u => u.Username == username);
         }
-
+        public List<User> GetAllUsers()
+        {
+            return Load();
+        }
         public User? GetMail(string mail)
         {
             List<User> users = Load();
@@ -174,12 +177,5 @@ namespace Typefout.Core.Data.Repo
 
             File.WriteAllText(_filePath, json);
         }
-
-        public void AddUser(User user)
-        {
-            user.Id = _usersList.Count > 0 ? _usersList.Max(u => u.Id) + 1 : 1;
-            _usersList.Add(user);
-        }
-
     }
 }

@@ -11,10 +11,10 @@ namespace Typefout.App.Views
 {
     public partial class RegistrationPage : ContentPage
     {
-        public RegistrationPage(IAuthService authService)
+        public RegistrationPage(IUserRepo userRepo, IGroupRepo groupRepo, IAuthService authService)
         {
             InitializeComponent();
-            BindingContext = new RegistrationViewModel(authService);
+            BindingContext = new RegistrationViewModel(userRepo, groupRepo, authService);
         }
         private void OnEyeIconTapped(object sender, EventArgs e)
         {
