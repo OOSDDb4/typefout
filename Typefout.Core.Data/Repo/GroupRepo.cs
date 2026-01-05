@@ -31,6 +31,7 @@ namespace Typefout.Core.Data.Repo
             List<Group> groups = await LoadAsync();
             return groups;
         }
+
         public async Task<IEnumerable<Group>> GetBySchoolIdAsync(int schoolId)
         {
             List<Group> groups = await LoadAsync();
@@ -89,7 +90,6 @@ namespace Typefout.Core.Data.Repo
             if (!File.Exists(_filePath))
                 return new List<Group>();
 
-            string json = File.ReadAllTextAsync(_filePath).GetAwaiter().GetResult();
 
             if (string.IsNullOrWhiteSpace(json))
                 return new List<Group>();
@@ -108,4 +108,5 @@ namespace Typefout.Core.Data.Repo
             await File.WriteAllTextAsync(_filePath, json);
         }
     }
+}
 }

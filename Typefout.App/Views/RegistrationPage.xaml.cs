@@ -16,10 +16,12 @@ namespace Typefout.App.Views
             InitializeComponent();
             BindingContext = new RegistrationViewModel(userRepo, groupRepo, authService);
         }
+
         private void OnEyeIconTapped(object sender, EventArgs e)
         {
             PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
         }
+
         private void OnRepeatPasswordEyeIconTapped(object sender, EventArgs e)
         {
             RepeatPasswordEntry.IsPassword = !RepeatPasswordEntry.IsPassword;

@@ -16,7 +16,6 @@ namespace Typefout.App.ViewModels
         private View _currentContent;
         private string _pageTitle = "School";
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string PageTitle
