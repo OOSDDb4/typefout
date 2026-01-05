@@ -62,10 +62,7 @@ namespace Typefout.App.ViewModels
         }
         private void OnTimerFinished(object sender, EventArgs eventArgs)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowResults();
-            });
+            MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         private async void ShowResults()
         {

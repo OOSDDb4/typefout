@@ -72,10 +72,7 @@ namespace Typefout.App.ViewModels
         }
         private void OnTimerFinished(object sender, EventArgs eventArgs)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ShowResults();
-            });
+            MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         private void HighlightErrors(bool registerLastChar)
         {
