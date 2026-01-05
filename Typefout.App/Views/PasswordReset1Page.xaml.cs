@@ -5,10 +5,10 @@ namespace Typefout.App.Views;
 
 public partial class PasswordReset1Page : ContentPage
 {
-	public PasswordReset1Page()
-	{
-		InitializeComponent();
-	}
+    public PasswordReset1Page()
+    {
+        InitializeComponent();
+    }
 
     public bool IsEmail(string input)
     {

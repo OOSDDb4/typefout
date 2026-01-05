@@ -9,8 +9,8 @@ namespace Typefout.App.Views;
 public partial class PasswordReset2Page : ContentPage
 {
     public PasswordReset2Page(PasswordReset2PageViewmodel vm)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = vm;
     }
 

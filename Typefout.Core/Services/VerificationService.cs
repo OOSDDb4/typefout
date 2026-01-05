@@ -14,7 +14,7 @@ namespace Typefout.Core.Services
 
         public string GenerateVerificationCode(string email)
         {
-            if(_activeCodes.ContainsKey(email))
+            if (_activeCodes.ContainsKey(email))
             {
                 System.Diagnostics.Debug.WriteLine($"{_activeCodes[email]}");
                 return _activeCodes[email];

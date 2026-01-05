@@ -51,7 +51,7 @@ namespace Typefout.App.ViewModels
 
             if (code.Length != 6) return;
 
-            bool isValid = _verificationService.TryValidateCode(_userEmail ,code);
+            bool isValid = _verificationService.TryValidateCode(_userEmail, code);
 
             if (isValid)
             {

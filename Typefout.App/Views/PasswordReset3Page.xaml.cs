@@ -2,10 +2,10 @@ namespace Typefout.App.Views;
 
 public partial class PasswordReset3Page : ContentPage
 {
-	public PasswordReset3Page()
-	{
-		InitializeComponent();
-	}
+    public PasswordReset3Page()
+    {
+        InitializeComponent();
+    }
 
     private async void OnDoorClicked(object sender, EventArgs e)
     {
@@ -15,7 +15,7 @@ public partial class PasswordReset3Page : ContentPage
         if (string.IsNullOrEmpty(pass1) || string.IsNullOrEmpty(pass2))
         {
             await DisplayAlert("Fout", "Vul beide wachtwoordvelden in.", "OK");
-            return; 
+            return;
         }
 
         if (pass1 != pass2)
