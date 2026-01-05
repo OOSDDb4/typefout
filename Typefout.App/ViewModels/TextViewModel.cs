@@ -60,6 +60,7 @@ namespace Typefout.App.ViewModels
 
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
+                _timerService.Stop();
                 ShowResults();
             }
         }

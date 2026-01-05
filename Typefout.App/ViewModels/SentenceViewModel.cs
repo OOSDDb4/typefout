@@ -51,6 +51,7 @@ namespace Typefout.App.ViewModels
 
                 if (_index >= _exerciseLength)
                 {
+                    _timerService.Stop();
                     ShowResults();
                     return;
                 }
