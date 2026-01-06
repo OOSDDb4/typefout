@@ -14,14 +14,11 @@ namespace Typefout.App.ViewModels
 
         private int _index = 0;
         private const int _exerciseLength = 5;
-        private const int _exerciseTime = 30; // seconds
-        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
         private int _previousLength = 0;
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText;
         public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
@@ -32,9 +29,6 @@ namespace Typefout.App.ViewModels
             _previousLength = 0;
 
             NextSentence();
-            _timerService.Tick += UpdateTimerText;
-            _timerService.Finished += OnTimerFinished;
-            _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -62,14 +56,6 @@ namespace Typefout.App.ViewModels
 
             ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-        }
-        private void UpdateTimerText(object? sender, EventArgs eventArgs)
-        {
-            TimerText = _timerService.TimeToString();
-        }
-        private void OnTimerFinished(object? sender, EventArgs eventArgs)
-        {
-            MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         private void HighlightErrors(bool registerLastChar)
         {

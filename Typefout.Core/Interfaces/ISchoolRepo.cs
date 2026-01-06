@@ -15,4 +15,6 @@ public interface ISchoolRepo
     Task UpdateAsync(School school);
 
     Task DeleteAsync(int schoolId);
+    Task DeleteCascadeAsync(int schoolId);
+
 }

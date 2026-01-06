@@ -1,5 +1,4 @@
-﻿// MauiProgram.cs (FULL UPDATED)
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
 using Typefout.App.Views.Admin;
@@ -27,10 +26,15 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+        DatabaseService databaseService = new DatabaseService();
+        if (databaseService.Connect() != 202)
+        {
+            throw new Exception("Database connection failed. Check your .env settings and database availability.");
+        }
 
         // Services / repos
         builder.Services.AddSingleton<IAiService, AiService>();
-        builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
+        builder.Services.AddSingleton<IDatabaseService>(databaseService);
         builder.Services.AddSingleton<IKeyTrackingService, KeyTrackingService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<IUserRepo, UserRepo>();
