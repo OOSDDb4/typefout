@@ -11,10 +11,8 @@ namespace Typefout.App.ViewModels
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
-        private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
         private bool _firstWordCompleted = false;
-        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
@@ -33,17 +31,6 @@ namespace Typefout.App.ViewModels
             _previousLength = 0;
 
             LoadText();
-            _timerService.Tick += UpdateTimerText;
-            _timerService.Finished += OnTimerFinished;
-            _timerService.Start();
-        }
-        private void UpdateTimerText(object? sender, EventArgs eventArgs)
-        {
-            TimerText = _timerService.TimeToString();
-        }
-        private void OnTimerFinished(object? sender, EventArgs eventArgs)
-        {
-            MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         partial void OnInputTextChanged(string value)
         {

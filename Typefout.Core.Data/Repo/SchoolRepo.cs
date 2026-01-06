@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
@@ -11,102 +10,158 @@ namespace Typefout.Core.Data.Repo
 {
     public class SchoolRepo : ISchoolRepo
     {
-        private readonly string _filePath;
+        private readonly IDatabaseService _db;
 
-        public SchoolRepo()
+        public SchoolRepo(IDatabaseService db)
         {
-            string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "Typefout.Core.Data", "bin");
-            basePath = Path.GetFullPath(basePath);
+            _db = db;
+        }
 
-            Directory.CreateDirectory(basePath);
+        public Task<IEnumerable<School>> GetAllAsync()
+        {
+            _db.Open();
 
-            _filePath = Path.Combine(basePath, "schools.json");
+            DataTable dt = _db.Read(
+                table: "School",
+                columns: new List<string> { "SchoolId", "SchoolName" },
+                orderBy: "SchoolId ASC"
+            );
 
-            if (!File.Exists(_filePath))
+            _db.Close();
+
+            IEnumerable<School> schools = dt.AsEnumerable().Select(MapSchool);
+            return Task.FromResult(schools);
+        }
+
+        public Task<School?> GetByIdAsync(int schoolId)
+        {
+            _db.Open();
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                File.WriteAllText(_filePath, "[]");
-            }
+                ["@schoolId"] = schoolId
+            };
+
+            DataTable dt = _db.Read(
+                table: "School",
+                columns: new List<string> { "SchoolId", "SchoolName" },
+                where: "SchoolId = @schoolId",
+                parameters: parameters,
+                limit: 1
+            );
+
+            _db.Close();
+
+            if (dt.Rows.Count == 0) return Task.FromResult<School?>(null);
+
+            School school = MapSchool(dt.Rows[0]);
+            return Task.FromResult<School?>(school);
         }
 
-        public async Task<IEnumerable<School>> GetAllAsync()
+        public Task CreateAsync(School school)
         {
-            List<School> schools = await LoadAsync();
-            return schools;
+            if (school == null) throw new ArgumentNullException(nameof(school));
+            if (string.IsNullOrWhiteSpace(school.Name)) throw new ArgumentException("School name is required.", nameof(school));
+
+            _db.Open();
+
+            Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                ["SchoolName"] = school.Name.Trim()
+            };
+
+            int newId = _db.CreateAndReturnId("School", data);
+
+            _db.Close();
+
+            if (newId <= 0) throw new Exception("Failed to create school in database.");
+
+            school.Id = newId;
+            return Task.CompletedTask;
         }
 
-        public async Task<School?> GetByIdAsync(int schoolId)
+        public Task UpdateAsync(School school)
         {
-            List<School> schools = await LoadAsync();
-            School? school = schools.FirstOrDefault(s => s.Id == schoolId);
+            if (school == null) throw new ArgumentNullException(nameof(school));
+            if (school.Id <= 0) throw new ArgumentException("Invalid school id.", nameof(school));
+
+            _db.Open();
+
+            Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                ["SchoolName"] = school.Name.Trim()
+            };
+
+            int status = _db.Update("School", "SchoolId", school.Id.ToString(), data);
+
+            _db.Close();
+
+            if (status != 202 && status != 404) throw new Exception("Failed to update school in database.");
+
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteAsync(int schoolId)
+        {
+            _db.Open();
+
+            int status = _db.Delete("School", "SchoolId", schoolId);
+
+            _db.Close();
+
+            if (status != 202 && status != 404) throw new Exception("Failed to delete school in database.");
+
+            return Task.CompletedTask;
+        }
+
+        private static School MapSchool(DataRow row)
+        {
+            School school = new School();
+            school.Id = Convert.ToInt32(row["SchoolId"]);
+            school.Name = Convert.ToString(row["SchoolName"]) ?? string.Empty;
             return school;
         }
-
-        public async Task CreateAsync(School school)
+        public Task DeleteCascadeAsync(int schoolId)
         {
-            List<School> schools = await LoadAsync();
+            _db.Open();
 
-            int nextId = schools.Count == 0
-                ? 1
-                : schools.Max(s => s.Id) + 1;
-
-            school.Id = nextId;
-            schools.Add(school);
-
-            await SaveAsync(schools);
-        }
-
-        public async Task UpdateAsync(School school)
-        {
-            List<School> schools = await LoadAsync();
-
-            School? existing = schools.FirstOrDefault(s => s.Id == school.Id);
-            if (existing != null)
+            string getGroupsSql = "SELECT GroupId FROM SchoolGroup WHERE SchoolId = @schoolId;";
+            Dictionary<string, object> getGroupsParams = new Dictionary<string, object>
             {
-                existing.Name = school.Name;
-                await SaveAsync(schools);
+                ["@schoolId"] = schoolId
+            };
+
+            DataTable groupsTable = _db.ReadQuery(getGroupsSql, getGroupsParams);
+
+            foreach (DataRow row in groupsTable.Rows)
+            {
+                int groupId = Convert.ToInt32(row["GroupId"]);
+
+                string deleteStudentsSql = "DELETE FROM StudentGroup WHERE GroupId = @groupId;";
+                Dictionary<string, object> deleteStudentsParams = new Dictionary<string, object>
+                {
+                    ["@groupId"] = groupId
+                };
+
+                _db.ExecuteNonQuery(deleteStudentsSql, deleteStudentsParams);
             }
-        }
+            string deleteGroupsSql = "DELETE FROM SchoolGroup WHERE SchoolId = @schoolId;";
+            _db.ExecuteNonQuery(deleteGroupsSql, getGroupsParams);
 
-        public async Task DeleteAsync(int schoolId)
-        {
-            List<School> schools = await LoadAsync();
+            string deleteSchoolUserSql = "DELETE FROM SchoolUser WHERE SchoolId = @schoolId;";
+            _db.ExecuteNonQuery(deleteSchoolUserSql, getGroupsParams);
 
-            School? school = schools.FirstOrDefault(s => s.Id == schoolId);
-            if (school != null)
+            int status = _db.Delete("School", "SchoolId", schoolId);
+
+            _db.Close();
+
+            if (status != 202 && status != 404)
             {
-                schools.Remove(school);
-                await SaveAsync(schools);
-            }
-        }
-
-        private async Task<List<School>> LoadAsync()
-        {
-            if (!File.Exists(_filePath))
-            {
-                return new List<School>();
+                throw new Exception("Failed to delete school in database.");
             }
 
-            string json = await File.ReadAllTextAsync(_filePath);
-
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return new List<School>();
-            }
-
-            List<School>? schools = JsonSerializer.Deserialize<List<School>>(json);
-
-            return schools ?? new List<School>();
+            return Task.CompletedTask;
         }
 
-
-        private async Task SaveAsync(List<School> schools)
-        {
-            string json = JsonSerializer.Serialize(schools, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-
-            await File.WriteAllTextAsync(_filePath, json);
-        }
     }
 }

@@ -16,7 +16,7 @@ namespace Typefout.Core.Models
 
         public int SchoolId { get; set; }
 
-        public int? GroupId { get; set; }
+        public int GroupId { get; set; }
         public string GroupName { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
 

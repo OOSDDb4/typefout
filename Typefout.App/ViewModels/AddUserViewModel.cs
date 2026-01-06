@@ -110,69 +110,105 @@ public partial class AddUserViewModel : ObservableObject
     {
         if (!IsStudentSelected)
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Selecteer 'Leerling'.", "OK");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(StudentUsername))
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Gebruikersnaam is verplicht.", "OK");
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(StudentPassword) || StudentPassword != StudentPasswordRepeat)
+        if (string.IsNullOrWhiteSpace(StudentPassword))
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Wachtwoord is verplicht.", "OK");
+            return;
+        }
+
+        if (StudentPassword != StudentPasswordRepeat)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Wachtwoorden komen niet overeen.", "OK");
             return;
         }
 
         User user = new User
         {
-            Username = StudentUsername,
-            Email = string.Empty,
+            Username = StudentUsername.Trim(),
             Password = PasswordHelper.HashPassword(StudentPassword),
             UserType = UserType.Leerling,
             SchoolId = SchoolId,
-            GroupId = SelectedGroup?.Id,
+            GroupId = SelectedGroup?.Id ?? 0,
             IsActive = true
         };
 
-        await _userRepo.CreateAsync(user);
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            await _userRepo.CreateAsync(user);
+            await Application.Current.MainPage.DisplayAlert("Gelukt", "Leerling is aangemaakt.", "OK");
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
+        }
     }
+
 
     [RelayCommand]
     private async Task CreateTeacher()
     {
         if (!IsTeacherSelected)
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Selecteer 'Docent'.", "OK");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(TeacherUsername))
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Gebruikersnaam is verplicht.", "OK");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(TeacherEmail))
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "E-mail is verplicht.", "OK");
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(TeacherPassword) || TeacherPassword != TeacherPasswordRepeat)
+        if (string.IsNullOrWhiteSpace(TeacherPassword))
         {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Wachtwoord is verplicht.", "OK");
+            return;
+        }
+
+        if (TeacherPassword != TeacherPasswordRepeat)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Wachtwoorden komen niet overeen.", "OK");
             return;
         }
 
         User user = new User
         {
-            Username = TeacherUsername,
-            Email = TeacherEmail,
+            Username = TeacherUsername.Trim(),
+            Email = TeacherEmail.Trim(),
             Password = PasswordHelper.HashPassword(TeacherPassword),
             UserType = UserType.Docent,
             SchoolId = SchoolId,
-            GroupId = null,
+            GroupId = 0,
             IsActive = true
         };
 
-        await _userRepo.CreateAsync(user);
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            await _userRepo.CreateAsync(user);
+            await Application.Current.MainPage.DisplayAlert("Gelukt", "Docent is aangemaakt.", "OK");
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
+        }
     }
+
 }
