@@ -1,6 +1,7 @@
 ﻿// LoginPageViewModel.cs (FULL UPDATED)
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
