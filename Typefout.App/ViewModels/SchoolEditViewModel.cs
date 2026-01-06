@@ -30,21 +30,50 @@ public partial class SchoolEditViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadSchool()
     {
-        _school = await _schoolRepo.GetByIdAsync(SchoolId);
-        if (_school == null) return;
+        try
+        {
+            _school = await _schoolRepo.GetByIdAsync(SchoolId);
+            if (_school == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Fout", "School niet gevonden.", "OK");
+                return;
+            }
 
-        SchoolName = _school.Name;
+            SchoolName = _school.Name;
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
+        }
     }
 
     [RelayCommand]
     private async Task SaveEdit()
     {
-        if (_school == null) return;
-        if (string.IsNullOrWhiteSpace(SchoolName)) return;
+        if (_school == null)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", "School niet gevonden.", "OK");
+            return;
+        }
 
-        _school.Name = SchoolName;
+        if (string.IsNullOrWhiteSpace(SchoolName))
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Schoolnaam is verplicht.", "OK");
+            return;
+        }
 
-        await _schoolRepo.UpdateAsync(_school);
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            _school.Name = SchoolName.Trim();
+
+            await _schoolRepo.UpdateAsync(_school);
+
+            await Application.Current.MainPage.DisplayAlert("Gelukt", "School is bijgewerkt.", "OK");
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
+        }
     }
 }

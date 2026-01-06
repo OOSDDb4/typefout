@@ -263,11 +263,17 @@ namespace Typefout.Core.Data.Repo
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (string.IsNullOrWhiteSpace(user.Username))
-                throw new ArgumentException("Username is required.", nameof(user));
+                throw new ArgumentException("Gebruikersnaam is verplicht.");
             if (string.IsNullOrWhiteSpace(user.Password))
-                throw new ArgumentException("Password is required.", nameof(user));
+                throw new ArgumentException("Wachtwoord is verplicht.");
 
             _db.Open();
+
+            if (UsernameExists(user.Username))
+            {
+                _db.Close();
+                throw new Exception("Deze gebruikersnaam is al in gebruik.");
+            }
 
             int roleId = ResolveRoleId(user.UserType);
             int statusId = ResolveStatusId(user.IsActive);
@@ -290,7 +296,7 @@ namespace Typefout.Core.Data.Repo
             if (newId <= 0)
             {
                 _db.Close();
-                throw new Exception("Failed to create user in database.");
+                throw new Exception("Kon de gebruiker niet aanmaken in de database.");
             }
 
             user.Id = newId;
@@ -300,6 +306,7 @@ namespace Typefout.Core.Data.Repo
             _db.Close();
             return Task.CompletedTask;
         }
+
 
 
         public Task UpdateAsync(User user)
@@ -461,7 +468,19 @@ namespace Typefout.Core.Data.Repo
 
             return true;
         }
+        private bool UsernameExists(string username)
+        {
+            string sql = "SELECT COUNT(*) FROM User WHERE Username = @username;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                ["@username"] = username.Trim()
+            };
 
+            object? result = _db.ExecuteScalar(sql, parameters);
+            int count = result == null ? 0 : Convert.ToInt32(result);
+
+            return count > 0;
+        }
         private int ResolveRoleId(UserType userType)
         {
             string role = "Admin";

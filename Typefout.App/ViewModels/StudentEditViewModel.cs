@@ -35,41 +35,75 @@ public partial class StudentEditViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadStudent()
     {
-        User? user = await _userRepo.GetByIdAsync(UserId);
-        if (user == null) return;
-
-        Username = user.Username;
-
-        IEnumerable<Group> groups = await _groupRepo.GetBySchoolIdAsync(user.SchoolId);
-        Groups.Clear();
-
-        foreach (Group group in groups)
+        try
         {
-            Groups.Add(group);
-            if (user.GroupId == group.Id)
+            User? user = await _userRepo.GetByIdAsync(UserId);
+            if (user == null)
             {
-                SelectedGroup = group;
+                await Application.Current.MainPage.DisplayAlert("Fout", "Leerling niet gevonden.", "OK");
+                return;
             }
+
+            Username = user.Username;
+
+            IEnumerable<Group> groups = await _groupRepo.GetBySchoolIdAsync(user.SchoolId);
+            Groups.Clear();
+
+            foreach (Group group in groups)
+            {
+                Groups.Add(group);
+                if (user.GroupId == group.Id)
+                {
+                    SelectedGroup = group;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
         }
     }
 
     [RelayCommand]
     private async Task SaveStudent()
     {
-        if (string.IsNullOrWhiteSpace(Username)) return;
-        if (!string.IsNullOrEmpty(Password) && Password != PasswordRepeat) return;
-
-        User user = await _userRepo.GetByIdAsync(UserId) ?? new User();
-        user.Username = Username;
-        user.GroupId = SelectedGroup != null ? SelectedGroup.Id : 0;
-        user.GroupName = SelectedGroup?.Name ?? string.Empty;
-
-        if (!string.IsNullOrWhiteSpace(Password))
+        if (string.IsNullOrWhiteSpace(Username))
         {
-            user.Password = PasswordHelper.HashPassword(Password);
+            await Application.Current.MainPage.DisplayAlert("Fout", "Gebruikersnaam is verplicht.", "OK");
+            return;
         }
 
-        await _userRepo.UpdateAsync(user);
-        await Shell.Current.GoToAsync("..");
+        if (!string.IsNullOrWhiteSpace(Password) && Password != PasswordRepeat)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", "Wachtwoorden komen niet overeen.", "OK");
+            return;
+        }
+
+        try
+        {
+            User? user = await _userRepo.GetByIdAsync(UserId);
+            if (user == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Fout", "Leerling niet gevonden.", "OK");
+                return;
+            }
+
+            user.Username = Username.Trim();
+            user.GroupId = SelectedGroup != null ? SelectedGroup.Id : 0;
+
+            if (!string.IsNullOrWhiteSpace(Password))
+            {
+                user.Password = PasswordHelper.HashPassword(Password);
+            }
+
+            await _userRepo.UpdateAsync(user);
+
+            await Application.Current.MainPage.DisplayAlert("Gelukt", "Leerling is bijgewerkt.", "OK");
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Fout", ex.Message, "OK");
+        }
     }
 }
