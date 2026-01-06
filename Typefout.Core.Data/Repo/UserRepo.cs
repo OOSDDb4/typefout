@@ -199,7 +199,6 @@ namespace Typefout.Core.Data.Repo
             IEnumerable<User> users = dt.AsEnumerable().Select(MapUser);
             return Task.FromResult(users);
         }
-        
         public Task<IEnumerable<User>> GetStudentsBySchoolIdAsync(int schoolId)
         {
             _db.Open();
