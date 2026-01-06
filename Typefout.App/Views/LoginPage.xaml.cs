@@ -15,4 +15,9 @@ public partial class LoginPage : ContentPage
     {
         PassWord.IsPassword = !PassWord.IsPassword;
     }
+
+    private void OnLinkPressed(object sender, EventArgs e)
+    {
+        Application.Current.MainPage.Navigation.PushAsync(new PasswordReset1Page());
+    }
 }

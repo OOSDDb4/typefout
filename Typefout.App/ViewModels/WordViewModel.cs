@@ -22,7 +22,7 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText = _exerciseTime.ToString(@"mm\:ss");
+        [ObservableProperty] private string _timerText;
 
         public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
@@ -56,11 +56,11 @@ namespace Typefout.App.ViewModels
                 NextWord();
             }
         }
-        private void UpdateTimerText(object sender, EventArgs eventArgs)
+        private void UpdateTimerText(object? sender, EventArgs eventArgs)
         {
             TimerText = _timerService.TimeToString();
         }
-        private void OnTimerFinished(object sender, EventArgs eventArgs)
+        private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
             MainThread.BeginInvokeOnMainThread(ShowResults);
         }
