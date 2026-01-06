@@ -141,11 +141,29 @@ public partial class SchoolsViewModel : ObservableObject
             "Ja",
             "Nee");
 
-        if (answer)
+        if (!answer) return;
+
+        IEnumerable<Group> groups = await _groupRepo.GetBySchoolIdAsync(school.Id);
+        bool hasGroups = groups.Any();
+
+        if (hasGroups)
+        {
+            bool answer2 = await Application.Current.MainPage.DisplayAlert(
+                "School bevat groepen",
+                "Deze school bevat één of meer groepen. Als je doorgaat worden ook alle groepen en gekoppelde leerlingen verwijderd. Weet je het zeker?",
+                "Ja",
+                "Nee");
+
+            if (!answer2) return;
+
+            await _schoolRepo.DeleteCascadeAsync(school.Id);
+        }
+        else
         {
             await _schoolRepo.DeleteAsync(school.Id);
-            await LoadSchools();
         }
+
+        await LoadSchools();
     }
 
     [RelayCommand]

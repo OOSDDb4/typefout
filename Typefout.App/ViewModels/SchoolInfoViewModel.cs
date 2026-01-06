@@ -80,8 +80,8 @@ public partial class SchoolInfoViewModel : ObservableObject
 
         foreach (User user in _allUsers)
         {
-            if (user.GroupId.HasValue &&
-                groupById.TryGetValue(user.GroupId.Value, out Group group))
+            if (user.GroupId > 0 &&
+                groupById.TryGetValue(user.GroupId, out Group group))
             {
                 user.GroupName = group.Name;
             }
@@ -261,6 +261,7 @@ public partial class SchoolInfoViewModel : ObservableObject
             await LoadData();
         }
     }
+
     [RelayCommand]
     private async Task ToggleUserActive(User user)
     {

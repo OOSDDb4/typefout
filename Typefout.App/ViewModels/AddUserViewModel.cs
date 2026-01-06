@@ -126,11 +126,10 @@ public partial class AddUserViewModel : ObservableObject
         User user = new User
         {
             Username = StudentUsername,
-            Email = string.Empty,
             Password = PasswordHelper.HashPassword(StudentPassword),
             UserType = UserType.Leerling,
             SchoolId = SchoolId,
-            GroupId = SelectedGroup?.Id,
+            GroupId = SelectedGroup != null ? SelectedGroup.Id : 0,
             IsActive = true
         };
 
@@ -163,12 +162,12 @@ public partial class AddUserViewModel : ObservableObject
 
         User user = new User
         {
-            Username = TeacherUsername,
-            Email = TeacherEmail,
+            Username = TeacherUsername.Trim(),
+            Email = TeacherEmail.Trim(),
             Password = PasswordHelper.HashPassword(TeacherPassword),
             UserType = UserType.Docent,
             SchoolId = SchoolId,
-            GroupId = null,
+            GroupId = 0,
             IsActive = true
         };
 

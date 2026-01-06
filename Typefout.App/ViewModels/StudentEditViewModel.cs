@@ -61,7 +61,7 @@ public partial class StudentEditViewModel : ObservableObject
 
         User user = await _userRepo.GetByIdAsync(UserId) ?? new User();
         user.Username = Username;
-        user.GroupId = SelectedGroup?.Id;
+        user.GroupId = SelectedGroup != null ? SelectedGroup.Id : 0;
         user.GroupName = SelectedGroup?.Name ?? string.Empty;
 
         if (!string.IsNullOrWhiteSpace(Password))

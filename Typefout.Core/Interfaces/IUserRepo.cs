@@ -11,8 +11,10 @@ namespace Typefout.Core.Interfaces
         User? GetUserById(int id);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(int userId);
+        
         Task<IEnumerable<User>> GetTeachersBySchoolIdAsync(int schoolId);
         Task<IEnumerable<User>> GetStudentsByGroupIdAsync(int groupId);
+        Task<IEnumerable<User>> GetStudentsBySchoolIdAsync(int schoolId);
         Task SetActiveAsync(int userId, bool isActive);
 
         Task CreateAsync(User user);
