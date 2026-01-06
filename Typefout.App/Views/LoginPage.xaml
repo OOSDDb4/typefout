@@ -111,7 +111,7 @@
                    FontSize="12"
                    HorizontalOptions="Center">
             <Label.GestureRecognizers>
-                <TapGestureRecognizer NumberOfTapsRequired="1" />
+                <TapGestureRecognizer Tapped="OnLinkPressed" />
             </Label.GestureRecognizers>
         </Label>
 

@@ -74,6 +74,20 @@
 		</Compile>
 	</ItemGroup>
 
+    <ItemGroup>
+        <MauiXaml Update="Views\PasswordReset1Page.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Views\PasswordReset2Page.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Views\PasswordReset3Page.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Views\TypeView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+    </ItemGroup>
 	<ItemGroup>
 		<MauiXaml Update="Views\SchoolContentView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
