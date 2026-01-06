@@ -49,12 +49,12 @@ public partial class PasswordReset2Page : ContentPage
     {
         if (BindingContext is PasswordReset2PageViewmodel vm)
         {
-            if (vm.isCodeValid)
+            if (vm.IsCodeValid)
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new PasswordReset3Page());
                 vm.ClearCode();
 
-                vm.isCodeValid = false;
+                vm.IsCodeValid = false;
             }
             else return;
         }

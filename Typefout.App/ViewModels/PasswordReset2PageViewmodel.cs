@@ -34,7 +34,7 @@ namespace Typefout.App.ViewModels
         [ObservableProperty]
         private string _errorMessage = string.Empty;
 
-        public bool isCodeValid = false;
+        public bool IsCodeValid = false;
 
         partial void OnUserEmailChanged(string value)
         {
@@ -55,13 +55,13 @@ namespace Typefout.App.ViewModels
 
             if (isValid)
             {
-                isCodeValid = true;
+                IsCodeValid = true;
                 System.Diagnostics.Debug.WriteLine($"Code is correct");
                 ErrorMessage = string.Empty;
             }
             else
             {
-                isCodeValid = false;
+                IsCodeValid = false;
                 System.Diagnostics.Debug.WriteLine($"Code is incorrect");
                 ErrorMessage = "De ingevoerde code is onjuist of verlopen.";
                 ClearCode();
