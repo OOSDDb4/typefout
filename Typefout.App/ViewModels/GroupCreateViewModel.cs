@@ -38,16 +38,26 @@ public partial class GroupCreateViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadTeachers()
     {
-        Teachers.Clear();
-
-        IEnumerable<User> users = await _userRepo.GetAllAsync();
-
-        foreach (User user in users)
+        try
         {
-            if (user.SchoolId == SchoolId && user.UserType == UserType.Docent)
+            Teachers.Clear();
+
+            IEnumerable<User> users = await _userRepo.GetAllAsync();
+
+            foreach (User user in users)
             {
-                Teachers.Add(user);
+                if (user.SchoolId == SchoolId && user.UserType == UserType.Docent)
+                {
+                    Teachers.Add(user);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Fout",
+                ex.Message,
+                "OK");
         }
     }
 
@@ -55,17 +65,39 @@ public partial class GroupCreateViewModel : ObservableObject
     private async Task CreateGroup()
     {
         if (string.IsNullOrWhiteSpace(GroupName))
-            return;
-
-        Group group = new Group
         {
-            Name = GroupName,
-            SchoolId = SchoolId,
-            TeacherId = SelectedTeacher?.Id,
-            TeacherName = SelectedTeacher?.Username ?? string.Empty
-        };
+            await Application.Current.MainPage.DisplayAlert(
+                "Fout",
+                "Groepsnaam is verplicht.",
+                "OK");
+            return;
+        }
 
-        await _groupRepo.CreateAsync(group);
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            Group group = new Group
+            {
+                Name = GroupName.Trim(),
+                SchoolId = SchoolId,
+                TeacherId = SelectedTeacher?.Id,
+                TeacherName = SelectedTeacher?.Username ?? string.Empty
+            };
+
+            await _groupRepo.CreateAsync(group);
+
+            await Application.Current.MainPage.DisplayAlert(
+                "Gelukt",
+                "Groep is aangemaakt.",
+                "OK");
+
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Fout",
+                ex.Message,
+                "OK");
+        }
     }
 }

@@ -23,15 +23,35 @@ public partial class SchoolCreateViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(SchoolName))
         {
+            await Application.Current.MainPage.DisplayAlert(
+                "Fout",
+                "Schoolnaam is verplicht.",
+                "OK");
             return;
         }
 
-        School school = new School
+        try
         {
-            Name = SchoolName
-        };
+            School school = new School
+            {
+                Name = SchoolName.Trim()
+            };
 
-        await _schoolRepo.CreateAsync(school);
-        await Shell.Current.GoToAsync("..");
+            await _schoolRepo.CreateAsync(school);
+
+            await Application.Current.MainPage.DisplayAlert(
+                "Gelukt",
+                "School is aangemaakt.",
+                "OK");
+
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Fout",
+                ex.Message,
+                "OK");
+        }
     }
 }
