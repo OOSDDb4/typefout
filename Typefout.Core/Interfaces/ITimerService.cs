@@ -7,5 +7,6 @@ public interface ITimerService
     event EventHandler Finished;
     public void Start();
     public void Stop();
+    public void Dispose();
     public string TimeToString();
 }

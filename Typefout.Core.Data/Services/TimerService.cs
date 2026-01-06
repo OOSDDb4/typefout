@@ -38,9 +38,16 @@ public class TimerService(int timerLength) : ITimerService
     private void OnFinished(object? sender, EventArgs e)
     {
         Stop();
+        Dispose();
     }
     public string TimeToString()
     {
         return _remainingTime.ToString(@"mm\:ss");
     }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+
 }

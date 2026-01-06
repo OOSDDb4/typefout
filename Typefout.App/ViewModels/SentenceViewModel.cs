@@ -51,13 +51,18 @@ namespace Typefout.App.ViewModels
 
                 if (_index >= _exerciseLength)
                 {
-                    _timerService.Stop();
-                    ShowResults();
+                    ExerciseFinished();
                     return;
                 }
 
                 NextSentence();
             }
+        }
+        private void ExerciseFinished()
+        {
+            _timerService.Stop();
+            _timerService.Dispose();
+            ShowResults();
         }
         private async void ShowResults()
         {
