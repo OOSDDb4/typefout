@@ -32,7 +32,6 @@ public class TimerService(int timerLength) : ITimerService
         }
         else
         {
-            Stop();
             Finished?.Invoke(this, EventArgs.Empty);
         }
     }
