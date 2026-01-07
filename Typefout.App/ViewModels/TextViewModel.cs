@@ -55,7 +55,7 @@ namespace Typefout.App.ViewModels
         }
         private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
-            MainThread.BeginInvokeOnMainThread(ShowResults);
+            MainThread.BeginInvokeOnMainThread(TimeUp);
         }
         private void CheckFirstWordProgress()
         {
@@ -67,15 +67,22 @@ namespace Typefout.App.ViewModels
                 _firstWordCompleted = true;
             }
         }
-        private void ExerciseFinished()
+        private async void ExerciseFinished()
         {
             _timerService.Stop();
             _timerService.Dispose();
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+            ShowResults();
+        }
+        private async void TimeUp()
+        {
+            _timerService.Stop();
+            _timerService.Dispose();
+            await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
             ShowResults();
         }
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt de tekst getypt!", "OK");
             ResultsViewModel vm = new(_trackingService, _timerService);
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
@@ -151,8 +158,7 @@ namespace Typefout.App.ViewModels
 
             if (_firstWordCompleted)
             {
-                ResultsViewModel vm = new(_trackingService, _timerService);
-                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+                ShowResults();
             }
             else
             {

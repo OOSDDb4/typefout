@@ -62,14 +62,20 @@ namespace Typefout.App.ViewModels
         }
         private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
-            // ShowResults();
-            MainThread.BeginInvokeOnMainThread(ShowResults);
+            MainThread.BeginInvokeOnMainThread(TimeUp);
         }
         private async void ExerciseFinished()
         {
             _timerService.Stop();
             _timerService.Dispose();
             await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+            ShowResults();
+        }
+        private async void TimeUp()
+        {
+            _timerService.Stop();
+            _timerService.Dispose();
+            await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
             ShowResults();
         }
         private async void ShowResults()
@@ -154,13 +160,15 @@ namespace Typefout.App.ViewModels
             {
                 if (_index == 0)
                 {
+                    _timerService.Stop();
+                    _timerService.Dispose();
                     await Shell.Current.Navigation.PopAsync();
                     return;
                 }
                 else
                 {
-                    ResultsViewModel vm = new(_trackingService, _timerService);
-                    await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
+                    _timerService.Stop();
+                    _timerService.Dispose();
                 }
             }
             else

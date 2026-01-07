@@ -63,18 +63,22 @@ namespace Typefout.App.ViewModels
         private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
             // ShowResults();
-            MainThread.BeginInvokeOnMainThread(ShowResults);
+            MainThread.BeginInvokeOnMainThread(TimeUp);
         }
-        private void ExerciseFinished()
+        private async void ExerciseFinished()
         {
             _timerService.Stop();
             _timerService.Dispose();
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
+            ShowResults();
+        }
+        private async void TimeUp()
+        {
+            await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
             ShowResults();
         }
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
-
             ResultsViewModel vm = new(_trackingService, _timerService);
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
