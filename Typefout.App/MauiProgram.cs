@@ -62,6 +62,8 @@ public static class MauiProgram
         builder.Services.AddTransient<StudentCreateViewModel>();
         builder.Services.AddTransient<StudentEditViewModel>();
         builder.Services.AddTransient<AddUserViewModel>();
+        builder.Services.AddTransient<GroupContentInfoViewModel>();
+        builder.Services.AddTransient<GroupContentViewModel>();
 
         // Pages
         builder.Services.AddTransient<LoginPage>();
@@ -73,6 +75,8 @@ public static class MauiProgram
         builder.Services.AddTransient<PasswordReset2Page>();
         builder.Services.AddTransient<PasswordReset3Page>();
         builder.Services.AddTransient<OefeningenMenuPage>();
+        builder.Services.AddTransient<GroupContentInfoView>();
+        builder.Services.AddTransient<GroupContentView>();
 
         // Admin pages
         builder.Services.AddTransient<SchoolsPage>();
