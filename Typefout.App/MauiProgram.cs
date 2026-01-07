@@ -106,6 +106,7 @@ public static class MauiProgram
         Routing.RegisterRoute("studentedit", typeof(StudentEditPage));
         Routing.RegisterRoute("adduser", typeof(AddUserPage));
         Routing.RegisterRoute("oefeningen", typeof(OefeningenMenuPage));
+        Routing.RegisterRoute("teacherpage", typeof(TeacherPage));
 
         return app;
     }
