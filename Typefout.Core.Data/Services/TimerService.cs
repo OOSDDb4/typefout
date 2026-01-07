@@ -17,7 +17,7 @@ public class TimerService() : ITimerService
             throw new InvalidOperationException("StartTime already set");
 
         _startTime = TimeSpan.FromSeconds(timerLength);
-        _remainingTime =  _startTime.Value;
+        _remainingTime = _startTime.Value;
         _timer.Elapsed += OnTimerTick;
         Finished += OnFinished;
         _timer.Interval = 1000; // 1 second
@@ -30,7 +30,6 @@ public class TimerService() : ITimerService
         }
         _timer.Start();
         Tick?.Invoke(this, EventArgs.Empty);
-        
     }
     public void Stop()
     {
@@ -73,7 +72,6 @@ public class TimerService() : ITimerService
             return _remainingTime.Value.ToString(@"mm\:ss");
         }
         return "time not set";
-            
     }
 
     public void Dispose()

@@ -9,20 +9,12 @@ namespace Typefout.App.ViewModels
     {
         private readonly IKeyTrackingService _trackingService;
         private readonly ITimerService _timerService;
-        [ObservableProperty]
-        private List<KeyStat> _worstKeys;
-
-        [ObservableProperty]
-        private List<KeyStat> _bestKeys;
-
-        [ObservableProperty]
-        private int _totalMistakes;
         
-        [ObservableProperty]
-        private string _timeUsed;
-        
-        [ObservableProperty]
-        private string _timeLeft;
+        [ObservableProperty] private List<KeyStat> _worstKeys;
+        [ObservableProperty] private List<KeyStat> _bestKeys;
+        [ObservableProperty] private int _totalMistakes;
+        [ObservableProperty] private string _timeUsed;
+        [ObservableProperty] private string _timeLeft;
 
         private const double _errorThreshold = 0.15;
 
@@ -52,7 +44,6 @@ namespace Typefout.App.ViewModels
             _totalMistakes = _worstKeys.Sum(k => (int)(k.Attempts * k.ErrorRate));
             TimeUsed = _timerService.TimeUsedToString();
             TimeLeft = _timerService.TimeLeftToString();
-            
         }
 
         [RelayCommand]
