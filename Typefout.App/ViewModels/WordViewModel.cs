@@ -34,7 +34,7 @@ namespace Typefout.App.ViewModels
             _timerService.Tick += UpdateTimerText;
             _timerService.Finished += OnTimerFinished;
             _timerService.Set(_exerciseTime);
-            NextWord();
+            NextWord().Wait();
             _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
@@ -133,7 +133,7 @@ namespace Typefout.App.ViewModels
             HighlightedText = formattedString;
         }
         [RelayCommand]
-        private async void NextWord()
+        private async Task NextWord()
         {
             InputText = string.Empty;
             IsCompleted = false;

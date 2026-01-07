@@ -33,7 +33,7 @@ namespace Typefout.App.ViewModels
             _timerService.Tick += UpdateTimerText;
             _timerService.Finished += OnTimerFinished;
             _timerService.Set(_exerciseTime);
-            NextSentence();
+            NextSentence().Wait();
             _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
@@ -127,7 +127,7 @@ namespace Typefout.App.ViewModels
         }
 
         [RelayCommand]
-        private async void NextSentence()
+        private async Task NextSentence()
         {
             InputText = string.Empty;
             _previousLength = 0;
