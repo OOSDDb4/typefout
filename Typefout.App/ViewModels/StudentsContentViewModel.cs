@@ -13,7 +13,7 @@ public partial class StudentsContentViewModel : ObservableObject
 
     [ObservableProperty]
     private ObservableCollection<StudentItem> _student;
-    
+
     [RelayCommand]
     private async Task EditStudent(StudentItem student)
     {
@@ -43,12 +43,10 @@ public partial class StudentsContentViewModel : ObservableObject
 
             if (success)
             {
-                // Update in de UI
                 student.Username = newUsername;
-                
-                // Ververs de lijst
+
                 RefreshGroups();
-                
+
                 await Application.Current.MainPage.DisplayAlert("Gelukt", "Gebruikersnaam is gewijzigd", "OK");
             }
             else
@@ -74,7 +72,7 @@ public partial class StudentsContentViewModel : ObservableObject
 
                 // Haal UserId op basis van de huidige username
                 string getUserIdQuery = "SELECT UserId FROM User WHERE Username = @username";
-                
+
                 DataTable userTable = _databaseService.ReadQuery(
                     getUserIdQuery,
                     new Dictionary<string, object>
@@ -129,7 +127,7 @@ public partial class StudentsContentViewModel : ObservableObject
         try
         {
             System.Diagnostics.Trace.WriteLine("LoadStudents started");
-            
+
             List<StudentItem> studentsFromDb = await GetStudentsFromDatabase();
 
             Student.Clear();
@@ -137,7 +135,7 @@ public partial class StudentsContentViewModel : ObservableObject
             {
                 Student.Add(student);
             }
-            
+
             System.Diagnostics.Trace.WriteLine($"Totaal studenten in UI: {Student.Count}");
         }
         catch (Exception ex)
@@ -178,8 +176,8 @@ public partial class StudentsContentViewModel : ObservableObject
                     {
                         UserId = row["UserId"] != DBNull.Value ? Convert.ToInt32(row["UserId"]) : 0,
                         Username = row["Username"]?.ToString() ?? "Onbekend",
-                        GroupName = row["GroupName"] != DBNull.Value 
-                            ? row["GroupName"]?.ToString() 
+                        GroupName = row["GroupName"] != DBNull.Value
+                            ? row["GroupName"]?.ToString()
                             : "Geen groep"
                     });
                 }
@@ -208,19 +206,19 @@ public partial class StudentItem : ObservableObject
 {
     [ObservableProperty]
     private int _userId;
-    
+
     [ObservableProperty]
     private int _groupId;
-    
+
     [ObservableProperty]
     private string _groupName;
-    
+
     [ObservableProperty]
     private string _teacher;
-    
+
     [ObservableProperty]
     private string _studentCount;
-    
+
     [ObservableProperty]
     private string _username;
 }
