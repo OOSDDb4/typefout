@@ -14,7 +14,9 @@ namespace Typefout.App.ViewModels
 
         private int _index = 0;
         private const int _exerciseLength = 5;
+        private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
+        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;

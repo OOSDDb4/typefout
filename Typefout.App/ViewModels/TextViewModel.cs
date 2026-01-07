@@ -13,7 +13,8 @@ namespace Typefout.App.ViewModels
         private readonly IKeyTrackingService _trackingService;
         private int _previousLength = 0;
         private bool _firstWordCompleted = false;
-
+        private const int _exerciseTime = 30; // seconds
+        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
