@@ -69,6 +69,10 @@ namespace Typefout.App.ViewModels
             {
                 await Shell.Current.GoToAsync("schools");
             }
+            else if (authenticatedClient.UserType == UserType.Docent)
+            {
+                await Shell.Current.GoToAsync("teacherpage");
+            }
             else
             {
                 await Shell.Current.GoToAsync("oefeningen");

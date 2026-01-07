@@ -33,11 +33,6 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto, Auto, *" Padding="30">
-        
-        <HorizontalStackLayout Grid.Row="0" Spacing="10">
-            <Button Text="TeacherPage"
-                    Clicked="OnNavigateButtonClicked" />
-        </HorizontalStackLayout>
 
         <Label Grid.Row="1" 
                Text="Kies een oefening" 
