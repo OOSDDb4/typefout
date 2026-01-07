@@ -9,13 +9,11 @@ namespace Typefout.App.ViewModels
     {
         private readonly IKeyTrackingService _trackingService;
         private readonly ITimerService _timerService;
-        
         [ObservableProperty] private List<KeyStat> _worstKeys;
         [ObservableProperty] private List<KeyStat> _bestKeys;
         [ObservableProperty] private int _totalMistakes;
         [ObservableProperty] private string _timeUsed;
         [ObservableProperty] private string _timeLeft;
-
         private const double _errorThreshold = 0.15;
 
         public ResultsViewModel(IKeyTrackingService trackingService, ITimerService timerService)
