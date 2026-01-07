@@ -8,7 +8,7 @@ namespace Typefout.App.ViewModels
     public partial class ResultsViewModel : ObservableObject
     {
         private readonly IKeyTrackingService _trackingService;
-
+        private readonly ITimerService _timerService;
         [ObservableProperty]
         private List<KeyStat> _worstKeys;
 
@@ -17,15 +17,22 @@ namespace Typefout.App.ViewModels
 
         [ObservableProperty]
         private int _totalMistakes;
+        
+        [ObservableProperty]
+        private string _timeUsed;
+        
+        [ObservableProperty]
+        private string _timeLeft;
 
         private const double _errorThreshold = 0.15;
 
-        public ResultsViewModel(IKeyTrackingService trackingService)
+        public ResultsViewModel(IKeyTrackingService trackingService, ITimerService timerService)
         {
             _trackingService = trackingService;
+            _timerService = timerService;
             LoadStats();
         }
-        private void LoadStats()
+        public void LoadStats()
         {
             List<KeyStat> stats = _trackingService.GetStats()
                 .Where(s => s.Attempts >= 2)
@@ -43,6 +50,9 @@ namespace Typefout.App.ViewModels
                 .ToList();
 
             _totalMistakes = _worstKeys.Sum(k => (int)(k.Attempts * k.ErrorRate));
+            TimeUsed = _timerService.TimeUsedToString();
+            TimeLeft = _timerService.TimeLeftToString();
+            
         }
 
         [RelayCommand]

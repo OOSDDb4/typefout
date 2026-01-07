@@ -14,13 +14,14 @@ namespace Typefout.App.ViewModels
 
         private int _index = 0;
         private const int _exerciseLength = 5;
-        private const int _exerciseTime = 30; // seconds
+        private const int _exerciseTime = 60; // seconds
         private int _previousLength = 0;
-        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
+        private readonly ITimerService _timerService = new TimerService();
 
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private FormattedString _highlightedText;
+        [ObservableProperty] private string _timerText;
         public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
             _aiService = aiService;
@@ -29,8 +30,11 @@ namespace Typefout.App.ViewModels
             _trackingService.Reset();
             _index = 0;
             _previousLength = 0;
-
+            _timerService.Tick += UpdateTimerText;
+            _timerService.Finished += OnTimerFinished;
+            _timerService.Set(_exerciseTime);
             NextSentence();
+            _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -52,6 +56,15 @@ namespace Typefout.App.ViewModels
                 NextSentence();
             }
         }
+        private void UpdateTimerText(object? sender, EventArgs eventArgs)
+        {
+            TimerText = _timerService.TimeLeftToString();
+        }
+        private void OnTimerFinished(object? sender, EventArgs eventArgs)
+        {
+            // ShowResults();
+            MainThread.BeginInvokeOnMainThread(ShowResults);
+        }
         private void ExerciseFinished()
         {
             _timerService.Stop();
@@ -62,7 +75,7 @@ namespace Typefout.App.ViewModels
         {
             await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle zinnen getypt!", "OK");
 
-            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+            ResultsViewModel vm = new(_trackingService, _timerService);
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
         private void HighlightErrors(bool registerLastChar)
@@ -131,6 +144,8 @@ namespace Typefout.App.ViewModels
         [RelayCommand]
         private async void StopExercise()
         {
+            _timerService.Stop();
+            _timerService.Dispose();
             bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
             if (answer)
             {
@@ -141,7 +156,7 @@ namespace Typefout.App.ViewModels
                 }
                 else
                 {
-                    ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                    ResultsViewModel vm = new(_trackingService, _timerService);
                     await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
                 }
             }

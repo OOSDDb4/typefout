@@ -39,7 +39,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAuthService, AuthService>();
         builder.Services.AddSingleton<IUserRepo, UserRepo>();
         builder.Services.AddSingleton<IVerificationService, VerificationService>();
-
+        builder.Services.AddSingleton<ITimerService, TimerService>();
         builder.Services.AddSingleton<ISchoolRepo, SchoolRepo>();
         builder.Services.AddSingleton<IGroupRepo, GroupRepo>();
 

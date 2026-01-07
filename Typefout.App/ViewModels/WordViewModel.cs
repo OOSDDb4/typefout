@@ -16,7 +16,7 @@ namespace Typefout.App.ViewModels
         private const int _exerciseLength = 10;
         private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
-        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
+        private readonly ITimerService _timerService = new TimerService();
 
         [ObservableProperty] private string _targetWord;
         [ObservableProperty] private string _inputText;
@@ -31,9 +31,10 @@ namespace Typefout.App.ViewModels
             _trackingService.Reset();
             _index = 0;
             _previousLength = 0;
-            NextWord();
             _timerService.Tick += UpdateTimerText;
             _timerService.Finished += OnTimerFinished;
+            _timerService.Set(_exerciseTime);
+            NextWord();
             _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
@@ -57,10 +58,11 @@ namespace Typefout.App.ViewModels
         }
         private void UpdateTimerText(object? sender, EventArgs eventArgs)
         {
-            TimerText = _timerService.TimeToString();
+            TimerText = _timerService.TimeLeftToString();
         }
         private void OnTimerFinished(object? sender, EventArgs eventArgs)
         {
+            // ShowResults();
             MainThread.BeginInvokeOnMainThread(ShowResults);
         }
         private void ExerciseFinished()
@@ -73,7 +75,8 @@ namespace Typefout.App.ViewModels
         {
             await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
 
-            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+            // ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+            ResultsViewModel vm = new(_trackingService, _timerService);
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
         private void HighlightErrors(bool registerLastChar)
@@ -157,7 +160,7 @@ namespace Typefout.App.ViewModels
                 }
                 else
                 {
-                    ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
+                    ResultsViewModel vm = new(_trackingService, _timerService);
                     await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
                 }
             }
