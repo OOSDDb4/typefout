@@ -42,7 +42,7 @@ namespace Typefout.App.ViewModels
 
             if (!string.IsNullOrEmpty(value) && value == TargetText)
             {
-                ShowResults();
+                ExerciseFinished();
             }
         }
         private void CheckFirstWordProgress()
@@ -54,6 +54,12 @@ namespace Typefout.App.ViewModels
             {
                 _firstWordCompleted = true;
             }
+        }
+        private void ExerciseFinished()
+        {
+            _timerService.Stop();
+            _timerService.Dispose();
+            ShowResults();
         }
         private async void ShowResults()
         {

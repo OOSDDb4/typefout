@@ -14,12 +14,15 @@ namespace Typefout.App.ViewModels
         private readonly IKeyTrackingService _trackingService;
         private int _index = 0;
         private const int _exerciseLength = 10;
+        private const int _exerciseTime = 30; // seconds
         private int _previousLength = 0;
+        private readonly ITimerService _timerService = new TimerService(_exerciseTime);
 
         [ObservableProperty] private string _targetWord;
         [ObservableProperty] private string _inputText;
         [ObservableProperty] private bool _isCompleted;
         [ObservableProperty] private FormattedString _highlightedText;
+        [ObservableProperty] private string _timerText;
 
         public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
         {
@@ -29,6 +32,9 @@ namespace Typefout.App.ViewModels
             _index = 0;
             _previousLength = 0;
             NextWord();
+            _timerService.Tick += UpdateTimerText;
+            _timerService.Finished += OnTimerFinished;
+            _timerService.Start();
         }
         partial void OnInputTextChanged(string value)
         {
@@ -43,11 +49,25 @@ namespace Typefout.App.ViewModels
 
                 if (_index >= _exerciseLength)
                 {
-                    ShowResults();
+                    ExerciseFinished();
                     return;
                 }
                 NextWord();
             }
+        }
+        private void UpdateTimerText(object? sender, EventArgs eventArgs)
+        {
+            TimerText = _timerService.TimeToString();
+        }
+        private void OnTimerFinished(object? sender, EventArgs eventArgs)
+        {
+            MainThread.BeginInvokeOnMainThread(ShowResults);
+        }
+        private void ExerciseFinished()
+        {
+            _timerService.Stop();
+            _timerService.Dispose();
+            ShowResults();
         }
         private async void ShowResults()
         {
