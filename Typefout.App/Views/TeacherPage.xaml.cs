@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Maui.Controls;
 using Microsoft.UI.Xaml;
-using Style = Microsoft.Maui.Controls.Style;
 using Typefout.App.ViewModels;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
+using Style = Microsoft.Maui.Controls.Style;
 
 namespace Typefout.App.Views
 {
