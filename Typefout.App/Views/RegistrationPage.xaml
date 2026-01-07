@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Typefout.App.Views.RegistrationPage"
+             BackgroundColor="White">
+
+	<Grid VerticalOptions="Center" HorizontalOptions="Center">
+		<Border BackgroundColor="#D3D3D3"
+                StrokeShape="RoundRectangle 20"
+                Padding="60, 40"
+                WidthRequest="600">
+
+			<VerticalStackLayout Spacing="15">
+
+				<Label Text="Registratie" FontSize="32" HorizontalOptions="Center" Margin="0,0,0,20" TextColor="Black"/>
+
+				<Label Text="Gebruikersnaam:" TextColor="Black" />
+				<Entry Text="{Binding Username}"
+                       Placeholder="Gebruikersnaam"
+                       BackgroundColor="Transparent" />
+				<BoxView HeightRequest="1" Color="Gray" Margin="0,-10,0,0"/>
+
+				<Label Text="Wachtwoord:" TextColor="Black" />
+				<Grid ColumnDefinitions="*, Auto">
+					<Entry Grid.Column="0"
+						   x:Name="PasswordEntry"
+                           Text="{Binding Password}"
+                           IsPassword="True"
+                           Placeholder="Wachtwoord"
+                           BackgroundColor="Transparent" />
+
+					<Grid Grid.Column="1"
+                          WidthRequest="40"
+                          HeightRequest="30"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center">
+
+						<Path Data="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9Z"
+								  Fill="#666666"
+								  Aspect="Uniform"
+								  HeightRequest="20"
+								  HorizontalOptions="Center"
+								  VerticalOptions="Center" />
+
+						<Grid.GestureRecognizers>
+							<TapGestureRecognizer Tapped="OnEyeIconTapped" />
+						</Grid.GestureRecognizers>
+					</Grid>
+				</Grid>
+				<BoxView HeightRequest="1" Color="Gray" Margin="0,-10,0,0"/>
+
+				<Label Text="Herhalen wachtwoord:" TextColor="Black" />
+				<Grid ColumnDefinitions="*, Auto">
+					<Entry Grid.Column="0"
+						   x:Name="RepeatPasswordEntry"
+                           Text="{Binding ConfirmPassword}"
+                           IsPassword="True"
+                           Placeholder="Herhaal wachtwoord"
+                           BackgroundColor="Transparent" />
+
+					<Grid Grid.Column="1"
+                          WidthRequest="40"
+                          HeightRequest="30"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center">
+
+						<Path Data="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9Z"
+								  Fill="#666666"
+								  Aspect="Uniform"
+								  HeightRequest="20"
+								  HorizontalOptions="Center"
+								  VerticalOptions="Center" />
+
+						<Grid.GestureRecognizers>
+							<TapGestureRecognizer Tapped="OnRepeatPasswordEyeIconTapped" />
+						</Grid.GestureRecognizers>
+					</Grid>
+				</Grid>
+				<BoxView HeightRequest="1" Color="Gray" Margin="0,-10,0,0"/>
+
+				<Label Text="Groep:" TextColor="Black" Margin="0,10,0,0" />
+				<Picker Title="Groep"
+                                ItemsSource="{Binding Groups}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedGroup}"
+                                TextColor="Black"/>
+				<BoxView HeightRequest="1" Color="Gray" Margin="0,-5,0,0"/>
+
+				<Button Text="Gebruiker toevoegen"
+                        Command="{Binding RegisterCommand}"
+                        BackgroundColor="#5D5FEF"
+                        TextColor="White"
+                        CornerRadius="5"
+                        HorizontalOptions="Start"
+                        Padding="20, 10"
+                        Margin="0, 30, 0, 0"/>
+			</VerticalStackLayout>
+		</Border>
+	</Grid>
+</ContentPage>

@@ -12,6 +12,7 @@ namespace Typefout.App.Views
     {
         public StudentsContentView(StudentsContentViewModel vm)
         {
+            BindingContext = new StudentsViewModel();
             InitializeComponent();
             BindingContext = vm;
         }

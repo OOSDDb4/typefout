@@ -7,6 +7,7 @@ namespace Typefout.Core.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepo _userRepo;
+        public User? CurrentUser { get; set; }
 
         public AuthService(IUserRepo userRepo)
         {

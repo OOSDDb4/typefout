@@ -1,6 +1,7 @@
 ﻿// LoginPageViewModel.cs (FULL UPDATED)
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Typefout.App.Views;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
@@ -53,6 +54,9 @@ namespace Typefout.App.ViewModels
 
             if (authenticatedClient == null)
             {
+                _authService.CurrentUser = authenticatedClient;
+                ErrorMessage = string.Empty;
+                await Application.Current.MainPage.Navigation.PushAsync(new OefeningenMenuPage());
                 ErrorMessage = "Ongeldige inloggegevens. Probeer het opnieuw.";
                 return;
             }

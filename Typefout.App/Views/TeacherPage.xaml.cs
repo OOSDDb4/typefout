@@ -10,7 +10,6 @@ using Style = Microsoft.Maui.Controls.Style;
 
 namespace Typefout.App.Views
 {
-    // Класс переименован в TeacherPage
     public partial class TeacherPage : ContentPage
     {
         private readonly Dictionary<string, Border> _menuButtons;
@@ -90,6 +89,7 @@ namespace Typefout.App.Views
             {
                 ContentPlaceholder.Content = newContent;
             }
+            this.BindingContext = new ViewModels.TeacherViewModel();
         }
     }
 }

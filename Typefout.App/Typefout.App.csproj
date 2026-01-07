@@ -89,6 +89,9 @@
         </MauiXaml>
     </ItemGroup>
 	<ItemGroup>
+		<MauiXaml Update="Views\RegistrationPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\SchoolContentView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
