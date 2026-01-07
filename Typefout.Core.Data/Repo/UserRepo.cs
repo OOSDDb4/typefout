@@ -50,10 +50,7 @@ namespace Typefout.Core.Data.Repo
             User user = MapUser(dt.Rows[0]);
             return user;
         }
-        public List<User> GetAllUsers()
-        {
-            return Load();
-        }
+
         public User? GetMail(string mail)
         {
             if (string.IsNullOrWhiteSpace(mail)) return null;

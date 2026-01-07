@@ -92,7 +92,6 @@ public static class MauiProgram
         builder.Services.AddTransient<StudentCreatePage>();
         builder.Services.AddTransient<StudentEditPage>();
         builder.Services.AddTransient<AddUserPage>();
-        builder.Services.AddTransient<RegistrationPage>();
 
         MauiApp app = builder.Build();
 
@@ -108,7 +107,6 @@ public static class MauiProgram
         Routing.RegisterRoute("studentcreate", typeof(StudentCreatePage));
         Routing.RegisterRoute("studentedit", typeof(StudentEditPage));
         Routing.RegisterRoute("adduser", typeof(AddUserPage));
-        Routing.RegisterRoute("registration", typeof(RegistrationPage));
         Routing.RegisterRoute("oefeningen", typeof(OefeningenMenuPage));
         Routing.RegisterRoute("teacherpage", typeof(TeacherPage));
 

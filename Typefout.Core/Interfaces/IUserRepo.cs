@@ -16,7 +16,6 @@ namespace Typefout.Core.Interfaces
         Task<IEnumerable<User>> GetStudentsBySchoolIdAsync(int schoolId);
         Task SetActiveAsync(int userId, bool isActive);
 
-        public List<User> GetAllUsers();
         Task CreateAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int userId);

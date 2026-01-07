@@ -27,31 +27,19 @@
                         TextColor="Black" 
                         CornerRadius="5" 
                         HeightRequest="30"
-						Command="{Binding CreateStudentCommand}"
                         HorizontalOptions="End"/>
             </Grid>
-			<CollectionView ItemsSource="{Binding Students}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-				<Grid ColumnDefinitions="*, *, Auto, Auto" Padding="10" VerticalOptions="Center" BackgroundColor="White" Margin="0,1">
-					<Label Grid.Column="0"
-						   Text="{Binding Key}"
-						   TextColor="Black"
-						   VerticalOptions="Center" />
 
-					<Label Grid.Column="1"
-						   Text="{Binding Value}"
-						   TextColor="Black"
-						   VerticalOptions="Center" />
+            <Grid ColumnDefinitions="*, *, Auto, Auto" 
+                  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, *"
+                  RowSpacing="1" 
+                  ColumnSpacing="1"
+                  VerticalOptions="Start">
 
-					<Button Grid.Column="2"
-							Text="Info"
-							TextColor="Black"
-							BackgroundColor="#CCCCFF"
-							WidthRequest="70"
-							HeightRequest="35"
-							Margin="5,0"
-							VerticalOptions="Center"/>
+                <Label Grid.Row="0" Grid.Column="0" Text="Gebruikersnaam" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="Groep" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="info" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
+                <Label Grid.Row="0" Grid.Column="3" Text="Wijzigen" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
 
                 <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3"
                                      BindableLayout.ItemsSource="{Binding Student}">

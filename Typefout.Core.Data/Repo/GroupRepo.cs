@@ -18,13 +18,6 @@ namespace Typefout.Core.Data.Repo
         }
 
         public Task<IEnumerable<Group>> GetAllAsync()
-        public async Task<IEnumerable<Group>> GetAllAsync()
-        {
-            List<Group> groups = await LoadAsync();
-            return groups;
-        }
-
-        public async Task<IEnumerable<Group>> GetBySchoolIdAsync(int schoolId)
         {
             _db.Open();
 
@@ -153,9 +146,6 @@ namespace Typefout.Core.Data.Repo
             int status = _db.Delete("SchoolGroup", "GroupId", groupId);
 
             _db.Close();
-            string json = File.ReadAllTextAsync(_filePath).GetAwaiter().GetResult();
-            if (string.IsNullOrWhiteSpace(json))
-                return new List<Group>();
 
             if (status != 202 && status != 404) throw new Exception("Failed to delete group in database.");
 
