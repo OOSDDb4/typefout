@@ -65,17 +65,15 @@ namespace Typefout.App.ViewModels
             // ShowResults();
             MainThread.BeginInvokeOnMainThread(ShowResults);
         }
-        private void ExerciseFinished()
+        private async void ExerciseFinished()
         {
             _timerService.Stop();
             _timerService.Dispose();
+            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
             ShowResults();
         }
         private async void ShowResults()
         {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
-
-            // ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             ResultsViewModel vm = new(_trackingService, _timerService);
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
@@ -150,6 +148,7 @@ namespace Typefout.App.ViewModels
         [RelayCommand]
         private async void StopExercise()
         {
+            _timerService.Stop();
             bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
             if (answer)
             {
@@ -163,6 +162,10 @@ namespace Typefout.App.ViewModels
                     ResultsViewModel vm = new(_trackingService, _timerService);
                     await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
                 }
+            }
+            else
+            {
+                _timerService.Start();
             }
         }
     }

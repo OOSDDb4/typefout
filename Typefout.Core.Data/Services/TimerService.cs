@@ -18,6 +18,9 @@ public class TimerService() : ITimerService
 
         _startTime = TimeSpan.FromSeconds(timerLength);
         _remainingTime =  _startTime.Value;
+        _timer.Elapsed += OnTimerTick;
+        Finished += OnFinished;
+        _timer.Interval = 1000; // 1 second
     }
     public void Start()
     {
@@ -25,11 +28,9 @@ public class TimerService() : ITimerService
         {
             return;
         }
-        _timer.Interval = 1000; // 1 second
-        _timer.Elapsed += OnTimerTick;
         _timer.Start();
         Tick?.Invoke(this, EventArgs.Empty);
-        Finished += OnFinished;
+        
     }
     public void Stop()
     {
@@ -77,6 +78,8 @@ public class TimerService() : ITimerService
 
     public void Dispose()
     {
+        Tick = null;
+        Finished = null;
         _timer?.Dispose();
     }
 

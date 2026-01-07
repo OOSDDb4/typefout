@@ -32,7 +32,7 @@ namespace Typefout.App.ViewModels
             _timerService = timerService;
             LoadStats();
         }
-        public void LoadStats()
+        private void LoadStats()
         {
             List<KeyStat> stats = _trackingService.GetStats()
                 .Where(s => s.Attempts >= 2)
