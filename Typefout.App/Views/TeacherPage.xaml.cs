@@ -62,7 +62,8 @@ namespace Typefout.App.Views
                     newContent = new SchoolContentView();
                     break;
                 case "Students":
-                    newContent = new StudentsContentView();
+                    StudentsContentViewModel vn = App.Services.GetRequiredService<StudentsContentViewModel>();
+                    newContent = new StudentsContentView(vn);
                     PageTitleLabel.Text = "Leerlingen";
                     break;
                 case "Groepen":

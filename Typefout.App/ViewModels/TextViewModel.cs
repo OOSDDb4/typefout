@@ -11,6 +11,7 @@ namespace Typefout.App.ViewModels
     {
         private readonly IAiService _aiService;
         private readonly IKeyTrackingService _trackingService;
+        private readonly TimerService _timerService;
         private int _previousLength = 0;
         private bool _firstWordCompleted = false;
 
