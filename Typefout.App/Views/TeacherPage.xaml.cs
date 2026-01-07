@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using Microsoft.Maui.Controls;
 using Microsoft.UI.Xaml;
-using Typefout.App.ViewModels;
-using Typefout.Core.Data.Services;
-using Typefout.Core.Interfaces;
 using Style = Microsoft.Maui.Controls.Style;
 
 namespace Typefout.App.Views
@@ -14,12 +9,10 @@ namespace Typefout.App.Views
     public partial class TeacherPage : ContentPage
     {
         private readonly Dictionary<string, Border> _menuButtons;
-        private IDatabaseService _databaseService;
 
         public TeacherPage()
         {
             InitializeComponent();
-            _databaseService = new DatabaseService();
 
             _menuButtons = new Dictionary<string, Border>
             {
@@ -52,7 +45,7 @@ namespace Typefout.App.Views
             }
         }
 
-        public void LoadContentView(string pageName, GroupItem group = null)
+        private void LoadContentView(string pageName)
         {
             View newContent = null;
 
@@ -66,15 +59,7 @@ namespace Typefout.App.Views
                     PageTitleLabel.Text = "Leerlingen";
                     break;
                 case "Groepen":
-                    Trace.WriteLine("test1");
-                    GroupContentViewModel vm = App.Services.GetRequiredService<GroupContentViewModel>();
-                    newContent = new GroupContentView(vm);
-                    PageTitleLabel.Text = "Groepen";
-                    break;
-                case "InformatieGroepen":
-                    GroupContentInfoViewModel vmInfo = App.Services.GetRequiredService<GroupContentInfoViewModel>();
-                    newContent = new GroupContentInfoView(vmInfo, group);
-                    PageTitleLabel.Text = $"Groep Informatie - {group?.GroupName ?? ""}";
+                    newContent = new Label { Text = "Groepen", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
                     break;
                 case "Instellingen":
                     newContent = new Label { Text = "Instellingen", VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
@@ -84,10 +69,7 @@ namespace Typefout.App.Views
                     break;
             }
 
-            if (newContent != null)
-            {
-                ContentPlaceholder.Content = newContent;
-            }
+            ContentPlaceholder.Content = newContent;
         }
     }
 }
