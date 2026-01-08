@@ -209,7 +209,7 @@ public partial class StudentsContentViewModel : ObservableObject
     [RelayCommand]
     public async Task CreateStudent()
     {
-        await Shell.Current.GoToAsync("RegistrationPage");
+        await Shell.Current.GoToAsync("registrationpage");
     }
 }
 
