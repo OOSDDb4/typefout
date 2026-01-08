@@ -11,6 +11,8 @@ namespace Typefout.App.ViewModels;
 public partial class StudentsContentViewModel : ObservableObject
 {
     private readonly IDatabaseService _databaseService;
+    private readonly IAuthService _authService;
+    private int _schoolId;
 
     [ObservableProperty]
     private ObservableCollection<StudentItem> _student;
@@ -115,9 +117,11 @@ public partial class StudentsContentViewModel : ObservableObject
         });
     }
 
-    public StudentsContentViewModel(IDatabaseService databaseService)
+    public StudentsContentViewModel(IDatabaseService databaseService, IAuthService authService)
     {
         _databaseService = databaseService;
+        _authService = authService;
+        _schoolId = _authService.CurrentUser.SchoolId;
         _student = new ObservableCollection<StudentItem>();
         System.Diagnostics.Trace.WriteLine("StudentsContentViewModel initialized");
         LoadStudents();
@@ -156,7 +160,7 @@ public partial class StudentsContentViewModel : ObservableObject
                 _databaseService.Connect();
                 _databaseService.Open();
 
-                string query = @"
+                string query = @$"
                 SELECT 
                     u.UserId,
                     u.Username, 
@@ -165,7 +169,7 @@ public partial class StudentsContentViewModel : ObservableObject
                 LEFT JOIN User u ON su.UserId = u.UserId
                 LEFT JOIN StudentGroup sg ON su.UserId = sg.UserId
                 LEFT JOIN SchoolGroup sgroup ON sg.GroupId = sgroup.GroupId
-                WHERE u.RoleId = 1";
+                WHERE u.RoleId = 1 AND su.SchoolId = {_schoolId}";
 
                 DataTable studentInfo = _databaseService.ReadQuery(query);
 
