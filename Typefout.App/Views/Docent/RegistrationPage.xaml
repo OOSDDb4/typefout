@@ -10,10 +10,10 @@
             <Frame BackgroundColor="#D3D3D3" CornerRadius="10" HasShadow="True" Padding="20">
                 <VerticalStackLayout Spacing="15">
 
-                    <Label Text="Gebruikersnaam:" />
-                    <Entry Text="{Binding Username}" Placeholder="Gebruikersnaam" />
+                    <Label Text="Gebruikersnaam:" TextColor="Black" />
+                    <Entry Text="{Binding Username}" Placeholder="Gebruikersnaam" TextColor="Black"/>
 
-                    <Label Text="Wachtwoord:" />
+                    <Label Text="Wachtwoord:" TextColor="Black" />
                     <Grid ColumnDefinitions="*, Auto">
 
                         <Entry x:Name="PassWord"
@@ -44,7 +44,7 @@
                         </Grid>
                     </Grid>
 
-                    <Label Text="Wachtwoord herhalen:" />
+                    <Label Text="Wachtwoord herhalen:" TextColor="Black" />
                     <Grid ColumnDefinitions="*, Auto">
 
                         <Entry x:Name="ConfirmPassWord"
@@ -75,18 +75,20 @@
                         </Grid>
                     </Grid>
 
-                    <Label Text="Groep:" />
-                    <Picker Title="Selecteer Groep" 
+                    <Label Text="Groep:" TextColor="Black" />
+                    <Picker
+                        BackgroundColor="Gainsboro"
                         ItemsSource="{Binding Groups}"
                         ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedGroup}" />
+                        SelectedItem="{Binding SelectedGroup}"
+                        TextColor="Black"/>
 
-                    <Button Text="Wijzigen" 
+                    <Button Text="Gebruiker toevoegen" 
                         Command="{Binding CreateStudentCommand}"
                         BackgroundColor="#6A5ACD" 
                         TextColor="White"
                         CornerRadius="5"
-                        WidthRequest="120"
+                        WidthRequest="200"
                         HorizontalOptions="Start"
                         Margin="0,20,0,0" />
                 </VerticalStackLayout>
