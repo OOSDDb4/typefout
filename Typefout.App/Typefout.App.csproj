@@ -75,6 +75,9 @@
 	</ItemGroup>
 
     <ItemGroup>
+        <MauiXaml Update="Views\Docent\RegistrationPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
         <MauiXaml Update="Views\PasswordReset1Page.xaml">
           <Generator>MSBuild:Compile</Generator>
         </MauiXaml>

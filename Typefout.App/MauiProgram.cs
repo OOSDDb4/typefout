@@ -2,6 +2,7 @@
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
 using Typefout.App.Views.Admin;
+using Typefout.App.Views.Docent;
 using Typefout.Core.Data.Repo;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
@@ -65,6 +66,7 @@ public static class MauiProgram
         builder.Services.AddTransient<GroupContentInfoViewModel>();
         builder.Services.AddTransient<GroupContentViewModel>();
         builder.Services.AddTransient<StudentsContentViewModel>();
+        builder.Services.AddTransient<RegistrationViewModel>();
 
         // Pages
         builder.Services.AddTransient<LoginPage>();
@@ -79,6 +81,7 @@ public static class MauiProgram
         builder.Services.AddTransient<GroupContentInfoView>();
         builder.Services.AddTransient<GroupContentView>();
         builder.Services.AddTransient<StudentsContentView>();
+        builder.Services.AddTransient<RegistrationPage>();
 
         // Admin pages
         builder.Services.AddTransient<SchoolsPage>();
