@@ -1,5 +1,6 @@
 ﻿using Typefout.App.Views;
 using Typefout.App.Views.Admin;
+using Typefout.App.Views.Docent;
 
 namespace Typefout.App;
 
@@ -13,5 +14,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
         Routing.RegisterRoute(nameof(OefeningenMenuPage), typeof(OefeningenMenuPage));
         Routing.RegisterRoute(nameof(SchoolsPage), typeof(SchoolsPage));
+        Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
     }
 }

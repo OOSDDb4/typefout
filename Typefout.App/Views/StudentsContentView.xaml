@@ -27,7 +27,8 @@
                         TextColor="Black" 
                         CornerRadius="5" 
                         HeightRequest="30"
-                        HorizontalOptions="End"/>
+                        HorizontalOptions="End"
+                        Command="{Binding CreateStudentCommand}"/>
             </Grid>
 
             <Grid ColumnDefinitions="*, *, Auto, Auto" 

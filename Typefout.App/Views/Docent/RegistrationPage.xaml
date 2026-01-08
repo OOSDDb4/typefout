@@ -1,0 +1,99 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Typefout.App.ViewModels"
+             x:Class="Typefout.App.Views.Docent.RegistrationPage"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <Frame BackgroundColor="#D3D3D3" CornerRadius="10" HasShadow="True" Padding="20">
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Gebruikersnaam:" TextColor="Black" />
+                    <Entry Text="{Binding Username}" Placeholder="Gebruikersnaam" TextColor="Black"/>
+
+                    <Label Text="Wachtwoord:" TextColor="Black" />
+                    <Grid ColumnDefinitions="*, Auto">
+
+                        <Entry x:Name="PassWord"
+                            Grid.Column="0"
+                            Text="{Binding Password}"
+                            Placeholder="Wachtwoord"
+                            IsPassword="True"
+                            TextColor="Black"
+                            FontSize="16"
+                            Background="Transparent" />
+
+                        <Grid Grid.Column="1"
+                            WidthRequest="40"
+                            HeightRequest="30"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+
+                            <Path Data="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9Z"
+                                Fill="#666666" 
+                                Aspect="Uniform"
+                                HeightRequest="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToggleViewPassword" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+
+                    <Label Text="Wachtwoord herhalen:" TextColor="Black" />
+                    <Grid ColumnDefinitions="*, Auto">
+
+                        <Entry x:Name="ConfirmPassWord"
+                            Grid.Column="0"
+                            Text="{Binding ConfirmPassword}"
+                            Placeholder="Wachtwoord"
+                            IsPassword="True"
+                            TextColor="Black"
+                            FontSize="16"
+                            Background="Transparent" />
+
+                        <Grid Grid.Column="1"
+                            WidthRequest="40"
+                            HeightRequest="30"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+
+                            <Path Data="M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9Z"
+                                Fill="#666666" 
+                                Aspect="Uniform"
+                                HeightRequest="20"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center" />
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ToggleViewPasswordConfirm" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+
+                    <Label Text="Groep:" TextColor="Black" />
+                    <Picker
+                        BackgroundColor="Gainsboro"
+                        ItemsSource="{Binding Groups}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedGroup}"
+                        TextColor="Black"/>
+
+                    <Button Text="Gebruiker toevoegen" 
+                        Command="{Binding CreateStudentCommand}"
+                        BackgroundColor="#6A5ACD" 
+                        TextColor="White"
+                        CornerRadius="5"
+                        WidthRequest="200"
+                        HorizontalOptions="Start"
+                        Margin="0,20,0,0" />
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

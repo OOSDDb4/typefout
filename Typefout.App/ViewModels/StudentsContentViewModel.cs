@@ -3,6 +3,7 @@ using System.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Typefout.App.Views;
+using Typefout.App.Views.Docent;
 using Typefout.Core.Interfaces;
 
 namespace Typefout.App.ViewModels;
@@ -199,6 +200,12 @@ public partial class StudentsContentViewModel : ObservableObject
     public void RefreshGroups()
     {
         LoadStudents();
+    }
+
+    [RelayCommand]
+    public async Task CreateStudent()
+    {
+        await Shell.Current.GoToAsync("RegistrationPage");
     }
 }
 
