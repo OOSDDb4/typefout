@@ -42,7 +42,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IVerificationService, VerificationService>();
         builder.Services.AddSingleton<ISchoolRepo, SchoolRepo>();
         builder.Services.AddSingleton<IGroupRepo, GroupRepo>();
-
+        builder.Services.AddSingleton<ISchoolExerciseRepo, SchoolExerciseRepo>();
+        builder.Services.AddSingleton<IExerciseRepo, ExerciseRepo>();
         // ViewModels
         builder.Services.AddTransient<LoginPageViewModel>();
         builder.Services.AddTransient<WordViewModel>();
@@ -65,7 +66,8 @@ public static class MauiProgram
         builder.Services.AddTransient<GroupContentViewModel>();
         builder.Services.AddTransient<StudentsContentViewModel>();
         builder.Services.AddTransient<RegistrationViewModel>();
-
+        builder.Services.AddTransient<OefeningenMenuViewModel>();
+        builder.Services.AddTransient<ExercisesViewModel>();
         // Pages
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<TextView>();
@@ -80,11 +82,12 @@ public static class MauiProgram
         builder.Services.AddTransient<GroupContentView>();
         builder.Services.AddTransient<StudentsContentView>();
         builder.Services.AddTransient<RegistrationPage>();
-        builder.Services.AddTransient<AdminDashboardPage>();
         builder.Services.AddTransient<ExercisesPage>();
         builder.Services.AddTransient<TeacherPage>();
-
+        builder.Services.AddTransient<OefeningenMenuPage>();
+        
         // Admin pages
+        builder.Services.AddTransient<AdminDashboardPage>();
         builder.Services.AddTransient<SchoolsPage>();
         builder.Services.AddTransient<SchoolCreatePage>();
         builder.Services.AddTransient<SchoolEditPage>();

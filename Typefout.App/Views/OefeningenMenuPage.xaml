@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Typefout.App.Views.OefeningenMenuPage"
              BackgroundColor="White">
-    
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" />
     </Shell.BackButtonBehavior>
@@ -34,26 +34,30 @@
 
     <Grid RowDefinitions="Auto, Auto, *" Padding="30">
 
-        <Label Grid.Row="1" 
-               Text="Kies een oefening" 
-               FontSize="32" 
-               FontAttributes="Bold" 
-               TextColor="#333" 
-               HorizontalOptions="Center" 
+        <Label Grid.Row="1"
+               Text="Kies een oefening"
+               FontSize="32"
+               FontAttributes="Bold"
+               TextColor="#333"
+               HorizontalOptions="Center"
                Margin="0,20,0,50"/>
 
+        <!-- Cards -->
         <HorizontalStackLayout Grid.Row="2"
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Start" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
                                Spacing="30">
 
-            <Border Style="{StaticResource CardStyle}">
+            <!-- WORD -->
+            <Border Style="{StaticResource CardStyle}"
+                    IsVisible="{Binding ShowWord}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="WordExersiceClicked" />
                 </Border.GestureRecognizers>
+
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
-                        <Ellipse WidthRequest="180" HeightRequest="60" 
+                        <Ellipse WidthRequest="180" HeightRequest="60"
                                  StrokeThickness="5" Rotation="-25"
                                  Fill="Transparent">
                             <Ellipse.Stroke>
@@ -74,7 +78,8 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <Ellipse WidthRequest="180" HeightRequest="60" 
+
+                        <Ellipse WidthRequest="180" HeightRequest="60"
                                  StrokeThickness="5" Rotation="-25"
                                  Fill="Transparent"
                                  InputTransparent="True">
@@ -90,10 +95,14 @@
                             </Ellipse.Clip>
                         </Ellipse>
                     </Grid>
+
                     <Label Grid.Row="1" Text="Woorden" Style="{StaticResource CardTitle}"/>
                 </Grid>
             </Border>
-            <Border Style="{StaticResource CardStyle}">
+
+            <!-- SENTENCE -->
+            <Border Style="{StaticResource CardStyle}"
+                    IsVisible="{Binding ShowSentence}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SentenceExersiceClicked" />
                 </Border.GestureRecognizers>
@@ -109,6 +118,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                         <Ellipse WidthRequest="100" HeightRequest="100" TranslationX="-20" TranslationY="10">
                             <Ellipse.Fill>
                                 <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
@@ -120,15 +130,21 @@
                         </Ellipse>
 
                     </Grid>
+
                     <Label Grid.Row="1" Text="Zinnen" Style="{StaticResource CardTitle}"/>
                 </Grid>
             </Border>
-            <Border Style="{StaticResource CardStyle}">
+
+            <!-- TEXT -->
+            <Border Style="{StaticResource CardStyle}"
+                    IsVisible="{Binding ShowText}">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TextExersiceClicked" />
                 </Border.GestureRecognizers>
+
                 <Grid RowDefinitions="*, Auto">
                     <Grid Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
+
                         <Ellipse WidthRequest="150" HeightRequest="80"
                                  Opacity="0.35"
                                  Rotation="-20">
@@ -140,6 +156,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                         <Ellipse WidthRequest="130" HeightRequest="70"
                                  Rotation="-20"
                                  Opacity="0.40">
@@ -151,6 +168,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                         <Ellipse WidthRequest="130" HeightRequest="70"
                                  Rotation="-20"
                                  Opacity="0.40">
@@ -162,6 +180,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                         <Ellipse WidthRequest="110" HeightRequest="60"
                                  Rotation="-20"
                                  Opacity="0.55">
@@ -173,6 +192,7 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                         <Ellipse WidthRequest="60" HeightRequest="35"
                                  Rotation="-20">
                             <Ellipse.Fill>
@@ -183,10 +203,13 @@
                                 </RadialGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
+
                     </Grid>
+
                     <Label Grid.Row="1" Text="Text" Style="{StaticResource CardTitle}"/>
                 </Grid>
             </Border>
+
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
