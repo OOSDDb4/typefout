@@ -7,6 +7,7 @@ namespace Typefout.Core.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepo _userRepo;
+        public User CurrentUser { get; set; }
 
         public AuthService(IUserRepo userRepo)
         {
@@ -23,7 +24,7 @@ namespace Typefout.Core.Services
 
             if (user is null || !PasswordHelper.VerifyPassword(password, user.Password))
                 return null;
-
+            CurrentUser = user;
             return user;
         }
     }

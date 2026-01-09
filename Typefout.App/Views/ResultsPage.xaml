@@ -15,38 +15,11 @@
             <Frame BackgroundColor="LightGray" 
                    Padding="10"
                    HorizontalOptions="FillAndExpand">
-                <Grid ColumnDefinitions="Auto, *, Auto">
-                    
-                    <ImageButton Grid.Column="0"
-                                 Command="{Binding RestartExerciseCommand}"
-                                 BackgroundColor="Transparent"
-                                 WidthRequest="50"
-                                 HeightRequest="50"
-                                 VerticalOptions="Center"
-                                 HorizontalOptions="Start"
-                                 Padding="10">
-                        <ImageButton.Source>
-                            <FontImageSource 
-                                Glyph="&#x21BB;"
-                                FontFamily="Arial"
-                                Size="30"
-                                Color="Black"/>
-                        </ImageButton.Source>
-                    </ImageButton>
-                    
-                    <Label Text="Resultaten"
-                           Grid.Column="1"
-                           FontSize="40"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="Black"/>
-                    
-                    <BoxView Grid.Column="2"
-                             WidthRequest="50"
-                             HeightRequest="50"
-                             Color="Transparent"/>
-                    
-                </Grid>    
+                <Label Text="Resultaten"
+                       FontSize="40"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="Black"/>
             </Frame>
             
             <Frame BackgroundColor="#e5e5e5"
