@@ -12,6 +12,6 @@ public partial class ResultsPage : ContentPage
 
     private async void Back_Button(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("oefeningen");;
+        await Shell.Current.GoToAsync("oefeningen");
     }
 }

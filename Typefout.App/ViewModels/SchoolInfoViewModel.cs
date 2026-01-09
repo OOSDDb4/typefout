@@ -25,8 +25,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<User> _users = new ObservableCollection<User>();
     [ObservableProperty] private ObservableCollection<Group> _groups = new ObservableCollection<Group>();
 
-    [ObservableProperty] private ObservableCollection<SchoolExerciseStatus> _schoolExercises =
-        new ObservableCollection<SchoolExerciseStatus>();
+    [ObservableProperty] private ObservableCollection<SchoolExerciseStatus> _schoolExercises = new ObservableCollection<SchoolExerciseStatus>();
 
     [ObservableProperty] private string _userSearchText = string.Empty;
     [ObservableProperty] private string _groupSearchText = string.Empty;

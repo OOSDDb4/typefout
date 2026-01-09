@@ -85,7 +85,6 @@ public static class MauiProgram
         builder.Services.AddTransient<ExercisesPage>();
         builder.Services.AddTransient<TeacherPage>();
         builder.Services.AddTransient<OefeningenMenuPage>();
-        
         // Admin pages
         builder.Services.AddTransient<AdminDashboardPage>();
         builder.Services.AddTransient<SchoolsPage>();

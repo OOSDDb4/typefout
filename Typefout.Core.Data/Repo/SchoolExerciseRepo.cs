@@ -96,7 +96,7 @@ ON DUPLICATE KEY UPDATE IsActive = VALUES(IsActive);";
 
             return Task.CompletedTask;
         }
-        
+
         public Task SetSchoolActiveAsync(int schoolId, int exerciseId, bool active)
         {
             _db.Open();
@@ -157,5 +157,5 @@ ORDER BY e.ExerciseId;";
         }
     }
 }
-    
+
 

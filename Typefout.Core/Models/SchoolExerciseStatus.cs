@@ -9,7 +9,6 @@ namespace Typefout.Core.Models
         public bool GlobalActive { get; set; }
         public bool Linked { get; set; }
         public bool SchoolActive { get; set; }
-        
         public bool ShowLinkButton
         {
             get { return !Linked; }
