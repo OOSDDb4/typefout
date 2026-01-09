@@ -10,9 +10,9 @@ namespace Typefout.App.ViewModels
     {
         [ObservableProperty] private string _targetText;
         [ObservableProperty] private string _inputText;
-        [ObservableProperty] protected FormattedString _highlightedText;
-        [ObservableProperty] protected string _timerText;
-        
+        [ObservableProperty] private FormattedString _highlightedText;
+        [ObservableProperty] private string _timerText;
+
         protected readonly IAiService _aiService;
         protected readonly IKeyTrackingService _trackingService;
         protected readonly ITimerService _timerService;
@@ -22,22 +22,21 @@ namespace Typefout.App.ViewModels
         public int ExerciseTime { get; protected set; } // seconds
         public BaseExerciseViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService, int exerciseLength, int exerciseTime)
         {
-
             _aiService = aiService;
             ExerciseLength = exerciseLength;
             ExerciseTime = exerciseTime;
             _trackingService = trackingService; 
             _trackingService.Reset();
-            
-            _timerService =  timerService;
+
+            _timerService = timerService;
             _timerService.Tick += UpdateTimerText;
             _timerService.Finished += OnTimerFinished;
             _timerService.Set(exerciseTime);
             _previousLength = 0;
         }
-        protected virtual void OnCorrectInput() {}
+        protected virtual void OnCorrectInput() { }
         protected virtual void HighlightErrors(bool lengthIncreased) { }
-        protected virtual bool AnyProgressMade() { return false;}
+        protected virtual bool AnyProgressMade() { return false; }
         private void UpdateTimerText(object? sender, EventArgs eventArgs)
         {
             TimerText = _timerService.TimeLeftToString();

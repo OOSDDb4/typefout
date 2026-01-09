@@ -8,8 +8,8 @@ namespace Typefout.App.ViewModels
 {
     public partial class SentenceViewModel : BaseExerciseViewModel
     {
-        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService) 
-            : base (aiService, trackingService, timerService, exerciseLength: 5, exerciseTime: 60)
+        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
+            : base(aiService, trackingService, timerService, exerciseLength: 5, exerciseTime: 60)
         {
         }
         public async Task InitializeAsync()
@@ -26,7 +26,7 @@ namespace Typefout.App.ViewModels
             FormattedString formattedString = new FormattedString();
 
             for (int i = 0; i < InputText.Length; i++)
-            {
+            { 
                 char typedChar = InputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 

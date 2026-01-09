@@ -73,7 +73,5 @@ public partial class WordView : ContentPage
                 nextButton.BackgroundColor = Colors.LightGreen;
             }
         }
-
-
     }
 }

@@ -24,10 +24,10 @@ namespace Typefout.App.ViewModels
         {
             _trackingService = trackingService;
             _timerService = timerService;
-            // LoadStats();
-        // }
-        // private void LoadStats()
-        // {
+            LoadStats();
+        }
+        private void LoadStats()
+        {
             List<KeyStat> stats = _trackingService.GetStats()
                 .Where(s => s.Attempts >= 2)
                 .ToList();
