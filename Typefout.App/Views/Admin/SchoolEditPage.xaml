@@ -1,15 +1,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Typefout.App.Views.Admin"
-             x:Class="Typefout.App.Views.Admin.SchoolEditPage">
+             x:Class="Typefout.App.Views.Admin.SchoolEditPage"
+             Title="{Binding SchoolName}">
 
     <local:AdminNavigationView>
 
         <VerticalStackLayout Padding="40">
-
-            <Label Text="{Binding SchoolName}"
-                   FontSize="28"
-                   HorizontalOptions="Center"/>
 
             <Frame BackgroundColor="#F0F0F0" Padding="20" Margin="0,20">
 
