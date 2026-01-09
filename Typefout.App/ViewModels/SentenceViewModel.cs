@@ -26,7 +26,7 @@ namespace Typefout.App.ViewModels
             FormattedString formattedString = new FormattedString();
 
             for (int i = 0; i < InputText.Length; i++)
-            {
+            { 
                 char typedChar = InputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
