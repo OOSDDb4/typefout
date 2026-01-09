@@ -12,17 +12,20 @@ public partial class SchoolInfoViewModel : ObservableObject
     private readonly IUserRepo _userRepo;
     private readonly IGroupRepo _groupRepo;
     private readonly ISchoolRepo _schoolRepo;
+    private readonly ISchoolExerciseRepo _schoolExerciseRepo;
 
     private const int _pageSize = 10;
 
-    private List<User> _allUsers = new();
-    private List<Group> _allGroups = new();
+    private List<User> _allUsers = new List<User>();
+    private List<Group> _allGroups = new List<Group>();
 
     [ObservableProperty] private int _schoolId;
     [ObservableProperty] private string _schoolName = string.Empty;
 
-    [ObservableProperty] private ObservableCollection<User> _users = new();
-    [ObservableProperty] private ObservableCollection<Group> _groups = new();
+    [ObservableProperty] private ObservableCollection<User> _users = new ObservableCollection<User>();
+    [ObservableProperty] private ObservableCollection<Group> _groups = new ObservableCollection<Group>();
+
+    [ObservableProperty] private ObservableCollection<SchoolExerciseStatus> _schoolExercises = new ObservableCollection<SchoolExerciseStatus>();
 
     [ObservableProperty] private string _userSearchText = string.Empty;
     [ObservableProperty] private string _groupSearchText = string.Empty;
@@ -39,11 +42,13 @@ public partial class SchoolInfoViewModel : ObservableObject
     public SchoolInfoViewModel(
         IUserRepo userRepo,
         IGroupRepo groupRepo,
-        ISchoolRepo schoolRepo)
+        ISchoolRepo schoolRepo,
+        ISchoolExerciseRepo schoolExerciseRepo)
     {
         _userRepo = userRepo;
         _groupRepo = groupRepo;
         _schoolRepo = schoolRepo;
+        _schoolExerciseRepo = schoolExerciseRepo;
     }
 
     partial void OnSchoolIdChanged(int value)
@@ -106,6 +111,20 @@ public partial class SchoolInfoViewModel : ObservableObject
 
         ApplyUserPaging();
         ApplyGroupPaging();
+
+        await LoadSchoolExercises();
+    }
+
+    private async Task LoadSchoolExercises()
+    {
+        List<SchoolExerciseStatus> statuses = await _schoolExerciseRepo.GetStatusBySchoolAsync(SchoolId);
+
+        SchoolExercises.Clear();
+
+        foreach (SchoolExerciseStatus status in statuses)
+        {
+            SchoolExercises.Add(status);
+        }
     }
 
     partial void OnUserSearchTextChanged(string value)
@@ -124,8 +143,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         IEnumerable<User> filtered = string.IsNullOrWhiteSpace(UserSearchText)
             ? _allUsers
-            : _allUsers.Where(u =>
-                u.Username.Contains(UserSearchText, StringComparison.OrdinalIgnoreCase));
+            : _allUsers.Where(u => u.Username.Contains(UserSearchText, StringComparison.OrdinalIgnoreCase));
 
         UserTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
@@ -133,9 +151,7 @@ public partial class SchoolInfoViewModel : ObservableObject
         if (UserPage < 1) UserPage = 1;
 
         Users.Clear();
-        foreach (User user in filtered
-                     .Skip((UserPage - 1) * _pageSize)
-                     .Take(_pageSize))
+        foreach (User user in filtered.Skip((UserPage - 1) * _pageSize).Take(_pageSize))
         {
             Users.Add(user);
         }
@@ -145,8 +161,7 @@ public partial class SchoolInfoViewModel : ObservableObject
     {
         IEnumerable<Group> filtered = string.IsNullOrWhiteSpace(GroupSearchText)
             ? _allGroups
-            : _allGroups.Where(g =>
-                g.Name.Contains(GroupSearchText, StringComparison.OrdinalIgnoreCase));
+            : _allGroups.Where(g => g.Name.Contains(GroupSearchText, StringComparison.OrdinalIgnoreCase));
 
         GroupTotalPages = Math.Max(1, (int)Math.Ceiling(filtered.Count() / (double)_pageSize));
 
@@ -154,9 +169,7 @@ public partial class SchoolInfoViewModel : ObservableObject
         if (GroupPage < 1) GroupPage = 1;
 
         Groups.Clear();
-        foreach (Group group in filtered
-                     .Skip((GroupPage - 1) * _pageSize)
-                     .Take(_pageSize))
+        foreach (Group group in filtered.Skip((GroupPage - 1) * _pageSize).Take(_pageSize))
         {
             Groups.Add(group);
         }
@@ -265,7 +278,10 @@ public partial class SchoolInfoViewModel : ObservableObject
     [RelayCommand]
     private async Task ToggleUserActive(User user)
     {
-        if (user is null) return;
+        if (user == null)
+        {
+            return;
+        }
 
         bool targetValue = !user.IsActive;
 
@@ -277,11 +293,90 @@ public partial class SchoolInfoViewModel : ObservableObject
             "Ja",
             "Nee");
 
-        if (!ok) return;
+        if (!ok)
+        {
+            return;
+        }
 
         user.IsActive = targetValue;
         await _userRepo.SetActiveAsync(user.Id, targetValue);
 
         await LoadData();
+    }
+
+    [RelayCommand]
+    private async Task ToggleSchoolExercise(SchoolExerciseStatus status)
+    {
+        if (status == null)
+        {
+            return;
+        }
+
+        if (!status.GlobalActive)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Niet mogelijk",
+                "Deze oefening staat globaal uit. Zet hem eerst globaal aan.",
+                "OK");
+
+            return;
+        }
+
+        if (!status.Linked)
+        {
+            await _schoolExerciseRepo.LinkAsync(SchoolId, status.ExerciseId, true);
+        }
+        else
+        {
+            bool newValue = !status.SchoolActive;
+            await _schoolExerciseRepo.SetSchoolActiveAsync(SchoolId, status.ExerciseId, newValue);
+        }
+
+        await LoadSchoolExercises();
+    }
+
+    [RelayCommand]
+    private async Task LinkExercise(SchoolExerciseStatus status)
+    {
+        if (status == null)
+        {
+            return;
+        }
+
+        if (!status.GlobalActive)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Niet mogelijk",
+                "Deze oefening staat globaal uit. Zet hem eerst globaal aan.",
+                "OK");
+
+            return;
+        }
+
+        await _schoolExerciseRepo.LinkAsync(SchoolId, status.ExerciseId, true);
+        await LoadSchoolExercises();
+    }
+
+    [RelayCommand]
+    private async Task UnlinkExercise(SchoolExerciseStatus status)
+    {
+        if (status == null)
+        {
+            return;
+        }
+
+        bool ok = await Application.Current.MainPage.DisplayAlert(
+            "Oefening ontkoppelen",
+            $"Weet je zeker dat je '{status.ExerciseName}' wilt ontkoppelen van deze school?",
+            "Ja",
+            "Nee");
+
+        if (!ok)
+        {
+            return;
+        }
+
+        await _schoolExerciseRepo.UnlinkAsync(SchoolId, status.ExerciseId);
+        await LoadSchoolExercises();
     }
 }

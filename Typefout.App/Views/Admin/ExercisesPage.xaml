@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Typefout.App.Views.Admin.ExercisesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+    xmlns:converters="clr-namespace:Typefout.App.Converters"
+    Title="Oefeningen beheren">
+
+    <ContentPage.Resources>
+        <converters:BooleanToJaNeeConverter x:Key="BoolToJaNee" />
+        
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Stroke" Value="Transparent"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+            <Setter Property="BackgroundColor" Value="White"/>
+            <Setter Property="HeightRequest" Value="320"/>
+            <Setter Property="WidthRequest" Value="260"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Shadow">
+                <Shadow Brush="Black" Offset="0,5" Radius="10" Opacity=".1"/>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CardTitleStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="#333"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <local:AdminNavigationView>
+        <ScrollView>
+            <VerticalStackLayout Padding="40" Spacing="25">
+
+                <Frame BackgroundColor="#F0F0F0" Padding="25">
+                    <VerticalStackLayout Spacing="20">
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label Text="Oefeningen (globaal)"
+                                   FontSize="22"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+
+                            <Button Grid.Column="1"
+                                    Text="Vernieuwen"
+                                    BackgroundColor="#9B8CF2"
+                                    TextColor="Black"
+                                    CornerRadius="14"
+                                    Padding="18,10"
+                                    Command="{Binding LoadCommand}" />
+                        </Grid>
+
+                        <CollectionView ItemsSource="{Binding Exercises}"
+                                        HeightRequest="400">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" 
+                                                   ItemSpacing="20" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardStyle}">
+                                        <VerticalStackLayout Spacing="12">
+
+                                            <Grid HeightRequest="130">
+
+                                                <Grid IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center">
+                                                    <Grid.Triggers>
+                                                        <DataTrigger TargetType="Grid" Binding="{Binding ExerciseId}" Value="1">
+                                                            <Setter Property="IsVisible" Value="True"/>
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+
+                                                    <Ellipse WidthRequest="180" HeightRequest="60"
+                                                             StrokeThickness="5" Rotation="-25"
+                                                             Fill="Transparent">
+                                                        <Ellipse.Stroke>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Color="#CC9900" Offset="0.1" />
+                                                                <GradientStop Color="#FFD700" Offset="0.5" />
+                                                                <GradientStop Color="#CC9900" Offset="0.9" />
+                                                            </LinearGradientBrush>
+                                                        </Ellipse.Stroke>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="115" HeightRequest="115">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
+                                                                <GradientStop Color="#FF8C00" Offset="0.0" />
+                                                                <GradientStop Color="#FF4500" Offset="0.3" />
+                                                                <GradientStop Color="#4B0082" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="180" HeightRequest="60"
+                                                             StrokeThickness="5" Rotation="-25"
+                                                             Fill="Transparent"
+                                                             InputTransparent="True">
+                                                        <Ellipse.Stroke>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Color="#CC9900" Offset="0.0" />
+                                                                <GradientStop Color="#FFD700" Offset="0.5" />
+                                                                <GradientStop Color="#CC9900" Offset="1.0" />
+                                                            </LinearGradientBrush>
+                                                        </Ellipse.Stroke>
+                                                        <Ellipse.Clip>
+                                                            <RectangleGeometry Rect="0, 30, 200, 30" />
+                                                        </Ellipse.Clip>
+                                                    </Ellipse>
+                                                </Grid>
+
+                                                <Grid IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center">
+                                                    <Grid.Triggers>
+                                                        <DataTrigger TargetType="Grid" Binding="{Binding ExerciseId}" Value="2">
+                                                            <Setter Property="IsVisible" Value="True"/>
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+
+                                                    <Ellipse WidthRequest="70" HeightRequest="70" TranslationX="40" TranslationY="-20">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.3,0.3" Radius="0.5">
+                                                                <GradientStop Color="#E0FFFF" Offset="0.0" />
+                                                                <GradientStop Color="#00BFFF" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="100" HeightRequest="100" TranslationX="-20" TranslationY="10">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.3,0.3" Radius="0.6">
+                                                                <GradientStop Color="#CCFF00" Offset="0.0" />
+                                                                <GradientStop Color="#00FF00" Offset="0.4" />
+                                                                <GradientStop Color="#003300" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                </Grid>
+
+                                                <Grid IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center">
+                                                    <Grid.Triggers>
+                                                        <DataTrigger TargetType="Grid" Binding="{Binding ExerciseId}" Value="3">
+                                                            <Setter Property="IsVisible" Value="True"/>
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+
+                                                    <Ellipse WidthRequest="150" HeightRequest="80"
+                                                             Opacity="0.35"
+                                                             Rotation="-20">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Radius="1.0">
+                                                                <GradientStop Color="#6688AADD" Offset="0.0" />
+                                                                <GradientStop Color="#33446688" Offset="0.5" />
+                                                                <GradientStop Color="Transparent" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="130" HeightRequest="70"
+                                                             Rotation="-20"
+                                                             Opacity="0.40">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.45,0.45" Radius="0.9">
+                                                                <GradientStop Color="#80D0E8FF" Offset="0.0" />
+                                                                <GradientStop Color="#4080A0FF" Offset="0.4" />
+                                                                <GradientStop Color="#10203040" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="110" HeightRequest="60"
+                                                             Rotation="-20"
+                                                             Opacity="0.55">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.5,0.35" Radius="0.7">
+                                                                <GradientStop Color="#A0CCE0FF" Offset="0.0" />
+                                                                <GradientStop Color="#506080CC" Offset="0.5" />
+                                                                <GradientStop Color="#10203030" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+
+                                                    <Ellipse WidthRequest="60" HeightRequest="35"
+                                                             Rotation="-20">
+                                                        <Ellipse.Fill>
+                                                            <RadialGradientBrush Center="0.5,0.5" Radius="0.7">
+                                                                <GradientStop Color="#FFFFE0" Offset="0.0" />
+                                                                <GradientStop Color="#FFDD88" Offset="0.5" />
+                                                                <GradientStop Color="#22000000" Offset="1.0" />
+                                                            </RadialGradientBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                </Grid>
+
+                                            </Grid>
+
+                                            <Label Text="{Binding ExerciseName}" Style="{StaticResource CardTitleStyle}" />
+
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                                <Label Text="Actief:" TextColor="Black" VerticalOptions="Center"/>
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding ExerciseActive, Converter={StaticResource BoolToJaNee}}"
+                                                       TextColor="Black"
+                                                       VerticalOptions="Center"/>
+                                            </Grid>
+
+                                            <Button Text="Toggle"
+                                                    BackgroundColor="#9B8CF2"
+                                                    TextColor="Black"
+                                                    CornerRadius="14"
+                                                    Padding="18,10"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                      Path=BindingContext.ToggleGlobalCommand}"
+                                                    CommandParameter="{Binding}" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </local:AdminNavigationView>
+</ContentPage>

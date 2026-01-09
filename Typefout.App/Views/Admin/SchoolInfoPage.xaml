@@ -1,18 +1,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Typefout.App.Views.Admin"
-             x:Class="Typefout.App.Views.Admin.SchoolInfoPage">
+             x:Class="Typefout.App.Views.Admin.SchoolInfoPage"
+             Title="School Info">
 
     <local:AdminNavigationView>
 
         <ScrollView>
             <VerticalStackLayout Padding="40" Spacing="25">
-
-                <Label Text="School info"
-                       FontSize="28"
-                       TextColor="Black"
-                       HorizontalOptions="Center"/>
-
+                
                 <Label Text="{Binding SchoolName}"
                        FontSize="22"
                        TextColor="Black"
@@ -21,7 +17,6 @@
                 <Frame BackgroundColor="#F0F0F0" Padding="25">
                     <VerticalStackLayout Spacing="35">
 
-                        <!-- USERS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Gebruikers"
@@ -119,7 +114,6 @@
 
                         </VerticalStackLayout>
 
-                        <!-- GROUPS -->
                         <VerticalStackLayout Spacing="10">
 
                             <Label Text="Groepen"
@@ -197,6 +191,83 @@
                                 <Button Text="Volgende"
                                         Command="{Binding NextGroupPageCommand}"/>
                             </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Oefeningen"
+                                   FontSize="20"
+                                   TextColor="Black"/>
+
+                            <Grid ColumnDefinitions="*,300,200,*"
+                                  Padding="10"
+                                  BackgroundColor="#E0E0E0">
+
+                                <Label Grid.Column="0" Text="Oefening" TextColor="Black" />
+                                <Label Grid.Column="1" Text="Globaal" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="2" Text="School" TextColor="Black" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="3" Text="Actie" TextColor="Black" HorizontalTextAlignment="End"/>
+                            </Grid>
+
+                            <CollectionView ItemsSource="{Binding SchoolExercises}"
+                                            HeightRequest="220">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,300,200,*"
+                                              Padding="10"
+                                              ColumnSpacing="50">
+
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding ExerciseName}"
+                                                   TextColor="Black"
+                                                   VerticalOptions="Center"/>
+                                            
+                                            <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <CheckBox IsChecked="{Binding GlobalActive}"
+                                                          InputTransparent="True"
+                                                          HorizontalOptions="Center"
+                                                          VerticalOptions="Center" />
+                                            </Grid>
+                                            
+                                            <Grid Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <CheckBox IsChecked="{Binding SchoolActive}"
+                                                          InputTransparent="True"
+                                                          HorizontalOptions="Center"
+                                                          VerticalOptions="Center" />
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                                           Path=BindingContext.ToggleSchoolExerciseCommand}"
+                                                                          CommandParameter="{Binding}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+
+                                            <Button Grid.Column="3"
+                                                    Text="Link"
+                                                    BackgroundColor="#9B8CF2"
+                                                    TextColor="Black"
+                                                    MaximumWidthRequest="120"
+                                                    HorizontalOptions="End"
+                                                    IsVisible="{Binding ShowLinkButton}"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                      Path=BindingContext.LinkExerciseCommand}"
+                                                    CommandParameter="{Binding}" />
+
+                                            <Button Grid.Column="3"
+                                                    Text="Unlink"
+                                                    BackgroundColor="#E57373"
+                                                    TextColor="Black"
+                                                    MaximumWidthRequest="120"
+                                                    HorizontalOptions="End"
+                                                    IsVisible="{Binding ShowUnlinkButton}"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                      Path=BindingContext.UnlinkExerciseCommand}"
+                                                    CommandParameter="{Binding}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
 
                         </VerticalStackLayout>
 
