@@ -1,0 +1,41 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Typefout.App.Views.Admin"
+             x:Class="Typefout.App.Views.Admin.TeacherCreatePage"
+             Title="Docent Aanmaken">
+
+    <local:AdminNavigationView>
+
+        <VerticalStackLayout Padding="40">
+
+            <Frame BackgroundColor="#F0F0F0" Padding="30">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Entry Placeholder="Gebruikersnaam"
+                           TextColor="Black"
+                           Text="{Binding Username}" />
+
+                    <Entry Placeholder="Email"
+                           TextColor="Black"
+                           Text="{Binding Email}" />
+
+                    <Entry Placeholder="Wachtwoord"
+                           IsPassword="True"
+                           Text="{Binding Password}" />
+
+                    <Entry Placeholder="Wachtwoord herhalen"
+                           IsPassword="True"
+                           Text="{Binding PasswordRepeat}" />
+
+                    <Button Text="Aanmaken"
+                            BackgroundColor="#9B8CF2"
+                            TextColor="Black"
+                            Command="{Binding CreateTeacherCommand}" />
+                </VerticalStackLayout>
+
+            </Frame>
+        </VerticalStackLayout>
+
+    </local:AdminNavigationView>
+</ContentPage>
