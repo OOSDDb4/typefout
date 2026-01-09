@@ -15,8 +15,8 @@ namespace Typefout.App.ViewModels
 {
     public partial class WordViewModel : BaseExerciseViewModel
     {
-        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService) 
-            : base (aiService,  trackingService, timerService, exerciseLength: 1, exerciseTime: 30)
+        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
+            : base(aiService, trackingService, timerService, exerciseLength: 10, exerciseTime: 30)
         {
         }
         protected override void OnCorrectInput()

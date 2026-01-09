@@ -24,7 +24,7 @@ namespace Typefout.App.Views
             base.OnAppearing();
 
             if (BindingContext is not TextViewModel vm) return;
-            
+
             await vm.InitializeAsync();
             if (!string.IsNullOrEmpty(vm.TargetText))
             {
