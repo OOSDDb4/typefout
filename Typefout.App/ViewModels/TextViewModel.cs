@@ -10,6 +10,7 @@ namespace Typefout.App.ViewModels
     public partial class TextViewModel : BaseExerciseViewModel
     {
         private bool _firstWordCompleted = false;
+        
         private string FirstWord =>
             string.IsNullOrWhiteSpace(TargetText)
                 ? ""
@@ -85,6 +86,7 @@ namespace Typefout.App.ViewModels
 
             TypingExerciseText text = await _aiService.GetExerciseTextAsync("text");
             TargetText = text.Text;
+            Console.WriteLine(TargetText);
             HighlightedText = new FormattedString();
 
             HighlightedText.Spans.Add(new Span
