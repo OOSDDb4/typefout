@@ -3,19 +3,18 @@ using Timer = System.Timers.Timer;
 
 namespace Typefout.Core.Data.Services;
 
-public class TimerService() : ITimerService
+public class TimerService() : ITimerService, IDisposable
 {
-    private readonly Timer _timer = new();
+    private Timer? _timer;
     private TimeSpan? _startTime;
     private TimeSpan? _remainingTime;
+    private bool _disposed;
     public event EventHandler? Tick;
     public event EventHandler? Finished;
 
     public void Set(int timerLength)
     {
-        if (_startTime.HasValue)
-            throw new InvalidOperationException("StartTime already set");
-
+        _timer = new Timer();
         _startTime = TimeSpan.FromSeconds(timerLength);
         _remainingTime = _startTime.Value;
         _timer.Elapsed += OnTimerTick;
@@ -28,18 +27,18 @@ public class TimerService() : ITimerService
         {
             return;
         }
-        _timer.Start();
+        _timer!.Start();
         Tick?.Invoke(this, EventArgs.Empty);
     }
     public void Stop()
     {
-        _timer.Stop();
+        _timer!.Stop();
     }
     private void OnTimerTick(object? sender, EventArgs e)
     {
         _remainingTime -= TimeSpan.FromSeconds(1);
 
-        if (_remainingTime.HasValue && _remainingTime.Value.TotalSeconds > 0)
+        if (_remainingTime.HasValue && _remainingTime.Value.TotalSeconds >= 0.5)
         {
             Tick?.Invoke(this, EventArgs.Empty);
         }
@@ -76,9 +75,9 @@ public class TimerService() : ITimerService
 
     public void Dispose()
     {
-        Tick = null;
-        Finished = null;
+        if (_disposed) return;
         _timer?.Dispose();
+        _disposed = true;
     }
 
 }

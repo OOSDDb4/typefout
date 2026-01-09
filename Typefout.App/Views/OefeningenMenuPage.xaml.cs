@@ -18,6 +18,7 @@ public partial class OefeningenMenuPage : ContentPage
 
     private async void WordExersiceClicked(object sender, EventArgs e)
     {
+        
         WordViewModel vm = App.Services.GetRequiredService<WordViewModel>();
         await Navigation.PushAsync(new WordView(vm));
     }

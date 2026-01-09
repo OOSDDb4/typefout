@@ -1,5 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using Typefout.App.Views;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
@@ -8,82 +13,22 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class WordViewModel : ObservableObject
+    public partial class WordViewModel : BaseExerciseViewModel
     {
-        private readonly IAiService _aiService;
-        private readonly IKeyTrackingService _trackingService;
-        private int _index = 0;
-        private const int _exerciseLength = 10;
-        private const int _exerciseTime = 30; // seconds
-        private int _previousLength = 0;
-        private readonly ITimerService _timerService = new TimerService();
-
-        [ObservableProperty] private string _targetWord;
-        [ObservableProperty] private string _inputText;
-        [ObservableProperty] private bool _isCompleted;
-        [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText;
-
-        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService) 
+            : base (aiService,  trackingService, timerService, exerciseLength: 1, exerciseTime: 30)
         {
-            _aiService = aiService;
-            _trackingService = trackingService;
-            _trackingService.Reset();
-            _index = 0;
-            _previousLength = 0;
-            _timerService.Tick += UpdateTimerText;
-            _timerService.Finished += OnTimerFinished;
-            _timerService.Set(_exerciseTime);
-            NextWord().Wait();
+        }
+        protected override void OnCorrectInput()
+        {
+            NextWord();
+        }
+        public async Task InitializeAsync()
+        {
+            await NextWord();
             _timerService.Start();
         }
-        partial void OnInputTextChanged(string value)
-        {
-            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
-            _previousLength = value?.Length ?? 0;
-
-            HighlightErrors(lengthIncreased);
-
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
-            {
-                _index++;
-
-                if (_index >= _exerciseLength)
-                {
-                    ExerciseFinished();
-                    return;
-                }
-                NextWord();
-            }
-        }
-        private void UpdateTimerText(object? sender, EventArgs eventArgs)
-        {
-            TimerText = _timerService.TimeLeftToString();
-        }
-        private void OnTimerFinished(object? sender, EventArgs eventArgs)
-        {
-            MainThread.BeginInvokeOnMainThread(TimeUp);
-        }
-        private async void ExerciseFinished()
-        {
-            _timerService.Stop();
-            _timerService.Dispose();
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
-            ShowResults();
-        }
-        private async void TimeUp()
-        {
-            _timerService.Stop();
-            _timerService.Dispose();
-            await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
-            ShowResults();
-        }
-        private async void ShowResults()
-        {
-            ResultsViewModel vm = new(_trackingService, _timerService);
-            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-        }
-        private void HighlightErrors(bool registerLastChar)
+        protected override void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
 
@@ -96,7 +41,7 @@ namespace Typefout.App.ViewModels
             for (int i = 0; i < InputText.Length; i++)
             {
                 char typedChar = InputText[i];
-                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+                char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
                 {
@@ -114,7 +59,7 @@ namespace Typefout.App.ViewModels
                 if (lastIndex >= 0)
                 {
                     char typedChar = InputText[lastIndex];
-                    char correctChar = lastIndex < TargetWord.Length ? TargetWord[lastIndex] : '?';
+                    char correctChar = lastIndex < TargetText.Length ? TargetText[lastIndex] : '?';
 
                     if (correctChar != '?')
                     {
@@ -136,11 +81,10 @@ namespace Typefout.App.ViewModels
         private async Task NextWord()
         {
             InputText = string.Empty;
-            IsCompleted = false;
             _previousLength = 0;
 
             TypingExerciseText text = await _aiService.GetExerciseTextAsync("word");
-            TargetWord = text.Text;
+            TargetText = text.Text;
 
             HighlightedText = new FormattedString();
 
@@ -151,30 +95,9 @@ namespace Typefout.App.ViewModels
                 FontSize = 18
             });
         }
-        [RelayCommand]
-        private async void StopExercise()
+        protected override bool AnyProgressMade()
         {
-            _timerService.Stop();
-            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
-            if (answer)
-            {
-                if (_index == 0)
-                {
-                    _timerService.Stop();
-                    _timerService.Dispose();
-                    await Shell.Current.Navigation.PopAsync();
-                    return;
-                }
-                else
-                {
-                    _timerService.Stop();
-                    _timerService.Dispose();
-                }
-            }
-            else
-            {
-                _timerService.Start();
-            }
+            return _index > 0;
         }
     }
 }

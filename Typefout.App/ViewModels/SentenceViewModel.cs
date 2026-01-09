@@ -1,94 +1,33 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Typefout.App.Views;
-using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class SentenceViewModel : ObservableObject
+    public partial class SentenceViewModel : BaseExerciseViewModel
     {
-        private readonly IAiService _aiService;
-        private readonly IKeyTrackingService _trackingService;
-
-        private int _index = 0;
-        private const int _exerciseLength = 5;
-        private const int _exerciseTime = 60; // seconds
-        private int _previousLength = 0;
-        private readonly ITimerService _timerService = new TimerService();
-
-        [ObservableProperty] private string _targetText;
-        [ObservableProperty] private string _inputText;
-        [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText;
-        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService) 
+            : base (aiService, trackingService, timerService, exerciseLength: 5, exerciseTime: 60)
         {
-            _aiService = aiService;
-            _trackingService = trackingService;
-
-            _trackingService.Reset();
-            _index = 0;
-            _previousLength = 0;
-            _timerService.Tick += UpdateTimerText;
-            _timerService.Finished += OnTimerFinished;
-            _timerService.Set(_exerciseTime);
-            NextSentence().Wait();
+        }
+        public async Task InitializeAsync()
+        {
+            await NextSentence();
             _timerService.Start();
         }
-        partial void OnInputTextChanged(string value)
+        protected override void OnCorrectInput()
         {
-            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
-            _previousLength = value?.Length ?? 0;
-
-            HighlightErrors(lengthIncreased);
-
-            if (!string.IsNullOrEmpty(value) && value == TargetText)
-            {
-                _index++;
-
-                if (_index >= _exerciseLength)
-                {
-                    ExerciseFinished();
-                    return;
-                }
-
-                NextSentence();
-            }
+            NextSentence();
         }
-        private void UpdateTimerText(object? sender, EventArgs eventArgs)
-        {
-            TimerText = _timerService.TimeLeftToString();
-        }
-        private void OnTimerFinished(object? sender, EventArgs eventArgs)
-        {
-            // ShowResults();
-            MainThread.BeginInvokeOnMainThread(TimeUp);
-        }
-        private async void ExerciseFinished()
-        {
-            _timerService.Stop();
-            _timerService.Dispose();
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
-            ShowResults();
-        }
-        private async void TimeUp()
-        {
-            await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
-            ShowResults();
-        }
-        private async void ShowResults()
-        {
-            ResultsViewModel vm = new(_trackingService, _timerService);
-            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-        }
-        private void HighlightErrors(bool registerLastChar)
+        protected override void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
 
-            for (int i = 0; i < _inputText.Length; i++)
+            for (int i = 0; i < InputText.Length; i++)
             {
-                char typedChar = _inputText[i];
+                char typedChar = InputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
@@ -125,7 +64,6 @@ namespace Typefout.App.ViewModels
 
             HighlightedText = formattedString;
         }
-
         [RelayCommand]
         private async Task NextSentence()
         {
@@ -144,26 +82,9 @@ namespace Typefout.App.ViewModels
                 FontSize = 18
             });
         }
-
-        [RelayCommand]
-        private async void StopExercise()
+        protected override bool AnyProgressMade()
         {
-            _timerService.Stop();
-            _timerService.Dispose();
-            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
-            if (answer)
-            {
-                if (_index == 0)
-                {
-                    await Shell.Current.Navigation.PopAsync();
-                    return;
-                }
-                else
-                {
-                    ResultsViewModel vm = new(_trackingService, _timerService);
-                    await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-                }
-            }
+            return _index > 0;
         }
     }
 }

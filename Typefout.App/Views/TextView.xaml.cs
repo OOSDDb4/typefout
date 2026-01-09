@@ -19,20 +19,20 @@ namespace Typefout.App.Views
             UpdateColors("");
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (BindingContext is TextViewModel vm)
+            if (BindingContext is not TextViewModel vm) return;
+            
+            await vm.InitializeAsync();
+            if (!string.IsNullOrEmpty(vm.TargetText))
             {
-                if (!string.IsNullOrEmpty(vm.TargetText))
-                {
-                    BuildSentenceIndex(vm.TargetText);
-                    UpdateSentenceWindow(vm.TargetText);
-                }
-
-                vm.PropertyChanged += Vm_PropertyChanged;
+                BuildSentenceIndex(vm.TargetText);
+                UpdateSentenceWindow(vm.TargetText);
             }
+
+            vm.PropertyChanged += Vm_PropertyChanged;
         }
         private void OnEditorLoaded(object sender, EventArgs e)
         {

@@ -19,17 +19,19 @@ public partial class WordView : ContentPage
         }
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         if (BindingContext is WordViewModel vm)
         {
+            
+            await vm.InitializeAsync();
             UpdateColors("");
 
             vm.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName == "TargetWord" || args.PropertyName == "InputText")
+                if (args.PropertyName == "TargetText" || args.PropertyName == "InputText")
                 {
                     UpdateColors(vm.InputText ?? "");
                 }
@@ -51,19 +53,19 @@ public partial class WordView : ContentPage
             if (button != null) button.BackgroundColor = Colors.White;
         }
 
-        string targetWord = "";
+        string targetText = "";
 
         if (BindingContext is WordViewModel vm)
-            targetWord = vm.TargetWord;
+            targetText = vm.TargetText;
 
-        if (string.IsNullOrEmpty(targetWord))
+        if (string.IsNullOrEmpty(targetText))
         {
             return;
         }
 
-        if (typedText.Length < targetWord.Length)
+        if (typedText.Length < targetText.Length)
         {
-            char nextLetter = char.ToUpper(targetWord[typedText.Length]);
+            char nextLetter = char.ToUpper(targetText[typedText.Length]);
 
             Border nextButton = this.FindByName<Border>($"Key_{nextLetter}");
             if (nextButton != null)
@@ -71,5 +73,7 @@ public partial class WordView : ContentPage
                 nextButton.BackgroundColor = Colors.LightGreen;
             }
         }
+
+
     }
 }
