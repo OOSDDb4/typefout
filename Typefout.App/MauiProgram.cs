@@ -2,6 +2,7 @@
 using Typefout.App.ViewModels;
 using Typefout.App.Views;
 using Typefout.App.Views.Admin;
+using Typefout.App.Views.Docent;
 using Typefout.Core.Data.Repo;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
@@ -42,7 +43,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ITimerService, TimerService>();
         builder.Services.AddSingleton<ISchoolRepo, SchoolRepo>();
         builder.Services.AddSingleton<IGroupRepo, GroupRepo>();
-
+        builder.Services.AddSingleton<ISchoolExerciseRepo, SchoolExerciseRepo>();
+        builder.Services.AddSingleton<IExerciseRepo, ExerciseRepo>();
         // ViewModels
         builder.Services.AddTransient<LoginPageViewModel>();
         builder.Services.AddTransient<WordViewModel>();
@@ -50,7 +52,6 @@ public static class MauiProgram
         builder.Services.AddTransient<ResultsViewModel>();
         builder.Services.AddTransient<TextViewModel>();
         builder.Services.AddTransient<PasswordReset2PageViewmodel>();
-
         builder.Services.AddTransient<SchoolsViewModel>();
         builder.Services.AddTransient<SchoolCreateViewModel>();
         builder.Services.AddTransient<SchoolEditViewModel>();
@@ -64,7 +65,10 @@ public static class MauiProgram
         builder.Services.AddTransient<AddUserViewModel>();
         builder.Services.AddTransient<GroupContentInfoViewModel>();
         builder.Services.AddTransient<GroupContentViewModel>();
-
+        builder.Services.AddTransient<StudentsContentViewModel>();
+        builder.Services.AddTransient<RegistrationViewModel>();
+        builder.Services.AddTransient<OefeningenMenuViewModel>();
+        builder.Services.AddTransient<ExercisesViewModel>();
         // Pages
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<TextView>();
@@ -77,8 +81,13 @@ public static class MauiProgram
         builder.Services.AddTransient<OefeningenMenuPage>();
         builder.Services.AddTransient<GroupContentInfoView>();
         builder.Services.AddTransient<GroupContentView>();
-
+        builder.Services.AddTransient<StudentsContentView>();
+        builder.Services.AddTransient<RegistrationPage>();
+        builder.Services.AddTransient<ExercisesPage>();
+        builder.Services.AddTransient<TeacherPage>();
+        builder.Services.AddTransient<OefeningenMenuPage>();
         // Admin pages
+        builder.Services.AddTransient<AdminDashboardPage>();
         builder.Services.AddTransient<SchoolsPage>();
         builder.Services.AddTransient<SchoolCreatePage>();
         builder.Services.AddTransient<SchoolEditPage>();

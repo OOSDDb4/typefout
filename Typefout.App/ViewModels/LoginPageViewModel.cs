@@ -67,7 +67,7 @@ namespace Typefout.App.ViewModels
 
             if (authenticatedClient.UserType == UserType.Admin)
             {
-                await Shell.Current.GoToAsync("schools");
+                await Shell.Current.GoToAsync("admindashboard");
             }
             else if (authenticatedClient.UserType == UserType.Docent)
             {

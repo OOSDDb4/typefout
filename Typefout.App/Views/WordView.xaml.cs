@@ -25,7 +25,6 @@ public partial class WordView : ContentPage
 
         if (BindingContext is WordViewModel vm)
         {
-            
             await vm.InitializeAsync();
             UpdateColors("");
 
@@ -73,7 +72,5 @@ public partial class WordView : ContentPage
                 nextButton.BackgroundColor = Colors.LightGreen;
             }
         }
-
-
     }
 }

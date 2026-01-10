@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Typefout.App.Views.StudentsContentView">
+             xmlns:viewmodels="clr-namespace:Typefout.App.ViewModels"
+             x:Class="Typefout.App.Views.StudentsContentView"
+             x:DataType="viewmodels:StudentsContentViewModel">
 
     <Border BackgroundColor="#E0E0E0" 
             StrokeShape="RoundRectangle 10" 
@@ -25,7 +27,8 @@
                         TextColor="Black" 
                         CornerRadius="5" 
                         HeightRequest="30"
-                        HorizontalOptions="End"/>
+                        HorizontalOptions="End"
+                        Command="{Binding CreateStudentCommand}"/>
             </Grid>
 
             <Grid ColumnDefinitions="*, *, Auto, Auto" 
@@ -39,10 +42,34 @@
                 <Label Grid.Row="0" Grid.Column="2" Text="info" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
                 <Label Grid.Row="0" Grid.Column="3" Text="Wijzigen" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Text="Jeroen" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
-                <Label Grid.Row="1" Grid.Column="1" Text="Groep 8" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
-                <Label Grid.Row="1" Grid.Column="2" Text="info" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
-                <Label Grid.Row="1" Grid.Column="3" Text="Wijzigen" BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3"
+                                     BindableLayout.ItemsSource="{Binding Student}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:StudentItem">
+                            <Grid ColumnDefinitions="*, *, Auto, Auto, Auto" 
+                                  ColumnSpacing="1">
+                                <Label Grid.Column="0" Text="{Binding Username}" 
+                                       BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                                <Label Grid.Column="1" Text="{Binding GroupName}" 
+                                       BackgroundColor="White" TextColor="Black" Padding="10, 5"/>
+                                <Button Grid.Column="2" 
+                                        Text="Info" 
+                                        BackgroundColor="#4CAF50" 
+                                        TextColor="White" 
+                                        HeightRequest="35"
+                                        Padding="15, 5"/>
+                                <Button Grid.Column="3" 
+                                        Text="Wijzigen" 
+                                        BackgroundColor="#2196F3" 
+                                        TextColor="White" 
+                                        HeightRequest="35"
+                                        Padding="15, 5"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:StudentsContentViewModel}}, Path=EditStudentCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
 
             </Grid>
         </StackLayout>

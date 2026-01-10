@@ -8,8 +8,8 @@ namespace Typefout.App.ViewModels
 {
     public partial class SentenceViewModel : BaseExerciseViewModel
     {
-        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService) 
-            : base (aiService, trackingService, timerService, exerciseLength: 5, exerciseTime: 60)
+        public SentenceViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
+            : base(aiService, trackingService, timerService, exerciseLength: 5, exerciseTime: 60)
         {
         }
         public async Task InitializeAsync()

@@ -1,21 +1,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Typefout.App.Views.Admin"
-             x:Class="Typefout.App.Views.Admin.SchoolsPage">
-
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" />
-    </Shell.BackButtonBehavior>
-
+             x:Class="Typefout.App.Views.Admin.SchoolsPage"
+             Title="Scholen">
+    
     <local:AdminNavigationView>
 
         <VerticalStackLayout Padding="40" Spacing="25">
-
-            <Label Text="Scholen"
-                   FontSize="28"
-                   TextColor="Black"
-                   HorizontalOptions="Center"/>
-
+            
             <Frame BackgroundColor="#F0F0F0" Padding="25">
 
                 <VerticalStackLayout Spacing="20">
@@ -36,7 +28,7 @@
                                 TextColor="Black"/>
                     </Grid>
 
-                    <Grid ColumnDefinitions="*,*,*,Auto"
+                    <Grid ColumnDefinitions="*,300,200,*"
                           Padding="10"
                           BackgroundColor="#E0E0E0">
 
@@ -64,7 +56,7 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid ColumnDefinitions="*,*,*,Auto"
+                                <Grid ColumnDefinitions="*,300,200,*"
                                       Padding="10">
 
                                     <Label Text="{Binding Name}"

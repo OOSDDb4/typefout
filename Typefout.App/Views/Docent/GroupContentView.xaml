@@ -42,15 +42,15 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Text="Groep" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
                 <Label Grid.Row="0" Grid.Column="1" Text="Docent" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
-                <Image Grid.Row="0" Grid.Column="2" BackgroundColor="White">
+                <ImageButton Grid.Row="0" Grid.Column="2" BackgroundColor="White">
                     <ImageButton.Source>
                         <FontImageSource
                         Glyph="&#xf007;"
                         FontFamily="FontAwesomeSolid"
                         Size="30"
                         Color="Black"/>
-                </ImageButton.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
                 <Label Grid.Row="0" Grid.Column="3" Text="info" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
                 <Label Grid.Row="0" Grid.Column="4" Text="Wijzigen" FontAttributes="Bold" BackgroundColor="White" Padding="10, 5"/>
 

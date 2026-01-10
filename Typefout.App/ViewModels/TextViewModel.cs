@@ -10,14 +10,13 @@ namespace Typefout.App.ViewModels
     public partial class TextViewModel : BaseExerciseViewModel
     {
         private bool _firstWordCompleted = false;
-        
         private string FirstWord =>
             string.IsNullOrWhiteSpace(TargetText)
                 ? ""
                 : TargetText.Split(' ')[0];
 
         public TextViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
-            : base(aiService, trackingService, timerService, exerciseLength: 1,  exerciseTime: 180)
+            : base(aiService, trackingService, timerService, exerciseLength: 1, exerciseTime: 180)
         {
         }
         public async Task InitializeAsync()
@@ -86,7 +85,6 @@ namespace Typefout.App.ViewModels
 
             TypingExerciseText text = await _aiService.GetExerciseTextAsync("text");
             TargetText = text.Text;
-            Console.WriteLine(TargetText);
             HighlightedText = new FormattedString();
 
             HighlightedText.Spans.Add(new Span
