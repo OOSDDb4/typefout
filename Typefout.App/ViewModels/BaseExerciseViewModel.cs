@@ -21,10 +21,10 @@ namespace Typefout.App.ViewModels
         public int ExerciseLength { get; protected set; }
         public int ExerciseTime { get; protected set; } // seconds
         public BaseExerciseViewModel(
-            IAiService aiService, 
-            IKeyTrackingService trackingService, 
-            ITimerService timerService, 
-            int exerciseLength, 
+            IAiService aiService,
+            IKeyTrackingService trackingService,
+            ITimerService timerService,
+            int exerciseLength,
             int exerciseTime)
         {
             _aiService = aiService;

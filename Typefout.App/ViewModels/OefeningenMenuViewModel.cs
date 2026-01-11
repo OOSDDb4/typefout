@@ -21,7 +21,7 @@ namespace Typefout.App.ViewModels
         [ObservableProperty]
         private bool _showText;
 
-        
+
         [ObservableProperty]
         private int _score;
 

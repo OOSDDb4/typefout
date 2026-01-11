@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
+using Typefout.App.ViewModels;
 using Typefout.Core.Interfaces;
 using Typefout.Core.Models;
-using Typefout.App.ViewModels;
 
 namespace Typefout.Tests
 {
@@ -21,7 +21,7 @@ namespace Typefout.Tests
             mockTrackingService.Setup(t => t.TotalAttempts).Returns(10);
             mockTrackingService.Setup(t => t.TotalMistakes).Returns(5);
 
-            ResultsViewModel vm = new (
+            ResultsViewModel vm = new(
                 mockTrackingService.Object,
                 Mock.Of<ITimerService>(),
                 Mock.Of<IUserRepo>(),

@@ -349,7 +349,7 @@ namespace Typefout.Core.Data.Repo
         public int SelectScore(User user)
         {
             _db.Open();
-            
+
             string sql = "SELECT Score " +
                          "FROM StudentGroup " +
                          "WHERE UserId = @userId AND GroupId = @userGroupId;";
@@ -371,7 +371,7 @@ namespace Typefout.Core.Data.Repo
         public Task UpdateScore(User user, int newScore)
         {
             _db.Open();
-            
+
             string sql = "UPDATE StudentGroup " +
                          "SET Score = Score + @score " +
                          "WHERE UserId = @userId AND GroupId = @userGroupId;";

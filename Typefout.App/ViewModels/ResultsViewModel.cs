@@ -22,13 +22,13 @@ namespace Typefout.App.ViewModels
         [ObservableProperty] private string _timeLeft;
         [ObservableProperty] private int _pointsFromAnswers;
         [ObservableProperty] private int _pointsFromTime;
-        
+
         private const double _errorThreshold = 0.15;
 
         public ResultsViewModel(
-            IKeyTrackingService trackingService, 
-            ITimerService timerService, 
-            IUserRepo userRepo, 
+            IKeyTrackingService trackingService,
+            ITimerService timerService,
+            IUserRepo userRepo,
             IAuthService authService)
         {
             _userRepo = userRepo;
@@ -58,7 +58,7 @@ namespace Typefout.App.ViewModels
             TotalMistakes = WorstKeys.Sum(k => (int)(k.Attempts * k.ErrorRate));
             TimeUsed = _timerService.TimeUsedToString();
             TimeLeft = _timerService.TimeLeftToString();
-            
+
             int attempts = _trackingService.TotalAttempts;
             int mistakes = _trackingService.TotalMistakes;
             int startTime = _timerService.StartTime.HasValue ? (int)_timerService.StartTime.Value.TotalSeconds : 0;
@@ -80,7 +80,7 @@ namespace Typefout.App.ViewModels
             int pointsFromTime = (int)Math.Round(
                 (double)remainingTime / startTime * 100
             );
-        
+
             int pointsTotal = (pointsFromAnswers + pointsFromTime);
             return new Dictionary<string, int>
             {
