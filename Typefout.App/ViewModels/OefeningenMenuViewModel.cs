@@ -11,6 +11,7 @@ namespace Typefout.App.ViewModels
         private readonly IAuthService _authService;
         private readonly IUserRepo _userRepo;
 
+
         [ObservableProperty]
         private bool _showWord;
 
@@ -19,6 +20,7 @@ namespace Typefout.App.ViewModels
 
         [ObservableProperty]
         private bool _showText;
+
         
         [ObservableProperty]
         private int _score;
@@ -31,6 +33,7 @@ namespace Typefout.App.ViewModels
             _schoolExerciseRepo = schoolExerciseRepo;
             _authService = authService;
             _userRepo = userRepo;
+
             ShowWord = false;
             ShowSentence = false;
             ShowText = false;

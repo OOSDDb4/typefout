@@ -102,21 +102,6 @@ public static class MauiProgram
 
         MauiApp app = builder.Build();
 
-        // Routes
-        Routing.RegisterRoute("schools", typeof(SchoolsPage));
-        Routing.RegisterRoute("schoolcreate", typeof(SchoolCreatePage));
-        Routing.RegisterRoute("schooledit", typeof(SchoolEditPage));
-        Routing.RegisterRoute("schoolinfo", typeof(SchoolInfoPage));
-        Routing.RegisterRoute("groupcreate", typeof(GroupCreatePage));
-        Routing.RegisterRoute("groupedit", typeof(GroupEditPage));
-        Routing.RegisterRoute("teachercreate", typeof(TeacherCreatePage));
-        Routing.RegisterRoute("teacheredit", typeof(TeacherEditPage));
-        Routing.RegisterRoute("studentcreate", typeof(StudentCreatePage));
-        Routing.RegisterRoute("studentedit", typeof(StudentEditPage));
-        Routing.RegisterRoute("adduser", typeof(AddUserPage));
-        Routing.RegisterRoute("oefeningen", typeof(OefeningenMenuPage));
-        Routing.RegisterRoute("teacherpage", typeof(TeacherPage));
-
         return app;
     }
 }
