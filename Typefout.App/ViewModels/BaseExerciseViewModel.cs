@@ -20,7 +20,12 @@ namespace Typefout.App.ViewModels
         protected int _index = 0;
         public int ExerciseLength { get; protected set; }
         public int ExerciseTime { get; protected set; } // seconds
-        public BaseExerciseViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService, int exerciseLength, int exerciseTime)
+        public BaseExerciseViewModel(
+            IAiService aiService, 
+            IKeyTrackingService trackingService, 
+            ITimerService timerService, 
+            int exerciseLength, 
+            int exerciseTime)
         {
             _aiService = aiService;
             ExerciseLength = exerciseLength;
@@ -58,9 +63,11 @@ namespace Typefout.App.ViewModels
             await Shell.Current.DisplayAlert("Tijd op!", "De tijd is op!", "OK");
             ShowResults();
         }
-        protected async void ShowResults()
+        protected static async void ShowResults()
         {
-            ResultsViewModel vm = new(_trackingService, _timerService);
+            // ResultsViewModel vm = new(_trackingService, _timerService, _userRepo, 
+            //     _authService);
+            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
             await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
         }
         partial void OnInputTextChanged(string value)

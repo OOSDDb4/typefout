@@ -346,7 +346,22 @@ namespace Typefout.Core.Data.Repo
             _db.Close();
             return Task.CompletedTask;
         }
+        public Task UpdateScoreAsync(int userId, int newScore)
+        {
+            _db.Open();
+            
+            string sql = "UPDATE StudentGroup SET Score = Score + @score WHERE UserId = @userId;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                ["@score"] = newScore,
+                ["@userId"] = userId
+            };
 
+            _db.ExecuteNonQuery(sql, parameters);
+            _db.Close();
+
+            return Task.CompletedTask;
+        }
 
         public Task DeleteAsync(int userId)
         {

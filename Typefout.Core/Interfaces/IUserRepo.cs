@@ -15,7 +15,7 @@ namespace Typefout.Core.Interfaces
         Task<IEnumerable<User>> GetStudentsByGroupIdAsync(int groupId);
         Task<IEnumerable<User>> GetStudentsBySchoolIdAsync(int schoolId);
         Task SetActiveAsync(int userId, bool isActive);
-
+        Task UpdateScoreAsync(int userId, int newScore);
         Task CreateAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int userId);

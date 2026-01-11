@@ -3,6 +3,8 @@ namespace Typefout.Core.Interfaces;
 
 public interface ITimerService
 {
+    public TimeSpan? StartTime { get; }
+    public TimeSpan? RemainingTime { get; }
     event EventHandler Tick;
     event EventHandler Finished;
     public void Set(int timerLength);

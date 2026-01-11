@@ -6,8 +6,8 @@ namespace Typefout.Core.Data.Services;
 public class TimerService() : ITimerService, IDisposable
 {
     private Timer? _timer;
-    private TimeSpan? _startTime;
-    private TimeSpan? _remainingTime;
+    public TimeSpan? StartTime { get; private set; }
+    public TimeSpan? RemainingTime { get; private set; }
     private bool _disposed;
     public event EventHandler? Tick;
     public event EventHandler? Finished;
@@ -15,15 +15,15 @@ public class TimerService() : ITimerService, IDisposable
     public void Set(int timerLength)
     {
         _timer = new Timer();
-        _startTime = TimeSpan.FromSeconds(timerLength);
-        _remainingTime = _startTime.Value;
+        StartTime = TimeSpan.FromSeconds(timerLength);
+        RemainingTime = StartTime.Value;
         _timer.Elapsed += OnTimerTick;
         Finished += OnFinished;
         _timer.Interval = 1000; // 1 second
     }
     public void Start()
     {
-        if (_startTime == null)
+        if (StartTime == null)
         {
             return;
         }
@@ -36,9 +36,9 @@ public class TimerService() : ITimerService, IDisposable
     }
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        _remainingTime -= TimeSpan.FromSeconds(1);
+        RemainingTime -= TimeSpan.FromSeconds(1);
 
-        if (_remainingTime.HasValue && _remainingTime.Value.TotalSeconds >= 0.5)
+        if (RemainingTime.HasValue && RemainingTime.Value.TotalSeconds >= 0.5)
         {
             Tick?.Invoke(this, EventArgs.Empty);
         }
@@ -55,20 +55,20 @@ public class TimerService() : ITimerService, IDisposable
 
     public string TimeUsedToString()
     {
-        if (!_remainingTime.HasValue || !_startTime.HasValue)
+        if (!RemainingTime.HasValue || !StartTime.HasValue)
         {
             return "time not set";
         }
-        TimeSpan timeUsed = _startTime.Value.Subtract(_remainingTime.Value);
+        TimeSpan timeUsed = StartTime.Value.Subtract(RemainingTime.Value);
         return timeUsed.ToString(@"mm\:ss");
 
     }
 
     public string TimeLeftToString()
     {
-        if (_remainingTime.HasValue)
+        if (RemainingTime.HasValue)
         {
-            return _remainingTime.Value.ToString(@"mm\:ss");
+            return RemainingTime.Value.ToString(@"mm\:ss");
         }
         return "time not set";
     }
