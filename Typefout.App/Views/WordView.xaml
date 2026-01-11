@@ -71,7 +71,7 @@
                            HorizontalOptions="Start"/>
                 </Grid>
                 <VerticalStackLayout Grid.Row="1" Spacing="0" VerticalOptions="Center">
-                    <Label Text="{Binding TargetWord}"
+                    <Label Text="{Binding TargetText}"
                            TextColor="Black"
                            FontSize="24"
                            HorizontalOptions="Center"

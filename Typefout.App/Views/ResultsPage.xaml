@@ -28,7 +28,7 @@
                    Margin="0, 20, 0, 0">
                 
                 <Grid RowDefinitions="Auto, Auto"
-                      ColumnDefinitions="*, *, *, *, Auto">
+                      ColumnDefinitions="*, *, *, *, *, *, *, Auto">
                     
                     <Label Text="Oefening" Grid.Row="0" Grid.Column="0" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
@@ -42,7 +42,16 @@
                     <Label Text="Type" Grid.Row="0" Grid.Column="3" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
 
-                    <Label Text="Tijd" Grid.Row="0" Grid.Column="4" TextColor="Black"
+                    <Label Text="Tijd Gebruikt" Grid.Row="0" Grid.Column="4" TextColor="Black"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Tijd Over" Grid.Row="0" Grid.Column="5" TextColor="Black"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Score Van Antwoorden" Grid.Row="0" Grid.Column="6" TextColor="Black"
+                           FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="Score Van Tijd Over" Grid.Row="0" Grid.Column="7" TextColor="Black"
                            FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="10"/>
 
                     <Label Text="1" Grid.Row="1" Grid.Column="0" TextColor="Black"
@@ -82,10 +91,19 @@
                            TextColor="Black"
                            HorizontalTextAlignment="Center" Padding="10"/>
                     
-                    <Label Text="0,5 min" Grid.Row="1" Grid.Column="4"
+                    <Label Text="{Binding TimeUsed}" Grid.Row="1" Grid.Column="4"
                            TextColor="Black"
                            HorizontalTextAlignment="Center" Padding="10"/>
-
+                    <Label Text="{Binding TimeLeft}" Grid.Row="1" Grid.Column="5"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center" Padding="10"/>
+                    
+                    <Label Text="{Binding PointsFromAnswers}" Grid.Row="1" Grid.Column="6"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center" Padding="10"/>
+                    <Label Text="{Binding PointsFromTime}" Grid.Row="1" Grid.Column="7"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center" Padding="10"/>
                 </Grid>
             </Frame>
 

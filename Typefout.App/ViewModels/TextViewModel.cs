@@ -7,43 +7,22 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class TextViewModel : ObservableObject
+    public partial class TextViewModel : BaseExerciseViewModel
     {
-        private readonly IAiService _aiService;
-        private readonly IKeyTrackingService _trackingService;
-        private int _previousLength = 0;
         private bool _firstWordCompleted = false;
-
-        [ObservableProperty] private string _targetText;
-        [ObservableProperty] private string _inputText;
-        [ObservableProperty] private FormattedString _highlightedText;
-        [ObservableProperty] private string _timerText;
         private string FirstWord =>
             string.IsNullOrWhiteSpace(TargetText)
                 ? ""
                 : TargetText.Split(' ')[0];
-        public TextViewModel(IAiService aiService, IKeyTrackingService trackingService)
+
+        public TextViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
+            : base(aiService, trackingService, timerService, exerciseLength: 1, exerciseTime: 180)
         {
-            _aiService = aiService;
-            _trackingService = trackingService;
-
-            _trackingService.Reset();
-            _previousLength = 0;
-
-            LoadText();
         }
-        partial void OnInputTextChanged(string value)
+        public async Task InitializeAsync()
         {
-            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
-            _previousLength = value?.Length ?? 0;
-
-            HighlightErrors(lengthIncreased);
-            CheckFirstWordProgress();
-
-            if (!string.IsNullOrEmpty(value) && value == TargetText)
-            {
-                ShowResults();
-            }
+            await LoadText();
+            _timerService.Start();
         }
         private void CheckFirstWordProgress()
         {
@@ -55,21 +34,13 @@ namespace Typefout.App.ViewModels
                 _firstWordCompleted = true;
             }
         }
-        private async void ShowResults()
-        {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt de tekst getypt!", "OK");
-
-            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
-            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-        }
-
-        private void HighlightErrors(bool registerLastChar)
+        protected override void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
 
-            for (int i = 0; i < _inputText.Length; i++)
+            for (int i = 0; i < InputText.Length; i++)
             {
-                char typedChar = _inputText[i];
+                char typedChar = InputText[i];
                 char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
@@ -106,16 +77,14 @@ namespace Typefout.App.ViewModels
 
             HighlightedText = formattedString;
         }
-
         [RelayCommand]
-        private async void LoadText()
+        private async Task LoadText()
         {
             InputText = string.Empty;
             _previousLength = 0;
 
             TypingExerciseText text = await _aiService.GetExerciseTextAsync("text");
             TargetText = text.Text;
-
             HighlightedText = new FormattedString();
 
             HighlightedText.Spans.Add(new Span
@@ -125,22 +94,10 @@ namespace Typefout.App.ViewModels
                 FontSize = 18
             });
         }
-        [RelayCommand]
-        private async void StopExercise()
+        protected override bool AnyProgressMade()
         {
-            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
-            if (!answer)
-                return;
-
-            if (_firstWordCompleted)
-            {
-                ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
-                await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-            }
-            else
-            {
-                await Shell.Current.Navigation.PopAsync();
-            }
+            CheckFirstWordProgress();
+            return _firstWordCompleted;
         }
     }
 }

@@ -1,5 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using Typefout.App.Views;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
@@ -8,55 +13,22 @@ using Typefout.Core.Models;
 
 namespace Typefout.App.ViewModels
 {
-    public partial class WordViewModel : ObservableObject
+    public partial class WordViewModel : BaseExerciseViewModel
     {
-        private readonly IAiService _aiService;
-        private readonly IKeyTrackingService _trackingService;
-        private int _index = 0;
-        private const int _exerciseLength = 10;
-        private int _previousLength = 0;
-
-        [ObservableProperty] private string _targetWord;
-        [ObservableProperty] private string _inputText;
-        [ObservableProperty] private bool _isCompleted;
-        [ObservableProperty] private FormattedString _highlightedText;
-
-        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService)
+        public WordViewModel(IAiService aiService, IKeyTrackingService trackingService, ITimerService timerService)
+            : base(aiService, trackingService, timerService, exerciseLength: 10, exerciseTime: 30)
         {
-            _aiService = aiService;
-            _trackingService = trackingService;
-            _trackingService.Reset();
-            _index = 0;
-            _previousLength = 0;
+        }
+        protected override void OnCorrectInput()
+        {
             NextWord();
         }
-        partial void OnInputTextChanged(string value)
+        public async Task InitializeAsync()
         {
-            bool lengthIncreased = !string.IsNullOrEmpty(value) && value.Length > _previousLength;
-            _previousLength = value?.Length ?? 0;
-
-            HighlightErrors(lengthIncreased);
-
-            if (!string.IsNullOrEmpty(value) && value == TargetWord)
-            {
-                _index++;
-
-                if (_index >= _exerciseLength)
-                {
-                    ShowResults();
-                    return;
-                }
-                NextWord();
-            }
+            await NextWord();
+            _timerService.Start();
         }
-        private async void ShowResults()
-        {
-            await Shell.Current.DisplayAlert("Klaar!", "Je hebt alle woorden getypt!", "OK");
-
-            ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
-            await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-        }
-        private void HighlightErrors(bool registerLastChar)
+        protected override void HighlightErrors(bool registerLastChar)
         {
             FormattedString formattedString = new FormattedString();
 
@@ -69,7 +41,7 @@ namespace Typefout.App.ViewModels
             for (int i = 0; i < InputText.Length; i++)
             {
                 char typedChar = InputText[i];
-                char correctChar = i < TargetWord.Length ? TargetWord[i] : '?';
+                char correctChar = i < TargetText.Length ? TargetText[i] : '?';
 
                 Span span = new Span
                 {
@@ -87,7 +59,7 @@ namespace Typefout.App.ViewModels
                 if (lastIndex >= 0)
                 {
                     char typedChar = InputText[lastIndex];
-                    char correctChar = lastIndex < TargetWord.Length ? TargetWord[lastIndex] : '?';
+                    char correctChar = lastIndex < TargetText.Length ? TargetText[lastIndex] : '?';
 
                     if (correctChar != '?')
                     {
@@ -106,14 +78,13 @@ namespace Typefout.App.ViewModels
             HighlightedText = formattedString;
         }
         [RelayCommand]
-        private async void NextWord()
+        private async Task NextWord()
         {
             InputText = string.Empty;
-            IsCompleted = false;
             _previousLength = 0;
 
             TypingExerciseText text = await _aiService.GetExerciseTextAsync("word");
-            TargetWord = text.Text;
+            TargetText = text.Text;
 
             HighlightedText = new FormattedString();
 
@@ -124,23 +95,9 @@ namespace Typefout.App.ViewModels
                 FontSize = 18
             });
         }
-        [RelayCommand]
-        private async void StopExercise()
+        protected override bool AnyProgressMade()
         {
-            bool answer = await Shell.Current.DisplayAlert("Stoppen", "Weet je zeker dat je wilt stoppen?", "Ja", "Nee");
-            if (answer)
-            {
-                if (_index == 0)
-                {
-                    await Shell.Current.Navigation.PopAsync();
-                    return;
-                }
-                else
-                {
-                    ResultsViewModel vm = App.Services.GetRequiredService<ResultsViewModel>();
-                    await Shell.Current.Navigation.PushAsync(new ResultsPage(vm));
-                }
-            }
+            return _index > 0;
         }
     }
 }

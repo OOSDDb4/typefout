@@ -19,12 +19,13 @@ public partial class SentenceView : ContentPage
         }
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         if (BindingContext is SentenceViewModel vm)
         {
+            await vm.InitializeAsync();
             UpdateColors("");
 
             vm.PropertyChanged += (sender, args) =>
