@@ -9,6 +9,7 @@ namespace Typefout.App.ViewModels
     {
         private readonly ISchoolExerciseRepo _schoolExerciseRepo;
         private readonly IAuthService _authService;
+        private readonly IUserRepo _userRepo;
 
         [ObservableProperty]
         private bool _showWord;
@@ -18,14 +19,18 @@ namespace Typefout.App.ViewModels
 
         [ObservableProperty]
         private bool _showText;
+        
+        [ObservableProperty]
+        private int _score;
 
         public OefeningenMenuViewModel(
             ISchoolExerciseRepo schoolExerciseRepo,
-            IAuthService authService)
+            IAuthService authService,
+            IUserRepo userRepo)
         {
             _schoolExerciseRepo = schoolExerciseRepo;
             _authService = authService;
-
+            _userRepo = userRepo;
             ShowWord = false;
             ShowSentence = false;
             ShowText = false;
@@ -43,7 +48,7 @@ namespace Typefout.App.ViewModels
             bool word = false;
             bool sentence = false;
             bool text = false;
-
+            Score = _userRepo.SelectScore(currentUser);
             foreach (Exercise exercise in availableExercises)
             {
                 if (exercise.ExerciseName.Equals("word", StringComparison.OrdinalIgnoreCase))

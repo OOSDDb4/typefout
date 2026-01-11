@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Typefout.Core.Data.Services;
 using Typefout.Core.Interfaces;
 using Xunit;
@@ -13,7 +15,6 @@ public class TimeTest
     {
         _testOutputHelper = testOutputHelper;
     }
-
     [Fact]
     public void TimerServiceTest()
     {

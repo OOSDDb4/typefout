@@ -59,36 +59,42 @@ namespace Typefout.App.ViewModels
             TimeUsed = _timerService.TimeUsedToString();
             TimeLeft = _timerService.TimeLeftToString();
             
-            
             int attempts = _trackingService.TotalAttempts;
             int mistakes = _trackingService.TotalMistakes;
-            int correct = attempts - mistakes;
-            if (attempts == 0) return;
-            // if (!_timerService.RemainingTime.HasValue) return;
-            // if (!_timerService.StartTime.HasValue) return;
-            // { 
-            PointsFromAnswers = (correct / attempts) * 100;
-            //     // int pointsFromTime = (_timerService.RemainingTime
-            //     int pointsFromTime = (_timerService.RemainingTime / _timerService.StartTime * 100);
-            // }
-            // int points = _trackingService.TotalAttempts - _trackingService.TotalMistakes;
-            PointsFromTime =
-                _timerService is { RemainingTime: not null, StartTime.TotalSeconds: > 0 }
-                    ? (int)Math.Round(
-                        _timerService.RemainingTime.Value /
-                        _timerService.StartTime.Value * 100
-                    )
-                    : 0;
-            int pointsTotal = (PointsFromAnswers + PointsFromTime);
+            int startTime = _timerService.StartTime.HasValue ? (int)_timerService.StartTime.Value.TotalSeconds : 0;
+            int remainingTime = _timerService.RemainingTime.HasValue ? (int)_timerService.RemainingTime.Value.TotalSeconds : 0;
+
+            Dictionary<string, int> points = GetPoints(attempts, mistakes, startTime, remainingTime);
+            PointsFromAnswers = points["pointsFromAnswers"];
+            PointsFromTime = points["pointsFromTime"];
+            int pointsTotal = points["pointsTotal"];
             UpdateUserScoreAsync(pointsTotal);
+        }
+        public Dictionary<string, int> GetPoints(
+            int attempts, int mistakes, int startTime, int remainingTime)
+        {
+            double correct = attempts - mistakes;
+
+            int pointsFromAnswers = (int)Math.Round(correct / attempts * 100);
+
+            int pointsFromTime = (int)Math.Round(
+                (double)remainingTime / startTime * 100
+            );
+        
+            int pointsTotal = (pointsFromAnswers + pointsFromTime);
+            return new Dictionary<string, int>
+            {
+                ["pointsFromAnswers"] = pointsFromAnswers,
+                ["pointsFromTime"] = pointsFromTime,
+                ["pointsTotal"] = pointsTotal
+            };
         }
         private async Task UpdateUserScoreAsync(int points)
         {
             try
             {
                 User user = _authService.CurrentUser;
-                // assumes user id property is UserId; adjust if different
-                await _userRepo.UpdateScoreAsync(user.Id, points);
+                await _userRepo.UpdateScore(user, points);
             }
             catch (Exception ex)
             {

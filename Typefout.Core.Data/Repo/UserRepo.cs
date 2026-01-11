@@ -346,15 +346,40 @@ namespace Typefout.Core.Data.Repo
             _db.Close();
             return Task.CompletedTask;
         }
-        public Task UpdateScoreAsync(int userId, int newScore)
+        public int SelectScore(User user)
         {
             _db.Open();
             
-            string sql = "UPDATE StudentGroup SET Score = Score + @score WHERE UserId = @userId;";
+            string sql = "SELECT Score " +
+                         "FROM StudentGroup " +
+                         "WHERE UserId = @userId AND GroupId = @userGroupId;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                ["@userId"] = user.Id,
+                ["@userGroupId"] = user.GroupId
+            };
+
+            DataTable dt = _db.ReadQuery(sql, parameters);
+            _db.Close();
+            if (dt.Rows.Count == 0)
+            {
+                Console.WriteLine("Leerling niet gevonden in StudentGroup.");
+                return 0;
+            }
+            return Convert.ToInt32(dt.Rows[0]["Score"]);
+        }
+        public Task UpdateScore(User user, int newScore)
+        {
+            _db.Open();
+            
+            string sql = "UPDATE StudentGroup " +
+                         "SET Score = Score + @score " +
+                         "WHERE UserId = @userId AND GroupId = @userGroupId;";
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 ["@score"] = newScore,
-                ["@userId"] = userId
+                ["@userId"] = user.Id,
+                ["@userGroupId"] = user.GroupId
             };
 
             _db.ExecuteNonQuery(sql, parameters);
@@ -362,7 +387,6 @@ namespace Typefout.Core.Data.Repo
 
             return Task.CompletedTask;
         }
-
         public Task DeleteAsync(int userId)
         {
             _db.Open();

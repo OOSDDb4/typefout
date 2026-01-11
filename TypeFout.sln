@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Typefout.App", "Typefout.App\Typefout.App.csproj", "{702D486B-6524-4823-95C8-491C5E15DA99}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -19,6 +19,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeFout.UnitTest", "TypeFout.UnitTest\TypeFout.UnitTest.csproj", "{31BC5238-400C-45C8-B368-2ADEDAC000D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{702D486B-6524-4823-95C8-491C5E15DA99} = {702D486B-6524-4823-95C8-491C5E15DA99}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
